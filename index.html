@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MMR Ölçeği - 50 Öğretmen Veri Giriş ve Grup Analiz Portalı</title>
+  <title>MMR Ölçeği - 50 Öğretmen Veri Girişi & Pedagojik Raporlama Portalı</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -65,7 +65,7 @@
       body {
         background: white !important;
         color: black !important;
-        font-size: 12px;
+        font-size: 11px;
       }
       .page-break {
         page-break-before: always;
@@ -89,9 +89,9 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-tight">MMR Sınıf İçi Uygulama Portalı</h1>
-            <span class="hidden sm:inline-flex px-2 py-0.5 text-[10px] font-bold rounded-full bg-indigo-100 text-indigo-800 border border-indigo-200">50 Öğretmen Havuzu</span>
+            <span class="hidden sm:inline-flex px-2 py-0.5 text-[10px] font-bold rounded-full bg-indigo-100 text-indigo-800 border border-indigo-200">50 Öğretmen & Pedagojik Rapor</span>
           </div>
-          <p class="text-xs text-slate-500">Muallimin Manevi Rehberi Değerlendirme & Grup Analiz Sistemi</p>
+          <p class="text-xs text-slate-500">Muallimin Manevi Rehberi Değerlendirme & Tanı Sistemi</p>
         </div>
       </div>
 
@@ -105,16 +105,20 @@
       </div>
     </div>
 
-    <!-- Main Navigation Tabs -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-100 flex space-x-6 text-sm">
-      <button id="tabBtnForm" class="tab-btn active py-2.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-indigo-600 flex items-center gap-1.5 transition-colors">
+    <!-- Main Navigation Tabs (3 Tabs) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-100 flex space-x-4 sm:space-x-8 text-xs sm:text-sm overflow-x-auto">
+      <button id="tabBtnForm" class="tab-btn active py-3 font-semibold text-slate-600 hover:text-indigo-600 flex items-center gap-1.5 transition-colors whitespace-nowrap">
         <i data-lucide="file-edit" class="w-4 h-4"></i>
-        Bireysel Öğretmen Değerlendirme Formu
+        Bireysel Öğretmen Formu
       </button>
-      <button id="tabBtnPool" class="tab-btn py-2.5 text-xs sm:text-sm font-medium text-slate-500 hover:text-indigo-600 flex items-center gap-1.5 transition-colors">
+      <button id="tabBtnPool" class="tab-btn py-3 font-medium text-slate-500 hover:text-indigo-600 flex items-center gap-1.5 transition-colors whitespace-nowrap">
         <i data-lucide="users" class="w-4 h-4"></i>
-        50 Öğretmen Havuzu & Grup Analizi
+        50 Öğretmen Havuzu & İstatistikler
         <span id="badgeTeacherCountHeader" class="ml-1 px-2 py-0.2 rounded-full text-[11px] font-extrabold bg-slate-100 text-slate-700">0/50</span>
+      </button>
+      <button id="tabBtnReport" class="tab-btn py-3 font-medium text-slate-500 hover:text-indigo-600 flex items-center gap-1.5 transition-colors whitespace-nowrap text-indigo-700">
+        <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
+        Pedagojik Değerlendirme & Tavsiyeler
       </button>
     </div>
   </header>
@@ -155,20 +159,6 @@
         </div>
       </div>
 
-      <!-- Printable Header (Print Only) -->
-      <div class="hidden print-only mb-6 border-b-2 border-slate-900 pb-4">
-        <div class="flex justify-between items-start">
-          <div>
-            <h1 class="text-xl font-bold uppercase tracking-wide text-slate-900">Muallimin Manevi Rehberi (MMR)</h1>
-            <h2 class="text-base font-semibold text-slate-700">Sınıf İçi Uygulama ve Öğrenci Yansımaları Değerlendirme Raporu</h2>
-          </div>
-          <div class="text-right text-xs text-slate-500">
-            <div>Rapor Tarihi: <span id="printReportDate">--</span></div>
-            <div>Sistem: MMR Ölçek Analiz Portalı v1.0</div>
-          </div>
-        </div>
-      </div>
-
       <!-- Metadata Card -->
       <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm card-shadow">
         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-2">
@@ -201,7 +191,6 @@
         <!-- Form Questions -->
         <div class="lg:col-span-7 space-y-6">
 
-          <!-- Scale Options Legend (No Print) -->
           <div class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-3 text-xs text-indigo-900 flex flex-wrap items-center justify-between gap-2 no-print">
             <span class="font-bold flex items-center gap-1.5">
               <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
@@ -431,10 +420,14 @@
                 <p id="diagnosticText">Ölçek puanlandığında pedagojik tanı buraya yansıyacaktır.</p>
               </div>
 
-              <div class="mt-4 pt-3 border-t border-slate-100">
+              <div class="mt-4 pt-3 border-t border-slate-100 space-y-2">
                 <button id="btnSaveToPoolSide" type="button" class="w-full flex items-center justify-center py-2.5 px-4 text-xs font-bold rounded-xl text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-all shadow-emerald-200">
                   <i data-lucide="check-circle" class="w-4 h-4 mr-1.5"></i>
                   Öğretmen Havuzuna Kaydet
+                </button>
+                <button id="btnJumpToReport" type="button" class="w-full flex items-center justify-center py-2 px-3 text-xs font-semibold rounded-xl text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 transition-all">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 mr-1.5 text-indigo-600"></i>
+                  Bu Öğretmenin Pedagojik Raporuna Git
                 </button>
               </div>
             </div>
@@ -453,58 +446,6 @@
               </div>
             </div>
 
-            <!-- Subscales breakdown -->
-            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-md card-shadow text-xs space-y-3">
-              <h4 class="font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                <i data-lucide="bar-chart-2" class="w-4 h-4 text-indigo-600"></i>
-                Alt Boyut Detayı
-              </h4>
-              <div class="space-y-2.5">
-                <div>
-                  <div class="flex justify-between font-semibold text-slate-700 mb-1">
-                    <span>A. Ders Anlayışı & Süreç</span>
-                    <span id="scoreDimA" class="font-mono text-indigo-700">-- / 20</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-1.5"><div id="barDimA" class="bg-indigo-600 h-1.5 rounded-full transition-all" style="width: 0%"></div></div>
-                </div>
-                <div>
-                  <div class="flex justify-between font-semibold text-slate-700 mb-1">
-                    <span>B. Bilgiyi Anlamlandırma</span>
-                    <span id="scoreDimB" class="font-mono text-indigo-700">-- / 15</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-1.5"><div id="barDimB" class="bg-indigo-600 h-1.5 rounded-full transition-all" style="width: 0%"></div></div>
-                </div>
-                <div>
-                  <div class="flex justify-between font-semibold text-slate-700 mb-1">
-                    <span>C. Kendi Düşüncesini Oluşturma</span>
-                    <span id="scoreDimC" class="font-mono text-indigo-700">-- / 20</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-1.5"><div id="barDimC" class="bg-indigo-600 h-1.5 rounded-full transition-all" style="width: 0%"></div></div>
-                </div>
-                <div>
-                  <div class="flex justify-between font-semibold text-slate-700 mb-1">
-                    <span>D. Değer ve Davranışa Yansıma</span>
-                    <span id="scoreDimD" class="font-mono text-indigo-700">-- / 20</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-1.5"><div id="barDimD" class="bg-indigo-600 h-1.5 rounded-full transition-all" style="width: 0%"></div></div>
-                </div>
-                <div>
-                  <div class="flex justify-between font-semibold text-slate-700 mb-1">
-                    <span>E. Dersle Doğal Bütünleşme</span>
-                    <span id="scoreDimE" class="font-mono text-indigo-700">-- / 20</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-1.5"><div id="barDimE" class="bg-indigo-600 h-1.5 rounded-full transition-all" style="width: 0%"></div></div>
-                </div>
-                <div>
-                  <div class="flex justify-between font-semibold text-slate-700 mb-1">
-                    <span>F. Genel MMR Yansıması</span>
-                    <span id="scoreDimF" class="font-mono text-indigo-700">-- / 5</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-1.5"><div id="barDimF" class="bg-indigo-600 h-1.5 rounded-full transition-all" style="width: 0%"></div></div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
 
@@ -520,7 +461,6 @@
 
       <!-- Header Statistics Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Card 1 -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Kayıtlı Öğretmen</span>
@@ -534,7 +474,6 @@
           </div>
         </div>
 
-        <!-- Card 2 -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Grup Genel Ortalaması</span>
@@ -546,7 +485,6 @@
           </div>
         </div>
 
-        <!-- Card 3 -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Hakim Düzey</span>
@@ -558,7 +496,6 @@
           </div>
         </div>
 
-        <!-- Card 4 -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">En Yüksek Alt Boyut</span>
@@ -573,8 +510,6 @@
 
       <!-- Group Analytics Charts Row -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Chart 1: Level Distribution -->
         <div class="lg:col-span-5 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
@@ -587,7 +522,6 @@
           </div>
         </div>
 
-        <!-- Chart 2: Subscale Comparison Across Group -->
         <div class="lg:col-span-7 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
@@ -599,15 +533,11 @@
             <canvas id="groupSubscaleBarChart"></canvas>
           </div>
         </div>
-
       </div>
 
       <!-- Action & Toolbar for Teachers Pool -->
       <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
-        
-        <!-- Upper Row: Search & Filters -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-          
           <div class="flex flex-1 items-center gap-2 max-w-md">
             <div class="relative w-full">
               <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
@@ -623,7 +553,6 @@
             </select>
           </div>
 
-          <!-- Bulk Generation & Export Buttons -->
           <div class="flex flex-wrap items-center gap-2">
             <button id="btnGenerate50Sample" type="button" class="inline-flex items-center px-3 py-2 text-xs font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 transition-colors">
               <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5 text-purple-600"></i>
@@ -631,7 +560,7 @@
             </button>
             <button id="btnExportBulkCSV" type="button" class="inline-flex items-center px-3.5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition-all shadow-emerald-200">
               <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 mr-1.5"></i>
-              SPSS / Excel Toplu CSV İndir
+              SPSS / Excel Toplu CSV
             </button>
             <button id="btnExportPoolJSON" type="button" class="inline-flex items-center px-3 py-2 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-colors">
               <i data-lucide="download" class="w-3.5 h-3.5 mr-1 text-slate-500"></i>
@@ -647,7 +576,6 @@
               Havuzu Temizle
             </button>
           </div>
-
         </div>
 
         <!-- Teachers Table -->
@@ -666,13 +594,10 @@
                 <th class="p-3 text-right">İşlemler</th>
               </tr>
             </thead>
-            <tbody id="teachersTableBody" class="divide-y divide-slate-100">
-              <!-- Rendered via JS -->
-            </tbody>
+            <tbody id="teachersTableBody" class="divide-y divide-slate-100"></tbody>
           </table>
         </div>
 
-        <!-- Empty State Notice -->
         <div id="poolEmptyState" class="hidden text-center py-12">
           <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
             <i data-lucide="inbox" class="w-6 h-6"></i>
@@ -685,6 +610,211 @@
             <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5"></i>
             50 Öğretmen Verisi Oluştur
           </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: PEDAGOGICAL EVALUATION, STRENGTHS, GROWTH & RECOMMENDATIONS REPORT  -->
+    <!-- ========================================================================= -->
+    <div id="tabContentReport" class="hidden space-y-6">
+
+      <!-- Report Control Bar (No Print) -->
+      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
+        <div class="flex flex-1 items-center gap-3">
+          <label for="reportTargetSelect" class="text-xs font-bold uppercase tracking-wider text-slate-600 whitespace-nowrap flex items-center gap-1.5">
+            <i data-lucide="filter" class="w-4 h-4 text-indigo-600"></i>
+            Rapor Kapsamı:
+          </label>
+          <select id="reportTargetSelect" class="w-full max-w-md py-2 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <option value="group">🏫 Tüm Okul / Grup Geneli Raporu (Tüm Öğretmenler)</option>
+            <!-- Dynamically populated with individual teachers -->
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="btnPrintPedagogicalReport" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all shadow-indigo-200">
+            <i data-lucide="printer" class="w-3.5 h-3.5 mr-1.5"></i>
+            Pedagojik Raporu Yazdır / PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Pedagogical Report Container (Styled for Screen and Clean Print) -->
+      <div id="pedagogicalReportView" class="space-y-6">
+
+        <!-- Report Header Card -->
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl relative overflow-hidden card-shadow">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+            <div class="space-y-2">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+                <i data-lucide="award" class="w-3.5 h-3.5 text-amber-300"></i>
+                Pedagojik Tanı ve Gelişim Raporu
+              </div>
+              <h2 id="reportHeaderTitle" class="text-xl sm:text-2xl font-black tracking-tight text-white">
+                Okul Geneli MMR Uygulama ve Yansıma Raporu
+              </h2>
+              <p id="reportHeaderSubtitle" class="text-xs sm:text-sm text-indigo-200/80">
+                Kapsam: Toplam 50 Öğretmen | Zümreler Arası Analiz ve Yansıma
+              </p>
+            </div>
+
+            <!-- Score Badge Box -->
+            <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 min-w-[240px] justify-between">
+              <div>
+                <span class="text-[11px] text-indigo-200 font-semibold block">Ortalama Düzey</span>
+                <div class="text-3xl font-black text-emerald-300" id="reportHeaderAvg">-- / 5.00</div>
+              </div>
+              <div class="text-right">
+                <span class="text-[11px] text-indigo-200 font-semibold block">Değerlendirme</span>
+                <span id="reportHeaderBadge" class="inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-emerald-500 text-white">
+                  Yüksek
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. PEDAGOJİK DEĞERLENDİRME VE GENEL TANISAL ÖZET -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-3">
+          <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
+            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">1. Pedagojik Değerlendirme ve Süreç Analizi</h3>
+              <p class="text-xs text-slate-400">MMR yaklaşımının ders içerikleri ve öğrenci düşünme biçimlerine entegrasyon düzeyi</p>
+            </div>
+          </div>
+          <div id="reportDiagnosticParagraph" class="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2.5 pt-1">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- 2 & 3: EN GÜÇLÜ BOYUT ve GELİŞTİRİLMEYE AÇIK BOYUT (Yan Yana Kartlar) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- EN GÜÇLÜ BOYUT KARTI -->
+          <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-200 shadow-sm card-shadow space-y-3">
+            <div class="flex items-center justify-between pb-3 border-b border-emerald-200/70">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold shadow-sm shadow-emerald-200">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block">En Yüksek Kazanım</span>
+                  <h4 class="text-sm font-black text-emerald-950" id="reportTopDimTitle">En Güçlü Boyut: --</h4>
+                </div>
+              </div>
+              <span class="text-xs font-mono font-black px-2.5 py-1 rounded-lg bg-emerald-200 text-emerald-900" id="reportTopDimScore">
+                Ort: -- / 5.0
+              </span>
+            </div>
+
+            <div class="space-y-2 text-xs sm:text-sm text-emerald-900">
+              <div>
+                <strong class="font-bold text-emerald-950 block mb-0.5">🌟 Pedagojik Başarı & Sınıf İçi Anlamı:</strong>
+                <p id="reportTopDimDesc" class="leading-relaxed text-emerald-800">--</p>
+              </div>
+              <div class="pt-2 border-t border-emerald-200/50">
+                <strong class="font-bold text-emerald-950 block mb-0.5">🚀 Bu Gücü Diğer Konulara Yayma:</strong>
+                <p id="reportTopDimAction" class="leading-relaxed text-emerald-800">--</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- GELİŞTİRİLMEYE AÇIK BOYUT KARTI -->
+          <div class="bg-amber-50/50 rounded-2xl p-6 border border-amber-200 shadow-sm card-shadow space-y-3">
+            <div class="flex items-center justify-between pb-3 border-b border-amber-200/70">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold shadow-sm shadow-amber-200">
+                  <i data-lucide="target" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800 block">Öncelikli Gelişim Alanı</span>
+                  <h4 class="text-sm font-black text-amber-950" id="reportLowDimTitle">Geliştirilmeye Açık Boyut: --</h4>
+                </div>
+              </div>
+              <span class="text-xs font-mono font-black px-2.5 py-1 rounded-lg bg-amber-200 text-amber-900" id="reportLowDimScore">
+                Ort: -- / 5.0
+              </span>
+            </div>
+
+            <div class="space-y-2 text-xs sm:text-sm text-amber-900">
+              <div>
+                <strong class="font-bold text-amber-950 block mb-0.5">⚠️ Teşhis ve Olası Pedagojik Zorluklar:</strong>
+                <p id="reportLowDimDesc" class="leading-relaxed text-amber-800">--</p>
+              </div>
+              <div class="pt-2 border-t border-amber-200/50">
+                <strong class="font-bold text-amber-950 block mb-0.5">🎯 Çözüm ve Aşma Stratejisi:</strong>
+                <p id="reportLowDimAction" class="leading-relaxed text-amber-800">--</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 4. SOMUT PEDAGOJİK UYGULAMA ÖNERİLERİ & EYLEM PLANI -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
+          <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
+            <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold shadow-sm shadow-indigo-200">
+              <i data-lucide="lightbulb" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">4. Somut Pedagojik Uygulama Önerileri & Eylem Planı</h3>
+              <p class="text-xs text-slate-400">Ders hazırlığı, soru-cevap ve davranışa dönüştürme için doğrudan uygulanabilir rehberlik adımları</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm" id="reportActionRecommendationsGrid">
+            <!-- 4 action boxes generated via JS -->
+          </div>
+        </div>
+
+        <!-- 5. 6 ALT BOYUT DETAYLI PUAN MATRİSİ & KARŞILAŞTIRMA -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold">
+                <i data-lucide="layout-grid" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">5. Alt Boyut Başarı Matrisi ve Pedagojik Durum Özeti</h3>
+                <p class="text-xs text-slate-400">6 boyutun detaylı ham puan, ortalama ve düzey derecelendirmesi</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="w-full text-xs text-left text-slate-700">
+              <thead class="bg-slate-50 font-bold uppercase border-b border-slate-200 text-[11px] text-slate-600">
+                <tr>
+                  <th class="p-3">Alt Boyut Adı</th>
+                  <th class="p-3 text-center">Kapsanan Maddeler</th>
+                  <th class="p-3 text-center">Ortalama (1-5)</th>
+                  <th class="p-3 text-center">Başarı Oranı</th>
+                  <th class="p-3">Pedagojik Durum ve Öncelikli Tavsiye</th>
+                </tr>
+              </thead>
+              <tbody id="reportSubscaleTableBody" class="divide-y divide-slate-100">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Official Signatures (Print Only) -->
+          <div class="hidden print-only pt-8 mt-6 border-t border-slate-300 flex justify-between text-xs text-slate-700">
+            <div>
+              <p class="font-bold">Değerlendiren / Raportör:</p>
+              <p class="mt-6">İmza: ________________________</p>
+            </div>
+            <div>
+              <p class="font-bold">Zümre Başkanı / Okul Müdürü:</p>
+              <p class="mt-6">İmza: ________________________</p>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -764,11 +894,6 @@
         <div class="font-bold mb-1">Ek Görüş ve Notlar:</div>
         <div id="printNotesContent" class="italic text-slate-700">Belirtilmedi.</div>
       </div>
-
-      <div class="mt-12 pt-4 border-t border-slate-300 flex justify-between text-xs text-slate-600">
-        <div>Değerlendiren Öğretmen İmzası: ____________________</div>
-        <div>Uygulama Koordinatörü / Okul İdaresi: ____________________</div>
-      </div>
     </div>
 
   </main>
@@ -776,8 +901,8 @@
   <!-- Footer -->
   <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 no-print mt-12">
     <div class="max-w-7xl mx-auto px-4">
-      <p class="font-semibold text-slate-700">Muallimin Manevi Rehberi (MMR) Ölçeği 50 Öğretmen Yönetim ve Grup Analiz Portalı</p>
-      <p class="mt-1 text-slate-400">20 Maddelik 5'li Likert Tipi Değerlendirme Algoritması & SPSS/Excel Entegrasyonu</p>
+      <p class="font-semibold text-slate-700">Muallimin Manevi Rehberi (MMR) Ölçeği 50 Öğretmen Yönetim ve Pedagojik Raporlama Portalı</p>
+      <p class="mt-1 text-slate-400">20 Maddelik 5'li Likert Tipi Değerlendirme & Tanı Algoritması</p>
     </div>
   </footer>
 
@@ -787,12 +912,67 @@
     const SCALE_CONFIG = {
       totalItems: 20,
       subscales: {
-        A: { name: "Ders Anlayışı ve Süreci", short: "Ders Anlayışı", items: [1, 2, 3, 4], count: 4, maxScore: 20 },
-        B: { name: "Bilgiyi Anlamlandırma", short: "Anlamlandırma", items: [5, 6, 7], count: 3, maxScore: 15 },
-        C: { name: "Kendi Düşüncesini Oluşturma", short: "Düşünce Oluşturma", items: [8, 9, 10, 11], count: 4, maxScore: 20 },
-        D: { name: "Değer ve Davranışa Yansıma", short: "Değer & Davranış", items: [12, 13, 14, 15], count: 4, maxScore: 20 },
-        E: { name: "Dersle Doğal Bütünleşme", short: "Doğal Bütünleşme", items: [16, 17, 18, 19], count: 4, maxScore: 20, reverseItems: [19] },
-        F: { name: "Genel MMR Yansıması", short: "Genel Yansıma", items: [20], count: 1, maxScore: 5 }
+        A: {
+          name: "Öğretmenin Ders Anlayışı ve Öğretim Süreci",
+          short: "Ders Anlayışı & Süreç",
+          items: [1, 2, 3, 4],
+          count: 4,
+          maxScore: 20,
+          strengths: "Ders planlamalarında salt bilgi aktarımının ötesine geçilerek hikmet, nizam ve anlam boyutunun önceliklendirildiği görülmektedir. Öğretmen ders kazanımlarını varlık tefekkürüyle başarılı şekilde eşleştirmektedir.",
+          weaknesses: "Ders hazırlıklarında klasik müfredat kazanımlarına odaklanılmakta; konunun manevi ve hikmet boyutu planlama sürecinde geri planda kalabilmektedir.",
+          recommendations: "Ders planının giriş kısmına 'Bu konu öğrencinin hayat ve varlık algısına ne katacak?' sorusunu içeren 3 dakikalık tefekkür kancaları ekleyiniz."
+        },
+        B: {
+          name: "Bilgiyi Anlamlandırma",
+          short: "Bilgiyi Anlamlandırma",
+          items: [5, 6, 7],
+          count: 3,
+          maxScore: 15,
+          strengths: "Öğrencilerin bilimsel veriler ile günlük hayat ve ahlaki değerler arasında bağlantı kurması güçlü şekilde desteklenmektedir. Bilgi ezberden çıkarılıp derin bir anlama kavuşturulmaktadır.",
+          weaknesses: "Bilimsel veriler ile ahlaki/manevi değerler arasındaki köprü zayıf kalmakta; öğrenciler öğrendikleri bilgileri kendi hayat pratikleriyle yeterince bağdaştıramamaktadır.",
+          recommendations: "Konu aralarında 'Doğadaki bu intizam ve denge bize neyi hatırlatıyor?' veya 'Bu biyolojik/fiziksel sistem olmasaydı hayat nasıl olurdu?' tarzı analoji soruları yöneltiniz."
+        },
+        C: {
+          name: "Öğrencinin Kendi Düşüncesini Oluşturması",
+          short: "Düşünce Oluşturma",
+          items: [8, 9, 10, 11],
+          count: 4,
+          maxScore: 20,
+          strengths: "Öğrenciler manevi cevapları ezbere almak yerine, kendi gözlem ve akıl yürütmeleriyle çıkarımlara ulaşmaktadır. Sınıfta öğrenci sesine ve özgün düşünceye geniş alan açılmaktadır.",
+          weaknesses: "Derslerde hazır sonuçlar ve kalıp manevi cevaplar sunulma eğilimi yüksektir; öğrencinin kendi tefekkür ve sorgulama sürecini işletmesine yeterli fırsat tanınmamaktadır.",
+          recommendations: "Cevabı doğrudan vermek yerine Sokratik sorgulama yöntemini kullanınız. Öğrencilere 'Sizce bu nizamın arkasındaki gaye ne olabilir?' şeklinde açık uçlu tartışma fırsatları veriniz."
+        },
+        D: {
+          name: "Değer ve Davranışa Yansıma",
+          short: "Değer & Davranış",
+          items: [12, 13, 14, 15],
+          count: 4,
+          maxScore: 20,
+          strengths: "Kazanılan manevi ve ahlaki farkındalık sadece zihinsel boyutta kalmayıp; çevreye saygı, şükür, merhamet, sorumluluk ve tutuma dönüşmektedir.",
+          weaknesses: "Derslerde işlenen anlam ve değer boyutu soyut düzeyde kalmakta; öğrencinin somut tutum, sorumluluk veya günlük davranışına yeterince yansımamaktadır.",
+          recommendations: "Ünite sonlarına somut 'Değer & Sorumluluk Eylem Görevleri' (örneğin doğayı gözlemleme günlüğü, kaynak tasarrufu projesi, bir iyilik uygulaması) ekleyiniz."
+        },
+        E: {
+          name: "MMR'nin Dersle Doğal Bütünleşmesi",
+          short: "Doğal Bütünleşme",
+          items: [16, 17, 18, 19],
+          count: 4,
+          maxScore: 20,
+          reverseItems: [19],
+          strengths: "Manevi anlam ve tefekkür boyutu dersin içine yapaylaşmadan, fıtri ve doğal bir akışla yerleştirilmektedir. Konu kazanımı ile manevi bağ organik bir ahenk oluşturmaktadır.",
+          weaknesses: "Bazı konu ve ünitelerde MMR bağlantısı kurarken zorlanma ve yapaylık hissedilmektedir (19. Madde direnci). Dersin asıl kazanımından kopma endişesi yaşanmaktadır.",
+          recommendations: "Zorlama bağlantılardan kesinlikle kaçınınız. Doğrudan manevi nasihat vermek yerine, eşyanın fıtratındaki ölçü, nizam, yardımlaşma ve sanat gibi evrensel tefekkür temalarından hareket ediniz."
+        },
+        F: {
+          name: "Genel MMR Yansıması",
+          short: "Genel Yansıma",
+          items: [20],
+          count: 1,
+          maxScore: 5,
+          strengths: "MMR yaklaşımı öğrencilerin sadece bilgi edinme değil; bütüncül bir dünya görüşü, anlam arayışı ve değer inşası süreçlerine çok güçlü katkı sağlamaktadır.",
+          weaknesses: "Öğrencilerin düşünme ve anlamlandırma süreçlerindeki genel dönüşüm henüz başlangıç seviyesindedir; metodolojinin sürekliliği artırılmalıdır.",
+          recommendations: "Zümre içi iyi uygulama paylaşımları ve aylık değerlendirme atölyeleri düzenleyerek MMR refleksini tüm ders yılına yaygınlaştırınız."
+        }
       },
       norms: [
         {
@@ -801,7 +981,7 @@
           level: "Çok Düşük",
           colorClass: "bg-rose-100 text-rose-800 border-rose-200",
           boxClass: "bg-rose-50 border-rose-200 text-rose-900",
-          comment: "MMR metodolojisi derse yansımamış; bilgi aktarımı odaklı klasik öğretim süreci devam etmektedir. Anlam ve değer entegrasyonu için rehberlik desteği önerilir."
+          comment: "MMR metodolojisi henüz derse yansımamış; bilgi aktarımı odaklı klasik öğretim süreci devam etmektedir. Anlam ve değer entegrasyonu için temel rehberlik ve zümre desteği önerilir."
         },
         {
           min: 1.81,
@@ -809,7 +989,7 @@
           level: "Düşük",
           colorClass: "bg-orange-100 text-orange-800 border-orange-200",
           boxClass: "bg-orange-50 border-orange-200 text-orange-900",
-          comment: "Anlamlandırma ve değer bağı henüz zayıf düzeyde; ünite ve konu entegrasyonunda belirgin zorluklar yaşanmaktadır. Ders planlama süreçlerinde etkinlik desteği faydalı olacaktır."
+          comment: "Anlamlandırma ve değer bağı henüz zayıf düzeyde; ünite ve konu entegrasyonunda belirgin zorluklar yaşanmaktadır. Ders planlama süreçlerinde kılavuz etkinlik desteği faydalı olacaktır."
         },
         {
           min: 2.61,
@@ -817,7 +997,7 @@
           level: "Orta / Kısmi",
           colorClass: "bg-amber-100 text-amber-800 border-amber-200",
           boxClass: "bg-amber-50 border-amber-200 text-amber-900",
-          comment: "Bütünleşme kısmen sağlanmış; belirli konularda başarıyla uygulanmakta ancak tüm müfredat genelinde henüz süreklilik ve refleks haline gelmemiştir."
+          comment: "Bütünleşme kısmen sağlanmış; belirli konularda başarıyla uygulanmakta ancak tüm müfredat genelinde henüz süreklilik ve pedagojik refleks haline gelmemiştir."
         },
         {
           min: 3.41,
@@ -856,31 +1036,24 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
-      // Load saved teachers pool from LocalStorage
       loadPoolFromStorage();
-
-      // Render Likert Options for 20 Items
       renderLikertButtons();
 
-      // Set default dates
       document.getElementById('metaDate').value = new Date().toISOString().split('T')[0];
       document.getElementById('printReportDate').textContent = new Date().toLocaleDateString('tr-TR');
 
-      // Initialize Charts
       initIndividualRadarChart();
       initGroupCharts();
-
-      // Setup Event Listeners
       bindAllEvents();
 
-      // Initial Refresh
       recalculateCurrentForm();
       refreshPoolUI();
+      populateReportTargetSelect();
+      renderPedagogicalReport();
 
       lucide.createIcons();
     });
 
-    // LocalStorage Operations
     function loadPoolFromStorage() {
       const stored = localStorage.getItem('MMR_TEACHERS_POOL');
       if (stored) {
@@ -895,9 +1068,10 @@
     function savePoolToStorage() {
       localStorage.setItem('MMR_TEACHERS_POOL', JSON.stringify(teachersPool));
       refreshPoolUI();
+      populateReportTargetSelect();
+      renderPedagogicalReport();
     }
 
-    // Likert Options Renderer
     function renderLikertButtons() {
       for (let i = 1; i <= SCALE_CONFIG.totalItems; i++) {
         const itemContainer = document.querySelector(`[data-item="${i}"] .likert-group`);
@@ -919,11 +1093,25 @@
       }
     }
 
-    // Attach Event Handlers
     function bindAllEvents() {
       // Tab switching
       document.getElementById('tabBtnForm').addEventListener('click', () => switchTab('form'));
       document.getElementById('tabBtnPool').addEventListener('click', () => switchTab('pool'));
+      document.getElementById('tabBtnReport').addEventListener('click', () => {
+        switchTab('report');
+        renderPedagogicalReport();
+      });
+
+      // Jump to report button
+      document.getElementById('btnJumpToReport').addEventListener('click', () => {
+        if (currentEditingId) {
+          document.getElementById('reportTargetSelect').value = currentEditingId;
+        } else {
+          saveCurrentFormToPool();
+        }
+        switchTab('report');
+        renderPedagogicalReport();
+      });
 
       // Form item change
       document.getElementById('scaleForm').addEventListener('change', (e) => {
@@ -938,7 +1126,7 @@
       document.getElementById('btnSaveToPool').addEventListener('click', saveCurrentFormToPool);
       document.getElementById('btnSaveToPoolSide').addEventListener('click', saveCurrentFormToPool);
 
-      // Load Sample Case
+      // Sample Case
       document.getElementById('btnLoadSample').addEventListener('click', () => {
         loadSampleCase({
           teacher: "Dr. Ayşe Yılmaz",
@@ -949,13 +1137,13 @@
         });
       });
 
-      // Reset Form
       document.getElementById('btnReset').addEventListener('click', resetCurrentForm);
 
-      // Header Print
+      // Print Buttons
       document.getElementById('btnHeaderPrint').addEventListener('click', () => window.print());
+      document.getElementById('btnPrintPedagogicalReport').addEventListener('click', () => window.print());
 
-      // 50 Teachers Simulation Generators
+      // 50 Teachers Simulation
       document.getElementById('btnGenerate50Sample').addEventListener('click', generate50SimulationData);
       document.getElementById('btnQuickFill50').addEventListener('click', generate50SimulationData);
 
@@ -968,30 +1156,30 @@
       // Search & Filter
       document.getElementById('filterSearch').addEventListener('input', renderTeachersTable);
       document.getElementById('filterLevel').addEventListener('change', renderTeachersTable);
+
+      // Report Selector Change
+      document.getElementById('reportTargetSelect').addEventListener('change', renderPedagogicalReport);
     }
 
     function switchTab(tab) {
-      const btnForm = document.getElementById('tabBtnForm');
-      const btnPool = document.getElementById('tabBtnPool');
-      const contentForm = document.getElementById('tabContentForm');
-      const contentPool = document.getElementById('tabContentPool');
+      const tabs = ['form', 'pool', 'report'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        const content = document.getElementById(`tabContent${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (t === tab) {
+          btn.classList.add('active');
+          content.classList.remove('hidden');
+        } else {
+          btn.classList.remove('active');
+          content.classList.add('hidden');
+        }
+      });
 
-      if (tab === 'form') {
-        btnForm.classList.add('active');
-        btnPool.classList.remove('active');
-        contentForm.classList.remove('hidden');
-        contentPool.classList.add('hidden');
-      } else {
-        btnPool.classList.add('active');
-        btnForm.classList.remove('active');
-        contentPool.classList.remove('hidden');
-        contentForm.classList.add('hidden');
-        refreshPoolUI();
-      }
+      if (tab === 'pool') refreshPoolUI();
+      if (tab === 'report') renderPedagogicalReport();
       lucide.createIcons();
     }
 
-    // Recalculate Single Teacher Form
     function recalculateCurrentForm() {
       const answeredCount = Object.keys(currentAnswers).length;
       const subscaleResults = calculateTeacherScores(currentAnswers);
@@ -1009,12 +1197,10 @@
         updateLevelBadge(norm, answeredCount === SCALE_CONFIG.totalItems);
       }
 
-      updateSubscaleBars(subscaleResults.dimensions);
       updateIndividualRadarChart(subscaleResults.dimensions);
       updatePrintableReport(subscaleResults.dimensions, totalRawScore, overallAverage);
     }
 
-    // Pure scoring function
     function calculateTeacherScores(ans) {
       const dimensions = {};
       let totalRaw = 0;
@@ -1027,7 +1213,7 @@
           if (ans[num] !== undefined) {
             let score = ans[num];
             if (sub.reverseItems && sub.reverseItems.includes(num)) {
-              score = 6 - score; // Reverse item transform
+              score = 6 - score;
             }
             subSum += score;
             subAnswered++;
@@ -1082,23 +1268,6 @@
         diagText.textContent = norm.comment;
       }
       lucide.createIcons();
-    }
-
-    function updateSubscaleBars(dims) {
-      for (const [key, sub] of Object.entries(SCALE_CONFIG.subscales)) {
-        const data = dims[key];
-        const scoreSpan = document.getElementById(`scoreDim${key}`);
-        const barDiv = document.getElementById(`barDim${key}`);
-
-        if (!data || data.answered === 0) {
-          scoreSpan.textContent = `-- / ${sub.maxScore}`;
-          barDiv.style.width = '0%';
-        } else {
-          scoreSpan.textContent = `${data.raw} / ${sub.maxScore} (Ort: ${data.avg.toFixed(2)})`;
-          const pct = Math.min(100, Math.round((data.raw / sub.maxScore) * 100));
-          barDiv.style.width = `${pct}%`;
-        }
-      }
     }
 
     function initIndividualRadarChart() {
@@ -1175,7 +1344,6 @@
       document.getElementById('printNotesContent').textContent = notes || "Belirtilmedi.";
     }
 
-    // Save Form into Teachers Pool
     function saveCurrentFormToPool() {
       const teacher = document.getElementById('metaTeacher').value.trim();
       const branch = document.getElementById('metaBranch').value.trim();
@@ -1198,8 +1366,9 @@
       const scoreData = calculateTeacherScores(currentAnswers);
       const norm = findNorm(scoreData.avg);
 
+      const recordId = currentEditingId || ('t_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4));
       const record = {
-        id: currentEditingId || ('t_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4)),
+        id: recordId,
         teacher,
         branch,
         grade: grade || "Belirtilmedi",
@@ -1215,26 +1384,17 @@
 
       if (currentEditingId) {
         const idx = teachersPool.findIndex(t => t.id === currentEditingId);
-        if (idx !== -1) {
-          teachersPool[idx] = record;
-        } else {
-          teachersPool.push(record);
-        }
+        if (idx !== -1) teachersPool[idx] = record;
+        else teachersPool.push(record);
       } else {
-        if (teachersPool.length >= 50) {
-          alert("Uyarı: Havuzda zaten 50 öğretmen kaydı bulunuyor. Yeni kayıt eklendiğinde liste 50'yi aşacaktır.");
-        }
         teachersPool.push(record);
       }
 
       savePoolToStorage();
       alert(`"${teacher}" öğretmen kaydı başarıyla havuza kaydedildi!`);
-
-      // Switch to Pool View
       switchTab('pool');
     }
 
-    // Load a teacher into form for editing or viewing
     function loadTeacherToForm(id) {
       const record = teachersPool.find(t => t.id === id);
       if (!record) return;
@@ -1292,12 +1452,7 @@
       recalculateCurrentForm();
     }
 
-    // ==========================================
-    // 50 TEACHERS POOL & GROUP ANALYTICS LOGIC
-    // ==========================================
-
     function initGroupCharts() {
-      // Group Level Doughnut Chart
       const ctx1 = document.getElementById('groupLevelDoughnutChart').getContext('2d');
       groupDoughnutChart = new Chart(ctx1, {
         type: 'doughnut',
@@ -1313,13 +1468,10 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } }
-          }
+          plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } }
         }
       });
 
-      // Group Subscales Bar Chart
       const ctx2 = document.getElementById('groupSubscaleBarChart').getContext('2d');
       groupBarChart = new Chart(ctx2, {
         type: 'bar',
@@ -1357,21 +1509,11 @@
         document.getElementById('statPoolDominantDesc').textContent = "Yeterli veri yok";
         document.getElementById('statPoolTopSubscale').textContent = "--";
         document.getElementById('statPoolTopSubscaleScore').textContent = "--";
-
-        if (groupDoughnutChart) {
-          groupDoughnutChart.data.datasets[0].data = [0, 0, 0, 0, 0];
-          groupDoughnutChart.update();
-        }
-        if (groupBarChart) {
-          groupBarChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
-          groupBarChart.update();
-        }
         return;
       }
 
       document.getElementById('poolEmptyState').classList.add('hidden');
 
-      // Calculate Group Statistics
       let sumAvg = 0;
       const levelCounts = { "Çok Düşük": 0, "Düşük": 0, "Orta / Kısmi": 0, "Yüksek": 0, "Çok Yüksek": 0 };
       const subscaleSums = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
@@ -1389,7 +1531,6 @@
       const groupAvg = (sumAvg / count).toFixed(2);
       document.getElementById('statPoolGroupAverage').textContent = groupAvg;
 
-      // Dominant Level
       let maxLevel = "--";
       let maxLevelCount = -1;
       for (const [lvl, c] of Object.entries(levelCounts)) {
@@ -1401,7 +1542,6 @@
       document.getElementById('statPoolDominantLevel').textContent = maxLevel;
       document.getElementById('statPoolDominantDesc').textContent = `${maxLevelCount} öğretmen (%${Math.round((maxLevelCount/count)*100)})`;
 
-      // Top Subscale
       let topDimKey = 'A';
       let topDimAvg = -1;
       const subscaleGroupAvgs = {};
@@ -1416,7 +1556,6 @@
       document.getElementById('statPoolTopSubscale').textContent = `${topDimKey}. ${SCALE_CONFIG.subscales[topDimKey].short}`;
       document.getElementById('statPoolTopSubscaleScore').textContent = `Ortalama: ${topDimAvg} / 5.0`;
 
-      // Update Group Charts
       if (groupDoughnutChart) {
         groupDoughnutChart.data.datasets[0].data = [
           levelCounts["Çok Düşük"],
@@ -1479,6 +1618,9 @@
             <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] ${badgeColor}">${t.level}</span></td>
             <td class="p-3 text-center text-slate-400 text-[11px]">${t.date}</td>
             <td class="p-3 text-right space-x-1 whitespace-nowrap">
+              <button onclick="viewTeacherPedagogicalReport('${t.id}')" title="Pedagojik Raporunu Gör" class="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 inline"></i>
+              </button>
               <button onclick="loadTeacherToForm('${t.id}')" title="Düzenle / İncele" class="p-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors">
                 <i data-lucide="edit-3" class="w-3.5 h-3.5 inline"></i>
               </button>
@@ -1491,6 +1633,12 @@
       });
       tbody.innerHTML = html;
       lucide.createIcons();
+    }
+
+    function viewTeacherPedagogicalReport(id) {
+      document.getElementById('reportTargetSelect').value = id;
+      switchTab('report');
+      renderPedagogicalReport();
     }
 
     function deleteTeacherRecord(id) {
@@ -1509,7 +1657,6 @@
       }
     }
 
-    // Generate 50 Realistic Teachers for Simulation / Testing
     function generate50SimulationData() {
       const branches = [
         "Fen Bilimleri", "Din Kültürü ve Ahlak Bilgisi", "Matematik", "Türkçe", "Sosyal Bilgiler",
@@ -1529,8 +1676,6 @@
         const branch = branches[Math.floor(Math.random() * branches.length)];
         const grade = grades[Math.floor(Math.random() * grades.length)];
 
-        // Generate realistic responses with a tendency towards high or moderate compliance
-        // Likert weights: 1 (5%), 2 (10%), 3 (20%), 4 (40%), 5 (25%)
         const answers = {};
         for (let m = 1; m <= 20; m++) {
           const rand = Math.random();
@@ -1541,9 +1686,6 @@
           else if (rand < 0.80) val = 4;
           else val = 5;
 
-          // For item 19 (reverse item: negative question "bağlantı kurmak yapay/zorlayıcı oluyor")
-          // Naturally a teacher struggling will give 4 or 5 (which reverses to low score 2 or 1)
-          // A well integrating teacher will give 1 or 2 (which reverses to high score 5 or 4)
           if (m === 19) {
             val = Math.random() < 0.65 ? (Math.random() < 0.5 ? 1 : 2) : (Math.random() < 0.6 ? 3 : 4);
           }
@@ -1577,33 +1719,20 @@
       alert("50 adet farklı branş ve düzeyde gerçekçi öğretmen simülasyon verisi başarıyla oluşturuldu!");
     }
 
-    // Export Pool to CSV (SPSS / Jamovi / Excel Ready)
     function exportPoolToCSV() {
       if (teachersPool.length === 0) {
         alert("Dışa aktarılacak öğretmen kaydı bulunmuyor.");
         return;
       }
 
-      let csv = "\uFEFF"; // UTF-8 BOM
-      // Header
+      let csv = "\uFEFF";
       csv += "ID,Ogretmen_Adi,Brans_Ders,Sinif_Duzeyi,Uygulama_Tarihi,";
-      for (let i = 1; i <= 20; i++) {
-        csv += `M${i}_Ham,`;
-      }
-      csv += "M19_Ters_Kodlu,";
-      csv += "Boyut_A_Puan,Boyut_A_Ort,";
-      csv += "Boyut_B_Puan,Boyut_B_Ort,";
-      csv += "Boyut_C_Puan,Boyut_C_Ort,";
-      csv += "Boyut_D_Puan,Boyut_D_Ort,";
-      csv += "Boyut_E_Puan,Boyut_E_Ort,";
-      csv += "Boyut_F_Puan,Boyut_F_Ort,";
-      csv += "Toplam_Ham_Puan,Genel_Ortalama,Degerlendirme_Duzeyi,Ek_Notlar\n";
+      for (let i = 1; i <= 20; i++) csv += `M${i}_Ham,`;
+      csv += "M19_Ters_Kodlu,Boyut_A_Puan,Boyut_A_Ort,Boyut_B_Puan,Boyut_B_Ort,Boyut_C_Puan,Boyut_C_Ort,Boyut_D_Puan,Boyut_D_Ort,Boyut_E_Puan,Boyut_E_Ort,Boyut_F_Puan,Boyut_F_Ort,Toplam_Ham_Puan,Genel_Ortalama,Degerlendirme_Duzeyi,Ek_Notlar\n";
 
       teachersPool.forEach(t => {
         csv += `"${t.id}","${t.teacher}","${t.branch}","${t.grade}","${t.date}",`;
-        for (let i = 1; i <= 20; i++) {
-          csv += `${t.answers[i] || ""},`;
-        }
+        for (let i = 1; i <= 20; i++) csv += `${t.answers[i] || ""},`;
         const m19Recoded = t.answers[19] ? (6 - t.answers[19]) : "";
         csv += `${m19Recoded},`;
 
@@ -1614,7 +1743,6 @@
         csv += `${s.D ? s.D.raw : ""},${s.D ? s.D.avg.toFixed(2) : ""},`;
         csv += `${s.E ? s.E.raw : ""},${s.E ? s.E.avg.toFixed(2) : ""},`;
         csv += `${s.F ? s.F.raw : ""},${s.F ? s.F.avg.toFixed(2) : ""},`;
-
         csv += `${t.totalScore},${t.averageScore.toFixed(2)},"${t.level}","${(t.notes || "").replace(/"/g, '""')}"\n`;
       });
 
@@ -1628,7 +1756,6 @@
       document.body.removeChild(link);
     }
 
-    // Export Pool JSON
     function exportPoolToJSON() {
       if (teachersPool.length === 0) {
         alert("Dışa aktarılacak öğretmen kaydı bulunmuyor.");
@@ -1650,7 +1777,6 @@
       document.body.removeChild(link);
     }
 
-    // Import Pool JSON
     function importPoolFromJSON(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -1659,14 +1785,9 @@
       reader.onload = function(evt) {
         try {
           const parsed = JSON.parse(evt.target.result);
-          if (parsed && Array.isArray(parsed.teachers)) {
-            teachersPool = parsed.teachers;
-          } else if (Array.isArray(parsed)) {
-            teachersPool = parsed;
-          } else {
-            alert("Geçersiz JSON formatı.");
-            return;
-          }
+          if (parsed && Array.isArray(parsed.teachers)) teachersPool = parsed.teachers;
+          else if (Array.isArray(parsed)) teachersPool = parsed;
+          else { alert("Geçersiz JSON formatı."); return; }
           savePoolToStorage();
           alert(`${teachersPool.length} adet öğretmen kaydı başarıyla yüklendi!`);
         } catch(err) {
@@ -1674,6 +1795,249 @@
         }
       };
       reader.readAsText(file);
+    }
+
+    // =========================================================================
+    // PEDAGOGICAL EVALUATION, STRENGTHS, GROWTH & RECOMMENDATIONS ENGINE
+    // =========================================================================
+
+    function populateReportTargetSelect() {
+      const select = document.getElementById('reportTargetSelect');
+      const currentVal = select.value;
+      const count = teachersPool.length;
+
+      let html = `<option value="group">🏫 Tüm Okul / Grup Geneli Raporu (${count} Öğretmen)</option>`;
+      if (count > 0) {
+        html += `<optgroup label="Tekil Öğretmen Karneleri (${count})">`;
+        teachersPool.forEach(t => {
+          html += `<option value="${t.id}">👤 ${t.teacher} - ${t.branch} (${t.grade}) [Ort: ${t.averageScore.toFixed(2)}]</option>`;
+        });
+        html += `</optgroup>`;
+      }
+      select.innerHTML = html;
+      if (currentVal && (currentVal === 'group' || teachersPool.some(t => t.id === currentVal))) {
+        select.value = currentVal;
+      } else {
+        select.value = 'group';
+      }
+    }
+
+    function renderPedagogicalReport() {
+      const targetId = document.getElementById('reportTargetSelect').value;
+
+      let reportData = null;
+      let isGroup = (targetId === 'group');
+
+      if (isGroup) {
+        if (teachersPool.length === 0) {
+          // Fallback if empty
+          reportData = {
+            title: "Okul Geneli MMR Uygulama ve Yansıma Raporu",
+            subtitle: "Henüz havuzda kayıtlı öğretmen verisi bulunmamaktadır.",
+            avg: 0,
+            level: "Veri Yok",
+            totalTeachers: 0,
+            subscales: {
+              A: { avg: 0, raw: 0 }, B: { avg: 0, raw: 0 }, C: { avg: 0, raw: 0 },
+              D: { avg: 0, raw: 0 }, E: { avg: 0, raw: 0 }, F: { avg: 0, raw: 0 }
+            }
+          };
+        } else {
+          let sumAvg = 0;
+          const subSums = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+          teachersPool.forEach(t => {
+            sumAvg += t.averageScore;
+            if (t.subscales) {
+              for (let k of ['A', 'B', 'C', 'D', 'E', 'F']) {
+                if (t.subscales[k]) subSums[k] += t.subscales[k].avg;
+              }
+            }
+          });
+          const count = teachersPool.length;
+          const grpAvg = Number((sumAvg / count).toFixed(2));
+          const grpNorm = findNorm(grpAvg);
+
+          const subAvgs = {};
+          for (let k of ['A', 'B', 'C', 'D', 'E', 'F']) {
+            subAvgs[k] = { avg: Number((subSums[k] / count).toFixed(2)), raw: Number(((subSums[k] / count) * SCALE_CONFIG.subscales[k].count).toFixed(1)) };
+          }
+
+          reportData = {
+            title: "Okul Geneli MMR Uygulama ve Pedagojik Tanı Raporu",
+            subtitle: `Kapsam: Toplam ${count} Öğretmen Değerlendirmesi | Çoklu Zümre Analizi`,
+            avg: grpAvg,
+            level: grpNorm ? grpNorm.level : "Tanımsız",
+            totalTeachers: count,
+            subscales: subAvgs
+          };
+        }
+      } else {
+        const teacher = teachersPool.find(t => t.id === targetId);
+        if (!teacher) return;
+        reportData = {
+          title: `${teacher.teacher} - Bireysel Pedagojik Değerlendirme Raporu`,
+          subtitle: `Branş: ${teacher.branch} | Sınıf Düzeyi: ${teacher.grade} | Tarih: ${teacher.date}`,
+          avg: teacher.averageScore,
+          level: teacher.level,
+          totalScore: teacher.totalScore,
+          notes: teacher.notes,
+          subscales: teacher.subscales
+        };
+      }
+
+      // Update Header
+      document.getElementById('reportHeaderTitle').textContent = reportData.title;
+      document.getElementById('reportHeaderSubtitle').textContent = reportData.subtitle;
+      document.getElementById('reportHeaderAvg').textContent = reportData.avg > 0 ? `${reportData.avg.toFixed(2)} / 5.00` : "-- / 5.00";
+      
+      const badgeElem = document.getElementById('reportHeaderBadge');
+      badgeElem.textContent = reportData.level;
+
+      if (reportData.level === "Çok Yüksek") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-green-500 text-white shadow-sm";
+      else if (reportData.level === "Yüksek") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-emerald-500 text-white shadow-sm";
+      else if (reportData.level === "Orta / Kısmi") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-amber-500 text-slate-900 shadow-sm";
+      else if (reportData.level === "Düşük") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-orange-500 text-white shadow-sm";
+      else badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-slate-400 text-white shadow-sm";
+
+      // Calculate Strongest & Growth Dimensions
+      let topDimKey = 'A';
+      let topDimVal = -1;
+      let lowDimKey = 'A';
+      let lowDimVal = 999;
+
+      for (const k of ['A', 'B', 'C', 'D', 'E', 'F']) {
+        const val = reportData.subscales[k] ? reportData.subscales[k].avg : 0;
+        if (val > topDimVal) {
+          topDimVal = val;
+          topDimKey = k;
+        }
+        if (val < lowDimVal && val > 0) {
+          lowDimVal = val;
+          lowDimKey = k;
+        }
+      }
+
+      if (lowDimVal === 999) { lowDimVal = 0; lowDimKey = 'E'; }
+
+      // 1. Diagnostic Summary Paragraph
+      const normInfo = findNorm(reportData.avg);
+      let diagnosticHtml = `
+        <p><strong>Genel Pedagojik Seviye (${reportData.level}):</strong> ${normInfo ? normInfo.comment : "Henüz değerlendirme verisi bulunmuyor."}</p>
+        <p>Yapılan ölçek analizine göre ${isGroup ? 'okul genelinde öğretmenlerin' : 'öğretmenin'} ders işleme süreçlerinde <strong>${SCALE_CONFIG.subscales[topDimKey].name}</strong> boyutu en yüksek yetkinlik alanı olarak öne çıkarken (<strong>${topDimVal.toFixed(2)}/5.00</strong>), <strong>${SCALE_CONFIG.subscales[lowDimKey].name}</strong> boyutu (<strong>${lowDimVal.toFixed(2)}/5.00</strong>) öncelikli pedagojik gelişim alanı olarak saptanmıştır.</p>
+      `;
+      if (reportData.notes) {
+        diagnosticHtml += `<p class="p-3 bg-slate-50 border-l-4 border-indigo-500 rounded text-slate-700 italic"><strong>Öğretmen Görüş / Uygulama Notu:</strong> "${reportData.notes}"</p>`;
+      }
+      document.getElementById('reportDiagnosticParagraph').innerHTML = diagnosticHtml;
+
+      // 2. Strongest Dimension Card
+      const topConfig = SCALE_CONFIG.subscales[topDimKey];
+      document.getElementById('reportTopDimTitle').textContent = `En Güçlü Boyut: ${topDimKey}. ${topConfig.short}`;
+      document.getElementById('reportTopDimScore').textContent = `Ortalama: ${topDimVal.toFixed(2)} / 5.0`;
+      document.getElementById('reportTopDimDesc').textContent = topConfig.strengths;
+      document.getElementById('reportTopDimAction').textContent = `Bu boyuttaki başarıyı ${topConfig.short} ile sınırlı tutmayıp, özellikle ${SCALE_CONFIG.subscales[lowDimKey].short} alanındaki kazanımlara köprü kuracak şekilde ders planlarına entegre ediniz.`;
+
+      // 3. Growth Dimension Card
+      const lowConfig = SCALE_CONFIG.subscales[lowDimKey];
+      document.getElementById('reportLowDimTitle').textContent = `Geliştirilmeye Açık Boyut: ${lowDimKey}. ${lowConfig.short}`;
+      document.getElementById('reportLowDimScore').textContent = `Ortalama: ${lowDimVal.toFixed(2)} / 5.0`;
+      document.getElementById('reportLowDimDesc').textContent = lowConfig.weaknesses;
+      document.getElementById('reportLowDimAction').textContent = lowConfig.recommendations;
+
+      // 4. Action Recommendations (4 Concrete Cards)
+      renderActionRecommendations(topDimKey, lowDimKey);
+
+      // 5. Subscale Score Table
+      renderSubscaleMatrixTable(reportData.subscales);
+
+      lucide.createIcons();
+    }
+
+    function renderActionRecommendations(topKey, lowKey) {
+      const grid = document.getElementById('reportActionRecommendationsGrid');
+      const lowSub = SCALE_CONFIG.subscales[lowKey];
+
+      const cards = [
+        {
+          num: "1",
+          title: "Ders Planlama & Giriş Aşaması",
+          icon: "book-open",
+          color: "border-indigo-200 bg-indigo-50/40 text-indigo-900",
+          text: "Ders başlangıcında salt konu başlığı vermek yerine, öğrencide hayret ve tefekkür uyandıracak 'Nizam ve Sanat' odaklı 1 adet görsel veya problem sorusu ile derse giriş yapınız."
+        },
+        {
+          num: "2",
+          title: "Sokratik Sorgulama & Öğrenci Çıkarımı",
+          icon: "help-circle",
+          color: "border-blue-200 bg-blue-50/40 text-blue-900",
+          text: "Manevi anlamı hazır paket bilgi olarak sunmaktan kaçınınız. 'Bu sistemdeki kusursuz denge size neyi düşündürüyor?' gibi açık uçlu sorularla çıkarımı bizzat öğrenciye yaptırınız."
+        },
+        {
+          num: "3",
+          title: `${lowSub.short} Alanını Güçlendirme`,
+          icon: "target",
+          color: "border-amber-200 bg-amber-50/40 text-amber-900",
+          text: lowSub.recommendations
+        },
+        {
+          num: "4",
+          title: "Değer & Günlük Hayat Pratiği",
+          icon: "heart-handshake",
+          color: "border-emerald-200 bg-emerald-50/40 text-emerald-900",
+          text: "İşlenen her ünite sonunda öğrencinin günlük hayatında uygulayabileceği somut bir ahlaki sorumluluk (tasarruf, şükür, çevre bilinci, yardımlaşma) görevi belirleyiniz."
+        }
+      ];
+
+      let html = '';
+      cards.forEach(c => {
+        html += `
+          <div class="p-4 rounded-2xl border ${c.color} space-y-2">
+            <div class="flex items-center gap-2 font-bold text-xs uppercase tracking-wide">
+              <span class="w-5 h-5 rounded-full bg-white/80 flex items-center justify-center font-extrabold text-[11px] shadow-sm">${c.num}</span>
+              <span>${c.title}</span>
+            </div>
+            <p class="leading-relaxed">${c.text}</p>
+          </div>
+        `;
+      });
+      grid.innerHTML = html;
+    }
+
+    function renderSubscaleMatrixTable(subscales) {
+      const tbody = document.getElementById('reportSubscaleTableBody');
+      let html = '';
+
+      for (const [key, sub] of Object.entries(SCALE_CONFIG.subscales)) {
+        const val = subscales[key] ? subscales[key].avg : 0;
+        const pct = Math.round((val / 5) * 100);
+
+        let statusBadge = '';
+        if (val >= 4.21) statusBadge = '<span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-green-100 text-green-900 border border-green-300">İleri Yetkinlik</span>';
+        else if (val >= 3.41) statusBadge = '<span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-100 text-emerald-800">Yüksek / Yetkin</span>';
+        else if (val >= 2.61) statusBadge = '<span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-amber-100 text-amber-800">Geliştirilmeli</span>';
+        else statusBadge = '<span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-rose-100 text-rose-800">Öncelikli Destek</span>';
+
+        html += `
+          <tr class="hover:bg-slate-50 transition-colors">
+            <td class="p-3 font-bold text-slate-900">${key}. ${sub.name}</td>
+            <td class="p-3 text-center text-slate-500">${sub.items.join(', ')} (${sub.count} Madde)</td>
+            <td class="p-3 text-center font-mono font-bold text-indigo-700 text-sm">${val.toFixed(2)}</td>
+            <td class="p-3 text-center">
+              <div class="flex items-center justify-center gap-1.5">
+                <div class="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                  <div class="bg-indigo-600 h-1.5 rounded-full" style="width: ${pct}%"></div>
+                </div>
+                <span class="text-[11px] font-bold text-slate-600">%${pct}</span>
+              </div>
+            </td>
+            <td class="p-3">
+              <div class="flex items-center gap-2 mb-1">${statusBadge}</div>
+              <p class="text-[11px] text-slate-500 leading-snug">${sub.recommendations}</p>
+            </td>
+          </tr>
+        `;
+      }
+      tbody.innerHTML = html;
     }
   </script>
 </body>

@@ -1,14 +1,14 @@
 # Muallimin Manevi Rehberi (MMR) Sınıf İçi Uygulama ve Öğrenci Yansımaları Ölçeği
 
-Bu proje, **Muallimin Manevi Rehberi (MMR)** yaklaşımının sınıf içi öğretim süreçlerine nasıl yansıdığını ve öğrencilerde gözlemlenen değişimleri ölçmek amacıyla geliştirilen 20 maddelik 5'li Likert tipi ölçeğin **İnteraktif Web Uygulaması ve 50 Öğretmen Yönetim & Grup Analiz Portalı**dır.
+Bu proje, **Muallimin Manevi Rehberi (MMR)** yaklaşımının sınıf içi öğretim süreçlerine nasıl yansıdığını ve öğrencilerde gözlemlenen değişimleri ölçmek amacıyla geliştirilen 20 maddelik 5'li Likert tipi ölçeğin **İnteraktif Web Uygulaması, 50 Öğretmen Yönetim Havuzu ve Kapsamlı Pedagojik Raporlama Portalı**dır.
 
 ---
 
-## 🚀 Öne Çıkan Özellikler
+## 🌟 Öne Çıkan Özellikler
 
 ### 1. Bireysel Öğretmen Formu & Canlı Analiz
 * **20 Madde ve 6 Alt Boyut:**
-  - **A. Ders Anlayışı ve Süreci** (M1, M2, M3, M4 $\rightarrow$ Maks: 20 Puan)
+  - **A. Öğretmenin Ders Anlayışı ve Öğretim Süreci** (M1, M2, M3, M4 $\rightarrow$ Maks: 20 Puan)
   - **B. Bilgiyi Anlamlandırma** (M5, M6, M7 $\rightarrow$ Maks: 15 Puan)
   - **C. Öğrencinin Kendi Düşüncesini Oluşturması** (M8, M9, M10, M11 $\rightarrow$ Maks: 20 Puan)
   - **D. Değer ve Davranışa Yansıma** (M12, M13, M14, M15 $\rightarrow$ Maks: 20 Puan)
@@ -21,15 +21,24 @@ Bu proje, **Muallimin Manevi Rehberi (MMR)** yaklaşımının sınıf içi öğr
 
 ### 2. 50 Öğretmen Havuzu & Grup Analiz Portalı
 * **Kapasite ve Veri Havuzu:** 50 farklı öğretmenin veri girişini kaydetme, düzenleme ve listeleme.
-* **Kalıcı Depolama:** Tarayıcı kapansa dahi `localStorage` sayesinde veriler kaybolmaz.
+* **Kalıcı Depolama:** Tarayıcı kapansa dahi `localStorage` sayesinde veriler korunur.
 * **Grup İstatistikleri & Grafikler:**
   - Okul / Grup Genel Ortalaması (1.00 – 5.00).
   - Düzey Dağılım Grafiği (Doughnut Chart: Çok Düşük $\rightarrow$ Çok Yüksek).
   - Alt Boyutlar Grup Ortalaması Çubuk Grafiği (Bar Chart).
-  - En yüksek başarı gösterilen alt boyut analizi.
-* **50 Öğretmen Simülasyon Üreteci:** Tek tıkla farklı branş (Fen, DKAB, Matematik, vb.) ve sınıflarda 50 gerçekçi öğretmen verisi üretip grup analizlerini test edebilme.
+* **50 Öğretmen Simülasyon Üreteci:** Tek tıkla farklı branş (Fen, DKAB, Matematik, Türkçe vb.) ve sınıflarda 50 gerçekçi öğretmen verisi üretip grup analizlerini test edebilme.
 * **SPSS / Excel Uyumlu CSV Dışa Aktarma:** 50 öğretmenin tüm maddelerini (M1-M20, M19 ters hali dahil), alt boyut puanlarını ve ortalamalarını bilimsel araştırmalara uygun formatta tek tıkla indirme.
-* **Yedekleme & Geri Yükleme (JSON):** Veri havuzunu kolayca taşıma.
+
+### 3. 📊 Kapsamlı Pedagojik Değerlendirme & Tavsiyeler Raporu
+* **Kapsam Seçimi:** İster **Okul Geneli (Tüm Öğretmenler)**, ister havuzdan seçilen **Tekil Öğretmen Karnesi**.
+* **🌟 En Güçlü Boyut Analizi:** En yüksek ortalamaya sahip alt boyutun tespiti, pedagojik anlamı ve ders içi kazanımları.
+* **🎯 Geliştirilmeye Açık Boyut:** En düşük puanlı alt boyutun tespiti, muhtemel pedagojik zorluklar (19. madde yapaylık çekincesi vb.) ve aşma stratejileri.
+* **💡 Somut Pedagojik Uygulama Önerileri (4 Aşamalı Eylem Planı):**
+  1. Ders Planlama & Giriş Aşaması (Nizam ve Sanat Odaklı Kancalar)
+  2. Sınıf İçi Sokratik Sorgulama & Öğrenci Çıkarımı
+  3. Öncelikli Gelişim Boyutunu Güçlendirme Rehberi
+  4. Değer ve Günlük Hayat Pratiği (Sorumluluk ve Eylem Görevleri)
+* **Alt Boyut Başarı Matrisi:** 6 boyutun başarı yüzdeleri ve öncelikli tavsiyeleri.
 
 ---
 
@@ -45,31 +54,7 @@ Bu proje, **Muallimin Manevi Rehberi (MMR)** yaklaşımının sınıf içi öğr
 
 ---
 
-## 💻 Nasıl Çalıştırılır?
+## 💻 Canlı Yayın ve Bağlantılar
 
-Herhangi bir kurulum, Node.js veya veritabanı sunucusu gerektirmez.
-* `index.html` dosyasına çift tıklayarak istediğiniz tarayıcıda doğrudan çalıştırabilirsiniz.
-
----
-
-## 🌐 GitHub Pages ile Ücretsiz Canlı Yayına Alma
-
-Projeyi internette canlı bir web sitesi olarak yayınlamak için:
-1. Bu depoyu GitHub hesabınıza push edin.
-2. GitHub'da deponun **Settings** (Ayarlar) sekmesine gidin.
-3. Sol menüden **Pages** seçeneğine tıklayın.
-4. **Branch** kısmından `main` (veya `master`) dalını ve `/root` klasörünü seçip **Save** butonuna basın.
-5. Birkaç dakika içinde `https://kullaniciadiniz.github.io/depo-adiniz` adresinde siteniz yayına girecektir.
-
----
-
-## 📁 Proje Dosya Yapısı
-
-```
-├── index.html                                                      # İnteraktif Web Portalı ve 50 Öğretmen Sistemi
-├── README.md                                                       # Proje Kılavuzu ve Belgeler
-├── .gitignore                                                      # Git Dışlama Dosyası
-├── MMR Sınıf İçi Uygulama Ölçeği.pdf                               # Orijinal Ölçek Formu
-├── MMR Ölçeği Değerlendirme Kriterleri ve Uygulama Kılavuzu.pdf    # Değerlendirme Kriterleri
-└── MMR Ölçeği Adım Adım Hesaplama Rehberi.pdf                      # Hesaplama Yönergesi
-```
+* 🚀 **Canlı İnternet Portalı (GitHub Pages):** [https://mahofen.github.io/mmr-olcek-portali/](https://mahofen.github.io/mmr-olcek-portali/)
+* 📂 **GitHub Deposu:** [https://github.com/mahofen/mmr-olcek-portali](https://github.com/mahofen/mmr-olcek-portali)
