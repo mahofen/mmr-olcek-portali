@@ -19,7 +19,7 @@ Bu proje, **Muallimin Manevi Rehberi (MMR)** yaklaşımının sınıf içi öğr
 * **Otomatik Ters Kodlama:** 19. madde olumsuz ifade olduğu için sistem $\text{Puan}_{19} = 6 - \text{Seçim}$ formülüyle anlık hesaplama yapar.
 
 ### 2. 🔐 Yönetici Portalı (Şifre Korumalı Analiz & Havuz)
-* **Giriş Şifresi:** `admin` (veya `mmr2026`)
+* **Giriş Şifresi:** `mmr2026`
 * **Kapasite ve Veri Havuzu:** 50 farklı öğretmenin veri girişini kaydetme, düzenleme, silme ve listeleme.
 * **Kalıcı Depolama:** Tarayıcı kapansa dahi `localStorage` sayesinde veriler korunur.
 * **Grup İstatistikleri & Grafikler:**
