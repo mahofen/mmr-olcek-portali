@@ -159,6 +159,20 @@
         </div>
       </div>
 
+      <!-- Printable Header (Print Only) -->
+      <div class="hidden print-only mb-6 border-b-2 border-slate-900 pb-4">
+        <div class="flex justify-between items-start">
+          <div>
+            <h1 class="text-xl font-bold uppercase tracking-wide text-slate-900">Muallimin Manevi Rehberi (MMR)</h1>
+            <h2 class="text-base font-semibold text-slate-700">Sınıf İçi Uygulama ve Öğrenci Yansımaları Değerlendirme Raporu</h2>
+          </div>
+          <div class="text-right text-xs text-slate-500">
+            <div>Rapor Tarihi: <span id="printReportDate">--</span></div>
+            <div>Sistem: MMR Ölçek Analiz Portalı v1.0</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Metadata Card -->
       <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm card-shadow">
         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-2">
@@ -1036,23 +1050,38 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
-      loadPoolFromStorage();
-      renderLikertButtons();
+      try {
+        loadPoolFromStorage();
+        renderLikertButtons();
 
-      document.getElementById('metaDate').value = new Date().toISOString().split('T')[0];
-      document.getElementById('printReportDate').textContent = new Date().toLocaleDateString('tr-TR');
+        const metaDateElem = document.getElementById('metaDate');
+        if (metaDateElem) metaDateElem.value = new Date().toISOString().split('T')[0];
 
-      initIndividualRadarChart();
-      initGroupCharts();
-      bindAllEvents();
+        const printDateElem = document.getElementById('printReportDate');
+        if (printDateElem) printDateElem.textContent = new Date().toLocaleDateString('tr-TR');
 
-      recalculateCurrentForm();
-      refreshPoolUI();
-      populateReportTargetSelect();
-      renderPedagogicalReport();
+        initIndividualRadarChart();
+        initGroupCharts();
+        bindAllEvents();
 
-      lucide.createIcons();
+        recalculateCurrentForm();
+        refreshPoolUI();
+        populateReportTargetSelect();
+        renderPedagogicalReport();
+
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.lucide.createIcons();
+        }
+      } catch (err) {
+        console.error("Initialization error:", err);
+      }
     });
+
+    // Expose table action functions to global window scope
+    window.loadTeacherToForm = loadTeacherToForm;
+    window.deleteTeacherRecord = deleteTeacherRecord;
+    window.viewTeacherPedagogicalReport = viewTeacherPedagogicalReport;
+    window.switchTab = switchTab;
 
     function loadPoolFromStorage() {
       const stored = localStorage.getItem('MMR_TEACHERS_POOL');
