@@ -152,7 +152,7 @@
             <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 mr-1.5 text-slate-500"></i>
             Temizle
           </button>
-          <button id="btnSaveToPool" type="button" class="inline-flex items-center px-4 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm transition-all shadow-emerald-200">
+          <button id="btnSaveToPool" onclick="saveCurrentFormToPool()" type="button" class="inline-flex items-center px-4 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-lg shadow-sm transition-all shadow-emerald-200 cursor-pointer">
             <i data-lucide="user-plus" class="w-3.5 h-3.5 mr-1.5"></i>
             Öğretmen Havuzuna Kaydet
           </button>
@@ -397,6 +397,26 @@
               <textarea id="metaNotes" rows="3" placeholder="Sınıf içi deneyimlerinize yönelik görüşlerinizi belirtebilirsiniz..." class="w-full p-3 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all"></textarea>
             </div>
 
+            <!-- Big Bottom Submit / Save Action Card -->
+            <div class="bg-gradient-to-r from-emerald-50 to-indigo-50 rounded-2xl p-6 border-2 border-emerald-200/80 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 card-shadow no-print">
+              <div>
+                <h4 class="text-sm font-black text-slate-900 flex items-center gap-2">
+                  <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+                  Değerlendirmeyi Tamamla ve Kaydet
+                </h4>
+                <p class="text-xs text-slate-600 mt-0.5">
+                  Girilen verileri 50 öğretmenlik havuza aktarır ve analiz grafiklerini günceller.
+                </p>
+              </div>
+
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <button id="btnSaveToPoolBottom" onclick="saveCurrentFormToPool()" type="button" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-sm font-black text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-xl shadow-md transition-all shadow-emerald-300">
+                  <i data-lucide="save" class="w-4 h-4 mr-2"></i>
+                  Havuza Kaydet ve Analizi Gör
+                </button>
+              </div>
+            </div>
+
           </form>
         </div>
 
@@ -435,7 +455,7 @@
               </div>
 
               <div class="mt-4 pt-3 border-t border-slate-100 space-y-2">
-                <button id="btnSaveToPoolSide" type="button" class="w-full flex items-center justify-center py-2.5 px-4 text-xs font-bold rounded-xl text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-all shadow-emerald-200">
+                <button id="btnSaveToPoolSide" onclick="saveCurrentFormToPool()" type="button" class="w-full flex items-center justify-center py-2.5 px-4 text-xs font-bold rounded-xl text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 shadow-sm transition-all shadow-emerald-200 cursor-pointer">
                   <i data-lucide="check-circle" class="w-4 h-4 mr-1.5"></i>
                   Öğretmen Havuzuna Kaydet
                 </button>
@@ -1082,6 +1102,36 @@
     window.deleteTeacherRecord = deleteTeacherRecord;
     window.viewTeacherPedagogicalReport = viewTeacherPedagogicalReport;
     window.switchTab = switchTab;
+    window.saveCurrentFormToPool = saveCurrentFormToPool;
+    window.resetCurrentForm = resetCurrentForm;
+
+    // In-App Toast Notification
+    function showToast(message, type = 'success') {
+      let toast = document.getElementById('appToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'appToast';
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-20px] opacity-0 pointer-events-none flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold';
+        document.body.appendChild(toast);
+      }
+
+      if (type === 'success') {
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-emerald-600 text-white border-emerald-500 shadow-emerald-200';
+        toast.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5"></i> <span>${message}</span>`;
+      } else if (type === 'warning') {
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-amber-500 text-white border-amber-400 shadow-amber-200';
+        toast.innerHTML = `<i data-lucide="alert-triangle" class="w-5 h-5"></i> <span>${message}</span>`;
+      } else {
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-indigo-600 text-white border-indigo-500 shadow-indigo-200';
+        toast.innerHTML = `<i data-lucide="info" class="w-5 h-5"></i> <span>${message}</span>`;
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+
+      setTimeout(() => {
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-20px] opacity-0 pointer-events-none flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-slate-800 text-white';
+      }, 3500);
+    }
 
     function loadPoolFromStorage() {
       const stored = localStorage.getItem('MMR_TEACHERS_POOL');
@@ -1374,54 +1424,63 @@
     }
 
     function saveCurrentFormToPool() {
-      const teacher = document.getElementById('metaTeacher').value.trim();
-      const branch = document.getElementById('metaBranch').value.trim();
-      const grade = document.getElementById('metaGrade').value.trim();
-      const date = document.getElementById('metaDate').value;
-      const notes = document.getElementById('metaNotes').value.trim();
+      try {
+        let teacher = (document.getElementById('metaTeacher')?.value || "").trim();
+        let branch = (document.getElementById('metaBranch')?.value || "").trim();
+        const grade = (document.getElementById('metaGrade')?.value || "").trim() || "Belirtilmedi";
+        const date = document.getElementById('metaDate')?.value || new Date().toISOString().split('T')[0];
+        const notes = (document.getElementById('metaNotes')?.value || "").trim();
 
-      const answeredCount = Object.keys(currentAnswers).length;
-      if (answeredCount < 20) {
-        if (!confirm(`Ölçekte henüz ${20 - answeredCount} soru boş bırakılmış. Yine de kaydetmek istiyor musunuz?`)) {
-          return;
+        const count = teachersPool.length;
+        if (!teacher) {
+          teacher = `Öğretmen #${count + 1}`;
+          const teacherInput = document.getElementById('metaTeacher');
+          if (teacherInput) teacherInput.value = teacher;
         }
+
+        if (!branch) {
+          branch = "Genel";
+          const branchInput = document.getElementById('metaBranch');
+          if (branchInput) branchInput.value = branch;
+        }
+
+        const scoreData = calculateTeacherScores(currentAnswers);
+        const norm = findNorm(scoreData.avg);
+
+        const recordId = currentEditingId || ('t_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4));
+        const record = {
+          id: recordId,
+          teacher,
+          branch,
+          grade,
+          date,
+          notes,
+          answers: { ...currentAnswers },
+          totalScore: scoreData.totalRaw,
+          averageScore: Number(scoreData.avg.toFixed(2)),
+          level: norm ? norm.level : "Tanımsız",
+          subscales: scoreData.dimensions,
+          updatedAt: new Date().toISOString()
+        };
+
+        if (currentEditingId) {
+          const idx = teachersPool.findIndex(t => t.id === currentEditingId);
+          if (idx !== -1) teachersPool[idx] = record;
+          else teachersPool.push(record);
+          currentEditingId = null;
+          const notice = document.getElementById('currentEditingTeacherNotice');
+          if (notice) notice.classList.add('hidden');
+        } else {
+          teachersPool.push(record);
+        }
+
+        savePoolToStorage();
+        showToast(`"${teacher}" öğretmen kaydı başarıyla havuza kaydedildi!`, 'success');
+        switchTab('pool');
+      } catch (err) {
+        console.error("Save error:", err);
+        showToast("Kayıt sırasında bir hata oluştu: " + err.message, 'warning');
       }
-
-      if (!teacher || !branch) {
-        alert("Lütfen Öğretmen Adı ve Branş alanlarını doldurunuz.");
-        return;
-      }
-
-      const scoreData = calculateTeacherScores(currentAnswers);
-      const norm = findNorm(scoreData.avg);
-
-      const recordId = currentEditingId || ('t_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4));
-      const record = {
-        id: recordId,
-        teacher,
-        branch,
-        grade: grade || "Belirtilmedi",
-        date: date || new Date().toISOString().split('T')[0],
-        notes,
-        answers: { ...currentAnswers },
-        totalScore: scoreData.totalRaw,
-        averageScore: Number(scoreData.avg.toFixed(2)),
-        level: norm ? norm.level : "Tanımsız",
-        subscales: scoreData.dimensions,
-        updatedAt: new Date().toISOString()
-      };
-
-      if (currentEditingId) {
-        const idx = teachersPool.findIndex(t => t.id === currentEditingId);
-        if (idx !== -1) teachersPool[idx] = record;
-        else teachersPool.push(record);
-      } else {
-        teachersPool.push(record);
-      }
-
-      savePoolToStorage();
-      alert(`"${teacher}" öğretmen kaydı başarıyla havuza kaydedildi!`);
-      switchTab('pool');
     }
 
     function loadTeacherToForm(id) {
