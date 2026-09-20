@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MMR Ölçeği - 50 Öğretmen Veri Girişi & Pedagojik Raporlama Portalı</title>
+  <title>MMR Sınıf İçi Uygulama Ölçeği & Yönetici Analiz Portalı</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -50,7 +50,7 @@
       transform: scale(1.02);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
-    .tab-btn.active {
+    .admin-tab-btn.active {
       border-bottom: 2px solid #4f46e5;
       color: #4f46e5;
       font-weight: 700;
@@ -79,9 +79,13 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
 
-  <!-- Header / Navigation -->
+  <!-- ======================================================== -->
+  <!-- TOP HEADER / ROLE SWITCHER                              -->
+  <!-- ======================================================== -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print backdrop-blur-md bg-white/95">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Title -->
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-500 flex items-center justify-center text-white shadow-md shadow-indigo-200">
           <i data-lucide="book-open-check" class="w-5 h-5"></i>
@@ -89,91 +93,104 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-tight">MMR Sınıf İçi Uygulama Portalı</h1>
-            <span class="hidden sm:inline-flex px-2 py-0.5 text-[10px] font-bold rounded-full bg-indigo-100 text-indigo-800 border border-indigo-200">50 Öğretmen & Pedagojik Rapor</span>
+            <span id="roleBadge" class="px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+              Öğretmen Giriş Modu
+            </span>
           </div>
-          <p class="text-xs text-slate-500">Muallimin Manevi Rehberi Değerlendirme & Tanı Sistemi</p>
+          <p class="text-xs text-slate-500">Muallimin Manevi Rehberi Değerlendirme & Analiz Sistemi</p>
         </div>
       </div>
 
-      <!-- Quick Action Buttons -->
-      <div class="flex items-center space-x-2">
-        <button id="btnHeaderPrint" type="button" class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-all shadow-indigo-200">
-          <i data-lucide="printer" class="w-3.5 h-3.5 mr-1.5"></i>
-          <span class="hidden sm:inline">Rapor Yazdır / PDF</span>
-          <span class="sm:hidden">Yazdır</span>
+      <!-- Right Action Controls -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Teacher View Button (Visible in Admin Mode) -->
+        <button id="btnSwitchToTeacher" onclick="switchToTeacherMode()" type="button" class="hidden inline-flex items-center px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">
+          <i data-lucide="file-edit" class="w-3.5 h-3.5 mr-1.5 text-slate-500"></i>
+          Öğretmen Giriş Sayfası
+        </button>
+
+        <!-- Admin Login / Switch Button -->
+        <button id="btnOpenAdminModal" onclick="openAdminLoginModal()" type="button" class="inline-flex items-center px-3.5 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg shadow-sm transition-all">
+          <i data-lucide="lock" class="w-3.5 h-3.5 mr-1.5 text-indigo-600"></i>
+          <span id="adminBtnText">Yönetici Girişi</span>
         </button>
       </div>
+
     </div>
 
-    <!-- Main Navigation Tabs (3 Tabs) -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-100 flex space-x-4 sm:space-x-8 text-xs sm:text-sm overflow-x-auto">
-      <button id="tabBtnForm" class="tab-btn active py-3 font-semibold text-slate-600 hover:text-indigo-600 flex items-center gap-1.5 transition-colors whitespace-nowrap">
-        <i data-lucide="file-edit" class="w-4 h-4"></i>
-        Bireysel Öğretmen Formu
-      </button>
-      <button id="tabBtnPool" class="tab-btn py-3 font-medium text-slate-500 hover:text-indigo-600 flex items-center gap-1.5 transition-colors whitespace-nowrap">
-        <i data-lucide="users" class="w-4 h-4"></i>
-        50 Öğretmen Havuzu & İstatistikler
-        <span id="badgeTeacherCountHeader" class="ml-1 px-2 py-0.2 rounded-full text-[11px] font-extrabold bg-slate-100 text-slate-700">0/50</span>
-      </button>
-      <button id="tabBtnReport" class="tab-btn py-3 font-medium text-slate-500 hover:text-indigo-600 flex items-center gap-1.5 transition-colors whitespace-nowrap text-indigo-700">
-        <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
-        Pedagojik Değerlendirme & Tavsiyeler
-      </button>
+    <!-- Admin Navigation Bar (Only visible in Admin Mode) -->
+    <div id="adminNavContainer" class="hidden bg-slate-900 text-white border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs sm:text-sm">
+        <div class="flex space-x-6">
+          <button id="adminTabPool" onclick="switchAdminTab('pool')" class="admin-tab-btn active py-2.5 text-indigo-400 font-bold border-b-2 border-indigo-500 flex items-center gap-1.5">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            50 Öğretmen Havuzu & Grup Analizi
+            <span id="badgeAdminCount" class="ml-1 px-2 py-0.2 rounded-full text-[10px] font-extrabold bg-indigo-950 text-indigo-300 border border-indigo-700">0/50</span>
+          </button>
+          <button id="adminTabReport" onclick="switchAdminTab('report')" class="admin-tab-btn py-2.5 text-slate-400 hover:text-white font-medium flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
+            Pedagojik Değerlendirme & Tavsiyeler
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-[11px] text-slate-400 hidden md:inline">Yönetici Oturumu Açık</span>
+          <button onclick="logoutAdmin()" class="text-xs font-semibold px-2 py-1 text-rose-300 hover:text-white hover:bg-rose-900/50 rounded transition-colors">
+            Çıkış Yap
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 
-  <!-- Main Content Area -->
+  <!-- ======================================================== -->
+  <!-- MAIN CONTAINER                                           -->
+  <!-- ======================================================== -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
 
-    <!-- ======================================================== -->
-    <!-- TAB 1: INDIVIDUAL TEACHER FORM & REAL-TIME ANALYTICS     -->
-    <!-- ======================================================== -->
-    <div id="tabContentForm" class="space-y-6">
-      
-      <!-- Top Action Bar for Form (No Print) -->
-      <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print">
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-            <i data-lucide="sliders" class="w-4 h-4 text-indigo-600"></i>
-            Form İşlemleri:
-          </span>
-          <span id="currentEditingTeacherNotice" class="hidden text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
-            Kayıt Düzenleniyor
-          </span>
+    <!-- ========================================================================= -->
+    <!-- SECTION 1: TEACHER ENTRY VIEW (DEFAULT)                                   -->
+    <!-- ========================================================================= -->
+    <div id="sectionTeacherView" class="space-y-6">
+
+      <!-- Form Welcome Banner -->
+      <div class="p-6 rounded-3xl bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white shadow-xl relative overflow-hidden no-print">
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 mb-2">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+              Öğretmen Değerlendirme Formu
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white mb-1.5">
+              Muallimin Manevi Rehberi (MMR) Sınıf İçi Uygulama Ölçeği
+            </h2>
+            <p class="text-xs sm:text-sm text-indigo-100/80 leading-relaxed">
+              Değerli Öğretmenimiz, aşağıdaki 20 ifadeyi sınıfınızdaki uygulama deneyimlerinizi göz önüne alarak 1'den 5'e kadar puanlayınız. Formu tamamlayıp kaydettiğinizde verileriniz yönetici havuzuna aktarılacak ve sayfa yeni veri girişi için sıfırlanacaktır.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/15 min-w-[170px] justify-between">
+            <div>
+              <div class="text-[11px] text-indigo-200 font-medium">Cevaplanan</div>
+              <div class="text-2xl font-extrabold text-white" id="teacherAnsweredCount">0 <span class="text-xs font-normal text-indigo-300">/ 20</span></div>
+            </div>
+            <button id="btnLoadSampleTeacher" onclick="loadSampleTeacherCase()" type="button" class="px-2.5 py-1.5 text-xs font-semibold rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/20 transition-all">
+              Örnek Doldur
+            </button>
+          </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2">
-          <button id="btnLoadSample" type="button" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors border border-indigo-200">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 mr-1.5 text-indigo-600"></i>
-            Örnek Vaka Yükle
-          </button>
-          <button id="btnReset" type="button" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">
-            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 mr-1.5 text-slate-500"></i>
-            Temizle
-          </button>
-          <button id="btnSaveToPool" onclick="saveCurrentFormToPool()" type="button" class="inline-flex items-center px-4 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-lg shadow-sm transition-all shadow-emerald-200 cursor-pointer">
-            <i data-lucide="user-plus" class="w-3.5 h-3.5 mr-1.5"></i>
-            Öğretmen Havuzuna Kaydet
-          </button>
+        <!-- Progress Bar -->
+        <div class="mt-4 pt-3 border-t border-white/10 flex items-center gap-3">
+          <span class="text-xs text-indigo-200 font-medium whitespace-nowrap">İlerleme:</span>
+          <div class="w-full bg-black/30 rounded-full h-2 overflow-hidden">
+            <div id="teacherProgressBar" class="bg-gradient-to-r from-emerald-400 to-indigo-400 h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+          </div>
+          <span id="teacherProgressPercent" class="text-xs font-bold text-white whitespace-nowrap">%0</span>
         </div>
       </div>
 
-      <!-- Printable Header (Print Only) -->
-      <div class="hidden print-only mb-6 border-b-2 border-slate-900 pb-4">
-        <div class="flex justify-between items-start">
-          <div>
-            <h1 class="text-xl font-bold uppercase tracking-wide text-slate-900">Muallimin Manevi Rehberi (MMR)</h1>
-            <h2 class="text-base font-semibold text-slate-700">Sınıf İçi Uygulama ve Öğrenci Yansımaları Değerlendirme Raporu</h2>
-          </div>
-          <div class="text-right text-xs text-slate-500">
-            <div>Rapor Tarihi: <span id="printReportDate">--</span></div>
-            <div>Sistem: MMR Ölçek Analiz Portalı v1.0</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Metadata Card -->
+      <!-- Teacher Metadata Form Card -->
       <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm card-shadow">
         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-2">
           <i data-lucide="user-check" class="w-4 h-4 text-indigo-600"></i>
@@ -182,11 +199,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <label for="metaTeacher" class="block text-xs font-semibold text-slate-600 mb-1">Öğretmen Adı Soyadı <span class="text-rose-500">*</span></label>
-            <input type="text" id="metaTeacher" placeholder="Örn: Ayşe Yılmaz" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+            <input type="text" id="metaTeacher" placeholder="Örn: Ahmet Yılmaz" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
           </div>
           <div>
             <label for="metaBranch" class="block text-xs font-semibold text-slate-600 mb-1">Branş / Ders <span class="text-rose-500">*</span></label>
-            <input type="text" id="metaBranch" placeholder="Örn: Fen Bilimleri, DKAB, Biyoloji" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+            <input type="text" id="metaBranch" placeholder="Örn: Fen Bilimleri, DKAB, Matematik" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
           </div>
           <div>
             <label for="metaGrade" class="block text-xs font-semibold text-slate-600 mb-1">Uygulanan Sınıf Düzeyi <span class="text-rose-500">*</span></label>
@@ -199,653 +216,559 @@
         </div>
       </div>
 
-      <!-- Main Layout: Form Left (7 cols), Analytics Right (5 cols) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- 20 Scale Items Form -->
+      <form id="scaleForm" class="space-y-6">
 
-        <!-- Form Questions -->
-        <div class="lg:col-span-7 space-y-6">
-
-          <div class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-3 text-xs text-indigo-900 flex flex-wrap items-center justify-between gap-2 no-print">
-            <span class="font-bold flex items-center gap-1.5">
-              <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
-              Likert Ölçeği:
-            </span>
-            <div class="flex flex-wrap gap-1.5 text-[11px] font-medium">
-              <span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">1: Kesinlikle Katılmıyorum</span>
-              <span class="px-2 py-0.5 rounded bg-orange-100 text-orange-800 border border-orange-200">2: Katılmıyorum</span>
-              <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">3: Kararsızım</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200">4: Katılıyorum</span>
-              <span class="px-2 py-0.5 rounded bg-green-200 text-green-900 border border-green-300 font-bold">5: Kesinlikle Katılıyorum</span>
-            </div>
+        <!-- Scale Legend -->
+        <div class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-3 text-xs text-indigo-900 flex flex-wrap items-center justify-between gap-2 no-print">
+          <span class="font-bold flex items-center gap-1.5">
+            <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+            Puanlama Seçenekleri:
+          </span>
+          <div class="flex flex-wrap gap-1.5 text-[11px] font-medium">
+            <span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">1: Kesinlikle Katılmıyorum</span>
+            <span class="px-2 py-0.5 rounded bg-orange-100 text-orange-800 border border-orange-200">2: Katılmıyorum</span>
+            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">3: Kararsızım / Kısmen</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200">4: Katılıyorum</span>
+            <span class="px-2 py-0.5 rounded bg-green-200 text-green-900 border border-green-300 font-bold">5: Kesinlikle Katılıyorum</span>
           </div>
-
-          <form id="scaleForm" class="space-y-6">
-
-            <!-- SECTION A -->
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
-              <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">A</span>
-                  <h4 class="font-bold text-slate-800 text-sm sm:text-base">Öğretmenin Ders Anlayışı ve Öğretim Süreci</h4>
-                </div>
-                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">4 Madde</span>
-              </div>
-              <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
-                <div class="pt-3 first:pt-0" data-item="1">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">1.</span> MMR uygulamaları, derslerime bilgi aktarımının yanında anlam ve değer boyutuyla da bakmamı sağlamıştır.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="2">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">2.</span> MMR uygulamaları, ders işleme biçimimde değişikliğe yol açmıştır.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="3">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">3.</span> MMR uygulamaları sonrasında ders planlarken öğrenme çıktısının anlam ve hayatla ilişkisini daha fazla dikkate alıyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="4">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">4.</span> MMR uygulamalarında öğrencilerin öğrendikleri bilgi üzerinde düşünmelerine fırsat veriyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SECTION B -->
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
-              <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">B</span>
-                  <h4 class="font-bold text-slate-800 text-sm sm:text-base">Bilgiyi Anlamlandırma</h4>
-                </div>
-                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">3 Madde</span>
-              </div>
-              <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
-                <div class="pt-3 first:pt-0" data-item="5">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">5.</span> MMR uygulamalarında öğrencilerin öğrendikleri bilgiyi anlamlandırmalarını sağlayan soru veya etkinlikler kullanıyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="6">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">6.</span> MMR uygulamalarında öğrencilerin bilimsel bilgiler ile hayatları arasında bağlantı kurmalarına fırsat veriyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="7">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">7.</span> MMR uygulamalarında öğrencilerin öğrendikleri bilgiyi değerlerle ilişkilendirmelerine fırsat veriyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SECTION C -->
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
-              <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">C</span>
-                  <h4 class="font-bold text-slate-800 text-sm sm:text-base">Öğrencinin Kendi Düşüncesini Oluşturması</h4>
-                </div>
-                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">4 Madde</span>
-              </div>
-              <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
-                <div class="pt-3 first:pt-0" data-item="8">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">8.</span> MMR uygulamalarında öğrenciler hazır bir manevi cevabı almak yerine kendi gözlem ve düşüncelerinden hareketle sonuçlara ulaşabiliyor.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="9">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">9.</span> MMR uygulamalarında öğrencilerin kendi düşüncelerini ve çıkarımlarını ifade etmelerine fırsat oluşuyor.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="10">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">10.</span> MMR uygulamalarında öğrencilerin farklı düşüncelerini gerekçeleriyle ifade etmelerine fırsat veriyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="11">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">11.</span> MMR uygulamalarından sonra öğrencilerin sorularında anlam ve değer boyutunun arttığını gözlemliyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SECTION D -->
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
-              <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">D</span>
-                  <h4 class="font-bold text-slate-800 text-sm sm:text-base">Değer ve Davranışa Yansıma</h4>
-                </div>
-                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">4 Madde</span>
-              </div>
-              <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
-                <div class="pt-3 first:pt-0" data-item="12">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">12.</span> MMR uygulamalarında öğrencilerin öğrendikleri konuyu bir değer veya sorumlulukla ilişkilendirdiklerini gözlemliyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="13">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">13.</span> MMR uygulamalarında öğrencilerin öğrendikleri bilgiyi günlük hayatlarıyla ilişkilendirdiklerini gözlemliyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="14">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">14.</span> MMR uygulamalarında öğrencilerin bir değer üzerinde düşünmelerine yönelik tepkiler gözlemliyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="15">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">15.</span> MMR uygulamalarında öğrencilerin fark ettikleri değerleri davranışlarına yansıttıklarını gözlemliyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SECTION E (Reverse Item 19) -->
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
-              <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">E</span>
-                  <h4 class="font-bold text-slate-800 text-sm sm:text-base">MMR'nin Dersle Doğal Bütünleşmesi</h4>
-                </div>
-                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">4 Madde</span>
-              </div>
-              <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
-                <div class="pt-3 first:pt-0" data-item="16">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">16.</span> MMR uygulamalarında anlam ve değer boyutu dersin içeriğinden doğal olarak ortaya çıkmaktadır.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="17">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">17.</span> MMR uygulamalarında manevi boyutu dersin doğal bir parçası olarak ele alabiliyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <div class="pt-3" data-item="18">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">18.</span> MMR uygulamalarında dersin öğrenme çıktısı ile manevi anlam arasında doğal bir bağlantı kurabiliyorum.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-                <!-- Item 19 Reverse -->
-                <div class="pt-3 bg-amber-50/50 p-3 rounded-xl border border-amber-200" data-item="19">
-                  <div class="flex items-center gap-2 mb-1.5">
-                    <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase bg-amber-200 text-amber-900 rounded">
-                      Ters Kodlu Madde (Olumsuz İfade)
-                    </span>
-                    <span class="text-xs text-amber-800 italic">Puan: (6 - Seçim) şeklinde ters kodlanır.</span>
-                  </div>
-                  <div class="text-sm font-semibold text-slate-800 mb-2 leading-snug">
-                    <span class="font-bold text-amber-600 mr-1">19.</span> Bazı ders konularında MMR bağlantısı kurmak yapay veya zorlayıcı olmaktadır.
-                  </div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SECTION F -->
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
-              <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">F</span>
-                  <h4 class="font-bold text-slate-800 text-sm sm:text-base">Genel MMR Yansıması</h4>
-                </div>
-                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">1 Madde</span>
-              </div>
-              <div class="p-4 sm:p-5 space-y-4">
-                <div class="pt-1" data-item="20">
-                  <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">20.</span> MMR uygulamaları, öğrencilerin sadece bilgiyi öğrenmelerinin ötesinde düşünme, anlamlandırma ve değer oluşturma süreçlerine katkı sağlamaktadır.</div>
-                  <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Notes -->
-            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm card-shadow">
-              <label for="metaNotes" class="block text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
-                <i data-lucide="message-square" class="w-4 h-4 text-indigo-600"></i>
-                Varsa Ek Görüş ve Önerileriniz:
-              </label>
-              <textarea id="metaNotes" rows="3" placeholder="Sınıf içi deneyimlerinize yönelik görüşlerinizi belirtebilirsiniz..." class="w-full p-3 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all"></textarea>
-            </div>
-
-            <!-- Big Bottom Submit / Save Action Card -->
-            <div class="bg-gradient-to-r from-emerald-50 to-indigo-50 rounded-2xl p-6 border-2 border-emerald-200/80 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 card-shadow no-print">
-              <div>
-                <h4 class="text-sm font-black text-slate-900 flex items-center gap-2">
-                  <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
-                  Değerlendirmeyi Tamamla ve Kaydet
-                </h4>
-                <p class="text-xs text-slate-600 mt-0.5">
-                  Girilen verileri 50 öğretmenlik havuza aktarır ve analiz grafiklerini günceller.
-                </p>
-              </div>
-
-              <div class="flex items-center gap-2 w-full sm:w-auto">
-                <button id="btnSaveToPoolBottom" onclick="saveCurrentFormToPool()" type="button" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-sm font-black text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-xl shadow-md transition-all shadow-emerald-300">
-                  <i data-lucide="save" class="w-4 h-4 mr-2"></i>
-                  Havuza Kaydet ve Analizi Gör
-                </button>
-              </div>
-            </div>
-
-          </form>
         </div>
 
-        <!-- Right Side: Individual Live Analytics -->
-        <div class="lg:col-span-5 space-y-6">
-          <div class="lg:sticky lg:top-24 space-y-6">
+        <!-- SECTION A -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
+          <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">A</span>
+              <h4 class="font-bold text-slate-800 text-sm sm:text-base">Öğretmenin Ders Anlayışı ve Öğretim Süreci</h4>
+            </div>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">4 Madde</span>
+          </div>
+          <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
+            <div class="pt-3 first:pt-0" data-item="1">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">1.</span> MMR uygulamaları, derslerime bilgi aktarımının yanında anlam ve değer boyutuyla da bakmamı sağlamıştır.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="2">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">2.</span> MMR uygulamaları, ders işleme biçimimde değişikliğe yol açmıştır.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="3">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">3.</span> MMR uygulamaları sonrasında ders planlarken öğrenme çıktısının anlam ve hayatla ilişkisini daha fazla dikkate alıyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="4">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">4.</span> MMR uygulamalarında öğrencilerin öğrendikleri bilgi üzerinde düşünmelerine fırsat veriyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+          </div>
+        </div>
 
-            <!-- Result Card -->
-            <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-md card-shadow">
-              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Değerlendirme Sonucu</span>
-                <span id="levelBadge" class="px-3 py-1 text-xs font-extrabold rounded-full bg-slate-100 text-slate-700">
-                  Veri Bekleniyor
+        <!-- SECTION B -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
+          <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">B</span>
+              <h4 class="font-bold text-slate-800 text-sm sm:text-base">Bilgiyi Anlamlandırma</h4>
+            </div>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">3 Madde</span>
+          </div>
+          <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
+            <div class="pt-3 first:pt-0" data-item="5">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">5.</span> MMR uygulamalarında öğrencilerin öğrendikleri bilgiyi anlamlandırmalarını sağlayan soru veya etkinlikler kullanıyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="6">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">6.</span> MMR uygulamalarında öğrencilerin bilimsel bilgiler ile hayatları arasında bağlantı kurmalarına fırsat veriyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="7">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">7.</span> MMR uygulamalarında öğrencilerin öğrendikleri bilgiyi değerlerle ilişkilendirmelerine fırsat veriyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION C -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
+          <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">C</span>
+              <h4 class="font-bold text-slate-800 text-sm sm:text-base">Öğrencinin Kendi Düşüncesini Oluşturması</h4>
+            </div>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">4 Madde</span>
+          </div>
+          <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
+            <div class="pt-3 first:pt-0" data-item="8">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">8.</span> MMR uygulamalarında öğrenciler hazır bir manevi cevabı almak yerine kendi gözlem ve düşüncelerinden hareketle sonuçlara ulaşabiliyor.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="9">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">9.</span> MMR uygulamalarında öğrencilerin kendi düşüncelerini ve çıkarımlarını ifade etmelerine fırsat oluşuyor.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="10">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">10.</span> MMR uygulamalarında öğrencilerin farklı düşüncelerini gerekçeleriyle ifade etmelerine fırsat veriyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="11">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">11.</span> MMR uygulamalarından sonra öğrencilerin sorularında anlam ve değer boyutunun arttığını gözlemliyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION D -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
+          <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">D</span>
+              <h4 class="font-bold text-slate-800 text-sm sm:text-base">Değer ve Davranışa Yansıma</h4>
+            </div>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">4 Madde</span>
+          </div>
+          <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
+            <div class="pt-3 first:pt-0" data-item="12">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">12.</span> MMR uygulamalarında öğrencilerin öğrendikleri konuyu bir değer veya sorumlulukla ilişkilendirdiklerini gözlemliyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="13">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">13.</span> MMR uygulamalarında öğrencilerin öğrendikleri bilgiyi günlük hayatlarıyla ilişkilendirdiklerini gözlemliyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="14">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">14.</span> MMR uygulamalarında öğrencilerin bir değer üzerinde düşünmelerine yönelik tepkiler gözlemliyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="15">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">15.</span> MMR uygulamalarında öğrencilerin fark ettikleri değerleri davranışlarına yansıttıklarını gözlemliyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION E (Reverse Item 19) -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
+          <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">E</span>
+              <h4 class="font-bold text-slate-800 text-sm sm:text-base">MMR'nin Dersle Doğal Bütünleşmesi</h4>
+            </div>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">4 Madde</span>
+          </div>
+          <div class="p-4 sm:p-5 space-y-4 divide-y divide-slate-100">
+            <div class="pt-3 first:pt-0" data-item="16">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">16.</span> MMR uygulamalarında anlam ve değer boyutu dersin içeriğinden doğal olarak ortaya çıkmaktadır.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="17">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">17.</span> MMR uygulamalarında manevi boyutu dersin doğal bir parçası olarak ele alabiliyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <div class="pt-3" data-item="18">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">18.</span> MMR uygulamalarında dersin öğrenme çıktısı ile manevi anlam arasında doğal bir bağlantı kurabiliyorum.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+            <!-- Item 19 Reverse -->
+            <div class="pt-3 bg-amber-50/50 p-3 rounded-xl border border-amber-200" data-item="19">
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase bg-amber-200 text-amber-900 rounded">
+                  Ters Kodlu Madde (Olumsuz İfade)
                 </span>
+                <span class="text-xs text-amber-800 italic">Puan: (6 - Seçim) şeklinde ters kodlanır.</span>
               </div>
-
-              <div class="grid grid-cols-2 gap-4 my-4 text-center">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <span class="text-xs font-semibold text-slate-500 block mb-1">Toplam Puan</span>
-                  <div class="text-3xl font-black text-slate-900" id="dispTotalScore">--</div>
-                  <span class="text-[11px] text-slate-400">Min: 20 | Max: 100</span>
-                </div>
-                <div class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-100/60">
-                  <span class="text-xs font-semibold text-indigo-700 block mb-1">Genel Ortalama</span>
-                  <div class="text-3xl font-black text-indigo-600" id="dispAverageScore">--</div>
-                  <span class="text-[11px] text-indigo-400">1.00 – 5.00</span>
-                </div>
+              <div class="text-sm font-semibold text-slate-800 mb-2 leading-snug">
+                <span class="font-bold text-amber-600 mr-1">19.</span> Bazı ders konularında MMR bağlantısı kurmak yapay veya zorlayıcı olmaktadır.
               </div>
-
-              <!-- Diagnostic Box -->
-              <div id="diagnosticBox" class="p-3.5 rounded-xl text-xs sm:text-sm leading-relaxed border bg-slate-50 border-slate-200 text-slate-600">
-                <div class="font-bold flex items-center gap-1.5 mb-1" id="diagnosticTitle">
-                  <i data-lucide="info" class="w-4 h-4"></i> Tanısal Yorum
-                </div>
-                <p id="diagnosticText">Ölçek puanlandığında pedagojik tanı buraya yansıyacaktır.</p>
-              </div>
-
-              <div class="mt-4 pt-3 border-t border-slate-100 space-y-2">
-                <button id="btnSaveToPoolSide" onclick="saveCurrentFormToPool()" type="button" class="w-full flex items-center justify-center py-2.5 px-4 text-xs font-bold rounded-xl text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 shadow-sm transition-all shadow-emerald-200 cursor-pointer">
-                  <i data-lucide="check-circle" class="w-4 h-4 mr-1.5"></i>
-                  Öğretmen Havuzuna Kaydet
-                </button>
-                <button id="btnJumpToReport" type="button" class="w-full flex items-center justify-center py-2 px-3 text-xs font-semibold rounded-xl text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 transition-all">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5 mr-1.5 text-indigo-600"></i>
-                  Bu Öğretmenin Pedagojik Raporuna Git
-                </button>
-              </div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
             </div>
-
-            <!-- Radar Profile Card -->
-            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-md card-shadow">
-              <div class="flex items-center justify-between mb-2">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                  <i data-lucide="radar" class="w-4 h-4 text-indigo-600"></i>
-                  Alt Boyut Radar Profili
-                </h4>
-                <span class="text-[11px] text-slate-400">(1.0 - 5.0)</span>
-              </div>
-              <div class="relative w-full aspect-square max-h-[260px] flex items-center justify-center">
-                <canvas id="subscaleRadarChart"></canvas>
-              </div>
-            </div>
-
           </div>
         </div>
 
-      </div>
+        <!-- SECTION F -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-shadow">
+          <div class="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">F</span>
+              <h4 class="font-bold text-slate-800 text-sm sm:text-base">Genel MMR Yansıması</h4>
+            </div>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">1 Madde</span>
+          </div>
+          <div class="p-4 sm:p-5 space-y-4">
+            <div class="pt-1" data-item="20">
+              <div class="text-sm font-medium text-slate-800 mb-2 leading-snug"><span class="font-bold text-indigo-600 mr-1">20.</span> MMR uygulamaları, öğrencilerin sadece bilgiyi öğrenmelerinin ötesinde düşünme, anlamlandırma ve değer oluşturma süreçlerine katkı sağlamaktadır.</div>
+              <div class="likert-group grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm card-shadow">
+          <label for="metaNotes" class="block text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
+            <i data-lucide="message-square" class="w-4 h-4 text-indigo-600"></i>
+            Varsa Ek Görüş ve Önerileriniz:
+          </label>
+          <textarea id="metaNotes" rows="3" placeholder="Sınıf içi deneyimlerinize yönelik eklemek istediğiniz görüşleri buraya yazabilirsiniz..." class="w-full p-3 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all"></textarea>
+        </div>
+
+        <!-- Big Bottom Submit / Save Action Card -->
+        <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-indigo-50 rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-6 card-shadow no-print">
+          <div class="space-y-1">
+            <h4 class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-6 h-6 text-emerald-600"></i>
+              Değerlendirmeyi Tamamla ve Gönder
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Formu kaydettiğinizde verileriniz yönetici havuzuna güvenle aktarılacak ve sıradaki öğretmen için sayfa otomatik sıfırlanacaktır.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <button id="btnTeacherReset" onclick="resetTeacherForm(true)" type="button" class="w-full sm:w-auto px-4 py-3 text-xs font-semibold text-slate-600 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-all">
+              Temizle
+            </button>
+            <button id="btnTeacherSubmit" onclick="saveTeacherEvaluationAndReset()" type="button" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-sm font-black text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-2xl shadow-lg transition-all shadow-emerald-300 cursor-pointer whitespace-nowrap">
+              <i data-lucide="send" class="w-4 h-4 mr-2"></i>
+              Değerlendirmeyi Kaydet ve Gönder
+            </button>
+          </div>
+        </div>
+
+      </form>
 
     </div>
 
 
-    <!-- ======================================================== -->
-    <!-- TAB 2: 50 TEACHERS POOL & GROUP ANALYTICS DASHBOARD      -->
-    <!-- ======================================================== -->
-    <div id="tabContentPool" class="hidden space-y-6">
+    <!-- ========================================================================= -->
+    <!-- SECTION 2: ADMINISTRATOR DASHBOARD VIEW (PASSWORD PROTECTED)              -->
+    <!-- ========================================================================= -->
+    <div id="sectionAdminView" class="hidden space-y-6">
 
-      <!-- Header Statistics Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
-          <div>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Kayıtlı Öğretmen</span>
-            <div class="text-2xl font-black text-slate-900 flex items-baseline gap-1">
-              <span id="statPoolCount">0</span>
-              <span class="text-xs font-semibold text-slate-400">/ 50 Kapasite</span>
+      <!-- ========================================== -->
+      <!-- ADMIN SUB-TAB 1: 50 TEACHERS POOL & STATS  -->
+      <!-- ========================================== -->
+      <div id="adminContentPool" class="space-y-6">
+
+        <!-- Header Statistics Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Kayıtlı Öğretmen</span>
+              <div class="text-2xl font-black text-slate-900 flex items-baseline gap-1">
+                <span id="statPoolCount">0</span>
+                <span class="text-xs font-semibold text-slate-400">/ 50 Kapasite</span>
+              </div>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg">
+              <i data-lucide="users" class="w-6 h-6"></i>
             </div>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg">
-            <i data-lucide="users" class="w-6 h-6"></i>
-          </div>
-        </div>
 
-        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
-          <div>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Grup Genel Ortalaması</span>
-            <div class="text-2xl font-black text-indigo-600" id="statPoolGroupAverage">--</div>
-            <span class="text-[11px] text-slate-400 font-medium">1.00 – 5.00 Skalası</span>
-          </div>
-          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg">
-            <i data-lucide="trending-up" class="w-6 h-6"></i>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
-          <div>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Hakim Düzey</span>
-            <div class="text-sm font-extrabold text-slate-800" id="statPoolDominantLevel">--</div>
-            <span class="text-[11px] text-slate-400 font-medium" id="statPoolDominantDesc">Yeterli veri yok</span>
-          </div>
-          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-lg">
-            <i data-lucide="award" class="w-6 h-6"></i>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
-          <div>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">En Yüksek Alt Boyut</span>
-            <div class="text-sm font-extrabold text-emerald-700" id="statPoolTopSubscale">--</div>
-            <span class="text-[11px] text-slate-400 font-medium" id="statPoolTopSubscaleScore">--</span>
-          </div>
-          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-lg">
-            <i data-lucide="sparkle" class="w-6 h-6"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Group Analytics Charts Row -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-5 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
-          <div class="flex items-center justify-between mb-3">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-              <i data-lucide="pie-chart" class="w-4 h-4 text-indigo-600"></i>
-              Öğretmen Düzey Dağılımı
-            </h4>
-          </div>
-          <div class="relative w-full aspect-square max-h-[240px] flex items-center justify-center">
-            <canvas id="groupLevelDoughnutChart"></canvas>
-          </div>
-        </div>
-
-        <div class="lg:col-span-7 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
-          <div class="flex items-center justify-between mb-3">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-              <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-600"></i>
-              Alt Boyutlar Grup Ortalaması (1.0 - 5.0)
-            </h4>
-          </div>
-          <div class="relative w-full h-[240px] flex items-center justify-center">
-            <canvas id="groupSubscaleBarChart"></canvas>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action & Toolbar for Teachers Pool -->
-      <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <div class="flex flex-1 items-center gap-2 max-w-md">
-            <div class="relative w-full">
-              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-              <input type="text" id="filterSearch" placeholder="Öğretmen adı, branş veya sınıf ara..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Grup Genel Ortalaması</span>
+              <div class="text-2xl font-black text-indigo-600" id="statPoolGroupAverage">--</div>
+              <span class="text-[11px] text-slate-400 font-medium">1.00 – 5.00 Skalası</span>
             </div>
-            <select id="filterLevel" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-              <option value="all">Tüm Düzeyler</option>
-              <option value="Çok Yüksek">Çok Yüksek</option>
-              <option value="Yüksek">Yüksek</option>
-              <option value="Orta / Kısmi">Orta / Kısmi</option>
-              <option value="Düşük">Düşük</option>
-              <option value="Çok Düşük">Çok Düşük</option>
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg">
+              <i data-lucide="trending-up" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Hakim Düzey</span>
+              <div class="text-sm font-extrabold text-slate-800" id="statPoolDominantLevel">--</div>
+              <span class="text-[11px] text-slate-400 font-medium" id="statPoolDominantDesc">Yeterli veri yok</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-lg">
+              <i data-lucide="award" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">En Yüksek Alt Boyut</span>
+              <div class="text-sm font-extrabold text-emerald-700" id="statPoolTopSubscale">--</div>
+              <span class="text-[11px] text-slate-400 font-medium" id="statPoolTopSubscaleScore">--</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-lg">
+              <i data-lucide="sparkle" class="w-6 h-6"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group Analytics Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <i data-lucide="pie-chart" class="w-4 h-4 text-indigo-600"></i>
+                Öğretmen Düzey Dağılımı
+              </h4>
+            </div>
+            <div class="relative w-full aspect-square max-h-[240px] flex items-center justify-center">
+              <canvas id="groupLevelDoughnutChart"></canvas>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-600"></i>
+                Alt Boyutlar Grup Ortalaması (1.0 - 5.0)
+              </h4>
+            </div>
+            <div class="relative w-full h-[240px] flex items-center justify-center">
+              <canvas id="groupSubscaleBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action & Toolbar for Teachers Pool -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div class="flex flex-1 items-center gap-2 max-w-md">
+              <div class="relative w-full">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                <input type="text" id="filterSearch" placeholder="Öğretmen adı, branş veya sınıf ara..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+              </div>
+              <select id="filterLevel" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <option value="all">Tüm Düzeyler</option>
+                <option value="Çok Yüksek">Çok Yüksek</option>
+                <option value="Yüksek">Yüksek</option>
+                <option value="Orta / Kısmi">Orta / Kısmi</option>
+                <option value="Düşük">Düşük</option>
+                <option value="Çok Düşük">Çok Düşük</option>
+              </select>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="btnGenerate50Sample" onclick="generate50SimulationData()" type="button" class="inline-flex items-center px-3 py-2 text-xs font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 transition-colors">
+                <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5 text-purple-600"></i>
+                50 Öğretmen Simülasyonu Üret
+              </button>
+              <button id="btnExportBulkCSV" onclick="exportPoolToCSV()" type="button" class="inline-flex items-center px-3.5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition-all shadow-emerald-200">
+                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 mr-1.5"></i>
+                SPSS / Excel Toplu CSV
+              </button>
+              <button id="btnExportPoolJSON" onclick="exportPoolToJSON()" type="button" class="inline-flex items-center px-3 py-2 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-colors">
+                <i data-lucide="download" class="w-3.5 h-3.5 mr-1 text-slate-500"></i>
+                Yedekle
+              </button>
+              <label for="importPoolJSONFile" class="inline-flex items-center px-3 py-2 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 cursor-pointer transition-colors">
+                <i data-lucide="upload" class="w-3.5 h-3.5 mr-1 text-slate-500"></i>
+                Geri Yükle
+                <input type="file" id="importPoolJSONFile" accept=".json" class="hidden">
+              </label>
+              <button id="btnClearPool" onclick="clearEntirePool()" type="button" class="inline-flex items-center px-3 py-2 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 rounded-xl border border-rose-200 transition-colors">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5 mr-1 text-rose-600"></i>
+                Havuzu Temizle
+              </button>
+            </div>
+          </div>
+
+          <!-- Teachers Table -->
+          <div class="overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="w-full text-xs text-left text-slate-600">
+              <thead class="bg-slate-50 text-slate-700 font-bold uppercase border-b border-slate-200 text-[11px]">
+                <tr>
+                  <th class="p-3">#</th>
+                  <th class="p-3">Öğretmen Adı Soyadı</th>
+                  <th class="p-3">Branş / Ders</th>
+                  <th class="p-3">Sınıf Düzeyi</th>
+                  <th class="p-3 text-center">Ham Puan</th>
+                  <th class="p-3 text-center">Ortalama</th>
+                  <th class="p-3 text-center">Düzey</th>
+                  <th class="p-3 text-center">Tarih</th>
+                  <th class="p-3 text-right">İşlemler</th>
+                </tr>
+              </thead>
+              <tbody id="teachersTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+
+          <div id="poolEmptyState" class="hidden text-center py-12">
+            <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+              <i data-lucide="inbox" class="w-6 h-6"></i>
+            </div>
+            <h5 class="text-sm font-bold text-slate-700">Henüz Öğretmen Kaydı Bulunmuyor</h5>
+            <p class="text-xs text-slate-400 max-w-sm mx-auto mt-1 mb-4">
+              Öğretmenler formu doldurdukça kayıtlar buraya yansıyacak veya "50 Öğretmen Simülasyonu Üret" butonuna basarak örnek veri oluşturabilirsiniz.
+            </p>
+            <button onclick="generate50SimulationData()" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all">
+              <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5"></i>
+              50 Öğretmen Verisi Oluştur
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- ADMIN SUB-TAB 2: PEDAGOGICAL EVALUATION & RECOMMENDATIONS -->
+      <!-- ========================================================= -->
+      <div id="adminContentReport" class="hidden space-y-6">
+
+        <!-- Report Control Bar -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
+          <div class="flex flex-1 items-center gap-3">
+            <label for="reportTargetSelect" class="text-xs font-bold uppercase tracking-wider text-slate-600 whitespace-nowrap flex items-center gap-1.5">
+              <i data-lucide="filter" class="w-4 h-4 text-indigo-600"></i>
+              Rapor Kapsamı:
+            </label>
+            <select id="reportTargetSelect" onchange="renderPedagogicalReport()" class="w-full max-w-md py-2 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <option value="group">🏫 Tüm Okul / Grup Geneli Raporu (Tüm Öğretmenler)</option>
             </select>
           </div>
 
-          <div class="flex flex-wrap items-center gap-2">
-            <button id="btnGenerate50Sample" type="button" class="inline-flex items-center px-3 py-2 text-xs font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 transition-colors">
-              <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5 text-purple-600"></i>
-              50 Öğretmen Simülasyonu Üret
-            </button>
-            <button id="btnExportBulkCSV" type="button" class="inline-flex items-center px-3.5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition-all shadow-emerald-200">
-              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 mr-1.5"></i>
-              SPSS / Excel Toplu CSV
-            </button>
-            <button id="btnExportPoolJSON" type="button" class="inline-flex items-center px-3 py-2 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-colors">
-              <i data-lucide="download" class="w-3.5 h-3.5 mr-1 text-slate-500"></i>
-              Yedekle
-            </button>
-            <label for="importPoolJSONFile" class="inline-flex items-center px-3 py-2 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 cursor-pointer transition-colors">
-              <i data-lucide="upload" class="w-3.5 h-3.5 mr-1 text-slate-500"></i>
-              Geri Yükle
-              <input type="file" id="importPoolJSONFile" accept=".json" class="hidden">
-            </label>
-            <button id="btnClearPool" type="button" class="inline-flex items-center px-3 py-2 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 rounded-xl border border-rose-200 transition-colors">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5 mr-1 text-rose-600"></i>
-              Havuzu Temizle
+          <div class="flex items-center gap-2">
+            <button id="btnPrintPedagogicalReport" onclick="window.print()" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all shadow-indigo-200">
+              <i data-lucide="printer" class="w-3.5 h-3.5 mr-1.5"></i>
+              Pedagojik Raporu Yazdır / PDF
             </button>
           </div>
         </div>
 
-        <!-- Teachers Table -->
-        <div class="overflow-x-auto border border-slate-200 rounded-xl">
-          <table class="w-full text-xs text-left text-slate-600">
-            <thead class="bg-slate-50 text-slate-700 font-bold uppercase border-b border-slate-200 text-[11px]">
-              <tr>
-                <th class="p-3">#</th>
-                <th class="p-3">Öğretmen Adı Soyadı</th>
-                <th class="p-3">Branş / Ders</th>
-                <th class="p-3">Sınıf Düzeyi</th>
-                <th class="p-3 text-center">Ham Puan</th>
-                <th class="p-3 text-center">Ortalama</th>
-                <th class="p-3 text-center">Düzey</th>
-                <th class="p-3 text-center">Tarih</th>
-                <th class="p-3 text-right">İşlemler</th>
-              </tr>
-            </thead>
-            <tbody id="teachersTableBody" class="divide-y divide-slate-100"></tbody>
-          </table>
-        </div>
+        <!-- Pedagogical Report Container -->
+        <div id="pedagogicalReportView" class="space-y-6">
 
-        <div id="poolEmptyState" class="hidden text-center py-12">
-          <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
-            <i data-lucide="inbox" class="w-6 h-6"></i>
-          </div>
-          <h5 class="text-sm font-bold text-slate-700">Henüz Öğretmen Kaydı Bulunmuyor</h5>
-          <p class="text-xs text-slate-400 max-w-sm mx-auto mt-1 mb-4">
-            Değerlendirme formunu doldurarak veya "50 Öğretmen Simülasyonu Üret" butonuna basarak havuzu doldurabilirsiniz.
-          </p>
-          <button id="btnQuickFill50" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all">
-            <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5"></i>
-            50 Öğretmen Verisi Oluştur
-          </button>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ========================================================================= -->
-    <!-- TAB 3: PEDAGOGICAL EVALUATION, STRENGTHS, GROWTH & RECOMMENDATIONS REPORT  -->
-    <!-- ========================================================================= -->
-    <div id="tabContentReport" class="hidden space-y-6">
-
-      <!-- Report Control Bar (No Print) -->
-      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
-        <div class="flex flex-1 items-center gap-3">
-          <label for="reportTargetSelect" class="text-xs font-bold uppercase tracking-wider text-slate-600 whitespace-nowrap flex items-center gap-1.5">
-            <i data-lucide="filter" class="w-4 h-4 text-indigo-600"></i>
-            Rapor Kapsamı:
-          </label>
-          <select id="reportTargetSelect" class="w-full max-w-md py-2 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            <option value="group">🏫 Tüm Okul / Grup Geneli Raporu (Tüm Öğretmenler)</option>
-            <!-- Dynamically populated with individual teachers -->
-          </select>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <button id="btnPrintPedagogicalReport" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all shadow-indigo-200">
-            <i data-lucide="printer" class="w-3.5 h-3.5 mr-1.5"></i>
-            Pedagojik Raporu Yazdır / PDF
-          </button>
-        </div>
-      </div>
-
-      <!-- Pedagogical Report Container (Styled for Screen and Clean Print) -->
-      <div id="pedagogicalReportView" class="space-y-6">
-
-        <!-- Report Header Card -->
-        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl relative overflow-hidden card-shadow">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-            <div class="space-y-2">
-              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
-                <i data-lucide="award" class="w-3.5 h-3.5 text-amber-300"></i>
-                Pedagojik Tanı ve Gelişim Raporu
-              </div>
-              <h2 id="reportHeaderTitle" class="text-xl sm:text-2xl font-black tracking-tight text-white">
-                Okul Geneli MMR Uygulama ve Yansıma Raporu
-              </h2>
-              <p id="reportHeaderSubtitle" class="text-xs sm:text-sm text-indigo-200/80">
-                Kapsam: Toplam 50 Öğretmen | Zümreler Arası Analiz ve Yansıma
-              </p>
-            </div>
-
-            <!-- Score Badge Box -->
-            <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 min-w-[240px] justify-between">
-              <div>
-                <span class="text-[11px] text-indigo-200 font-semibold block">Ortalama Düzey</span>
-                <div class="text-3xl font-black text-emerald-300" id="reportHeaderAvg">-- / 5.00</div>
-              </div>
-              <div class="text-right">
-                <span class="text-[11px] text-indigo-200 font-semibold block">Değerlendirme</span>
-                <span id="reportHeaderBadge" class="inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-emerald-500 text-white">
-                  Yüksek
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 1. PEDAGOJİK DEĞERLENDİRME VE GENEL TANISAL ÖZET -->
-        <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-3">
-          <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
-            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-              <i data-lucide="file-text" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">1. Pedagojik Değerlendirme ve Süreç Analizi</h3>
-              <p class="text-xs text-slate-400">MMR yaklaşımının ders içerikleri ve öğrenci düşünme biçimlerine entegrasyon düzeyi</p>
-            </div>
-          </div>
-          <div id="reportDiagnosticParagraph" class="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2.5 pt-1">
-            <!-- Populated via JS -->
-          </div>
-        </div>
-
-        <!-- 2 & 3: EN GÜÇLÜ BOYUT ve GELİŞTİRİLMEYE AÇIK BOYUT (Yan Yana Kartlar) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          <!-- EN GÜÇLÜ BOYUT KARTI -->
-          <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-200 shadow-sm card-shadow space-y-3">
-            <div class="flex items-center justify-between pb-3 border-b border-emerald-200/70">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold shadow-sm shadow-emerald-200">
-                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+          <!-- Header Banner -->
+          <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl relative overflow-hidden card-shadow">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+              <div class="space-y-2">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+                  <i data-lucide="award" class="w-3.5 h-3.5 text-amber-300"></i>
+                  Pedagojik Tanı ve Gelişim Raporu
                 </div>
+                <h2 id="reportHeaderTitle" class="text-xl sm:text-2xl font-black tracking-tight text-white">
+                  Okul Geneli MMR Uygulama ve Yansıma Raporu
+                </h2>
+                <p id="reportHeaderSubtitle" class="text-xs sm:text-sm text-indigo-200/80">
+                  Kapsam: Toplam 50 Öğretmen | Zümreler Arası Analiz ve Yansıma
+                </p>
+              </div>
+
+              <!-- Score Badge Box -->
+              <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 min-w-[240px] justify-between">
                 <div>
-                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block">En Yüksek Kazanım</span>
-                  <h4 class="text-sm font-black text-emerald-950" id="reportTopDimTitle">En Güçlü Boyut: --</h4>
+                  <span class="text-[11px] text-indigo-200 font-semibold block">Ortalama Düzey</span>
+                  <div class="text-3xl font-black text-emerald-300" id="reportHeaderAvg">-- / 5.00</div>
                 </div>
-              </div>
-              <span class="text-xs font-mono font-black px-2.5 py-1 rounded-lg bg-emerald-200 text-emerald-900" id="reportTopDimScore">
-                Ort: -- / 5.0
-              </span>
-            </div>
-
-            <div class="space-y-2 text-xs sm:text-sm text-emerald-900">
-              <div>
-                <strong class="font-bold text-emerald-950 block mb-0.5">🌟 Pedagojik Başarı & Sınıf İçi Anlamı:</strong>
-                <p id="reportTopDimDesc" class="leading-relaxed text-emerald-800">--</p>
-              </div>
-              <div class="pt-2 border-t border-emerald-200/50">
-                <strong class="font-bold text-emerald-950 block mb-0.5">🚀 Bu Gücü Diğer Konulara Yayma:</strong>
-                <p id="reportTopDimAction" class="leading-relaxed text-emerald-800">--</p>
+                <div class="text-right">
+                  <span class="text-[11px] text-indigo-200 font-semibold block">Değerlendirme</span>
+                  <span id="reportHeaderBadge" class="inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-emerald-500 text-white">
+                    Yüksek
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- GELİŞTİRİLMEYE AÇIK BOYUT KARTI -->
-          <div class="bg-amber-50/50 rounded-2xl p-6 border border-amber-200 shadow-sm card-shadow space-y-3">
-            <div class="flex items-center justify-between pb-3 border-b border-amber-200/70">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold shadow-sm shadow-amber-200">
-                  <i data-lucide="target" class="w-4 h-4"></i>
+          <!-- 1. PEDAGOJİK DEĞERLENDİRME -->
+          <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-3">
+            <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
+              <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+                <i data-lucide="file-text" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">1. Pedagojik Değerlendirme ve Süreç Analizi</h3>
+                <p class="text-xs text-slate-400">MMR yaklaşımının ders içerikleri ve öğrenci düşünme biçimlerine entegrasyon düzeyi</p>
+              </div>
+            </div>
+            <div id="reportDiagnosticParagraph" class="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2.5 pt-1"></div>
+          </div>
+
+          <!-- 2 & 3: EN GÜÇLÜ & GELİŞTİRİLMEYE AÇIK BOYUTLAR -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-200 shadow-sm card-shadow space-y-3">
+              <div class="flex items-center justify-between pb-3 border-b border-emerald-200/70">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold shadow-sm shadow-emerald-200">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block">En Yüksek Kazanım</span>
+                    <h4 class="text-sm font-black text-emerald-950" id="reportTopDimTitle">En Güçlü Boyut: --</h4>
+                  </div>
                 </div>
+                <span class="text-xs font-mono font-black px-2.5 py-1 rounded-lg bg-emerald-200 text-emerald-900" id="reportTopDimScore">Ort: --</span>
+              </div>
+              <div class="space-y-2 text-xs sm:text-sm text-emerald-900">
                 <div>
-                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800 block">Öncelikli Gelişim Alanı</span>
-                  <h4 class="text-sm font-black text-amber-950" id="reportLowDimTitle">Geliştirilmeye Açık Boyut: --</h4>
+                  <strong class="font-bold text-emerald-950 block mb-0.5">🌟 Pedagojik Başarı & Sınıf İçi Anlamı:</strong>
+                  <p id="reportTopDimDesc" class="leading-relaxed text-emerald-800">--</p>
+                </div>
+                <div class="pt-2 border-t border-emerald-200/50">
+                  <strong class="font-bold text-emerald-950 block mb-0.5">🚀 Bu Gücü Diğer Konulara Yayma:</strong>
+                  <p id="reportTopDimAction" class="leading-relaxed text-emerald-800">--</p>
                 </div>
               </div>
-              <span class="text-xs font-mono font-black px-2.5 py-1 rounded-lg bg-amber-200 text-amber-900" id="reportLowDimScore">
-                Ort: -- / 5.0
-              </span>
             </div>
 
-            <div class="space-y-2 text-xs sm:text-sm text-amber-900">
+            <div class="bg-amber-50/50 rounded-2xl p-6 border border-amber-200 shadow-sm card-shadow space-y-3">
+              <div class="flex items-center justify-between pb-3 border-b border-amber-200/70">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold shadow-sm shadow-amber-200">
+                    <i data-lucide="target" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800 block">Öncelikli Gelişim Alanı</span>
+                    <h4 class="text-sm font-black text-amber-950" id="reportLowDimTitle">Geliştirilmeye Açık Boyut: --</h4>
+                  </div>
+                </div>
+                <span class="text-xs font-mono font-black px-2.5 py-1 rounded-lg bg-amber-200 text-amber-900" id="reportLowDimScore">Ort: --</span>
+              </div>
+              <div class="space-y-2 text-xs sm:text-sm text-amber-900">
+                <div>
+                  <strong class="font-bold text-amber-950 block mb-0.5">⚠️ Teşhis ve Olası Pedagojik Zorluklar:</strong>
+                  <p id="reportLowDimDesc" class="leading-relaxed text-amber-800">--</p>
+                </div>
+                <div class="pt-2 border-t border-amber-200/50">
+                  <strong class="font-bold text-amber-950 block mb-0.5">🎯 Çözüm ve Aşma Stratejisi:</strong>
+                  <p id="reportLowDimAction" class="leading-relaxed text-amber-800">--</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. UYGULAMA ÖNERİLERİ -->
+          <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
+            <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
+              <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold shadow-sm shadow-indigo-200">
+                <i data-lucide="lightbulb" class="w-4 h-4"></i>
+              </div>
               <div>
-                <strong class="font-bold text-amber-950 block mb-0.5">⚠️ Teşhis ve Olası Pedagojik Zorluklar:</strong>
-                <p id="reportLowDimDesc" class="leading-relaxed text-amber-800">--</p>
-              </div>
-              <div class="pt-2 border-t border-amber-200/50">
-                <strong class="font-bold text-amber-950 block mb-0.5">🎯 Çözüm ve Aşma Stratejisi:</strong>
-                <p id="reportLowDimAction" class="leading-relaxed text-amber-800">--</p>
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">4. Somut Pedagojik Uygulama Önerileri & Eylem Planı</h3>
+                <p class="text-xs text-slate-400">Ders hazırlığı, soru-cevap ve davranışa dönüştürme için doğrudan uygulanabilir rehberlik adımları</p>
               </div>
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm" id="reportActionRecommendationsGrid"></div>
           </div>
 
-        </div>
-
-        <!-- 4. SOMUT PEDAGOJİK UYGULAMA ÖNERİLERİ & EYLEM PLANI -->
-        <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
-          <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
-            <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold shadow-sm shadow-indigo-200">
-              <i data-lucide="lightbulb" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">4. Somut Pedagojik Uygulama Önerileri & Eylem Planı</h3>
-              <p class="text-xs text-slate-400">Ders hazırlığı, soru-cevap ve davranışa dönüştürme için doğrudan uygulanabilir rehberlik adımları</p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm" id="reportActionRecommendationsGrid">
-            <!-- 4 action boxes generated via JS -->
-          </div>
-        </div>
-
-        <!-- 5. 6 ALT BOYUT DETAYLI PUAN MATRİSİ & KARŞILAŞTIRMA -->
-        <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div class="flex items-center gap-2">
+          <!-- 5. ALT BOYUT MATRİSİ -->
+          <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
+            <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
               <div class="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold">
                 <i data-lucide="layout-grid" class="w-4 h-4"></i>
               </div>
               <div>
                 <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">5. Alt Boyut Başarı Matrisi ve Pedagojik Durum Özeti</h3>
-                <p class="text-xs text-slate-400">6 boyutun detaylı ham puan, ortalama ve düzey derecelendirmesi</p>
+                <p class="text-xs text-slate-400">6 boyutun detaylı puan, ortalama ve durum değerlendirmesi</p>
               </div>
             </div>
-          </div>
-
-          <div class="overflow-x-auto border border-slate-200 rounded-xl">
-            <table class="w-full text-xs text-left text-slate-700">
-              <thead class="bg-slate-50 font-bold uppercase border-b border-slate-200 text-[11px] text-slate-600">
-                <tr>
-                  <th class="p-3">Alt Boyut Adı</th>
-                  <th class="p-3 text-center">Kapsanan Maddeler</th>
-                  <th class="p-3 text-center">Ortalama (1-5)</th>
-                  <th class="p-3 text-center">Başarı Oranı</th>
-                  <th class="p-3">Pedagojik Durum ve Öncelikli Tavsiye</th>
-                </tr>
-              </thead>
-              <tbody id="reportSubscaleTableBody" class="divide-y divide-slate-100">
-                <!-- Populated via JS -->
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Official Signatures (Print Only) -->
-          <div class="hidden print-only pt-8 mt-6 border-t border-slate-300 flex justify-between text-xs text-slate-700">
-            <div>
-              <p class="font-bold">Değerlendiren / Raportör:</p>
-              <p class="mt-6">İmza: ________________________</p>
-            </div>
-            <div>
-              <p class="font-bold">Zümre Başkanı / Okul Müdürü:</p>
-              <p class="mt-6">İmza: ________________________</p>
+            <div class="overflow-x-auto border border-slate-200 rounded-xl">
+              <table class="w-full text-xs text-left text-slate-700">
+                <thead class="bg-slate-50 font-bold uppercase border-b border-slate-200 text-[11px] text-slate-600">
+                  <tr>
+                    <th class="p-3">Alt Boyut Adı</th>
+                    <th class="p-3 text-center">Maddeler</th>
+                    <th class="p-3 text-center">Ortalama (1-5)</th>
+                    <th class="p-3 text-center">Başarı</th>
+                    <th class="p-3">Pedagojik Tavsiye</th>
+                  </tr>
+                </thead>
+                <tbody id="reportSubscaleTableBody" class="divide-y divide-slate-100"></tbody>
+              </table>
             </div>
           </div>
 
@@ -855,88 +778,50 @@
 
     </div>
 
-    <!-- Printable Official Report Card Template (Print Only) -->
-    <div class="hidden print-only mt-8 page-break">
-      <h3 class="text-sm font-bold border-b border-slate-300 pb-1 mb-3">ÖĞRETMEN DEĞERLENDİRME & TANI RAPORU DETAYI</h3>
-      <table class="w-full text-xs text-left border-collapse mb-4">
-        <thead>
-          <tr class="bg-slate-100 border-b border-slate-300">
-            <th class="p-2">Alt Boyut Adı</th>
-            <th class="p-2">Maddeler</th>
-            <th class="p-2 text-center">Madde Sayısı</th>
-            <th class="p-2 text-center">Ham Puan</th>
-            <th class="p-2 text-center">Ortalama (1-5)</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-200 border-b border-slate-300">
-          <tr>
-            <td class="p-2 font-medium">A. Ders Anlayışı ve Süreci</td>
-            <td class="p-2">M1, M2, M3, M4</td>
-            <td class="p-2 text-center">4</td>
-            <td class="p-2 text-center font-bold" id="printScoreA">--</td>
-            <td class="p-2 text-center" id="printAvgA">--</td>
-          </tr>
-          <tr>
-            <td class="p-2 font-medium">B. Bilgiyi Anlamlandırma</td>
-            <td class="p-2">M5, M6, M7</td>
-            <td class="p-2 text-center">3</td>
-            <td class="p-2 text-center font-bold" id="printScoreB">--</td>
-            <td class="p-2 text-center" id="printAvgB">--</td>
-          </tr>
-          <tr>
-            <td class="p-2 font-medium">C. Kendi Düşüncesini Oluşturma</td>
-            <td class="p-2">M8, M9, M10, M11</td>
-            <td class="p-2 text-center">4</td>
-            <td class="p-2 text-center font-bold" id="printScoreC">--</td>
-            <td class="p-2 text-center" id="printAvgC">--</td>
-          </tr>
-          <tr>
-            <td class="p-2 font-medium">D. Değer ve Davranışa Yansıma</td>
-            <td class="p-2">M12, M13, M14, M15</td>
-            <td class="p-2 text-center">4</td>
-            <td class="p-2 text-center font-bold" id="printScoreD">--</td>
-            <td class="p-2 text-center" id="printAvgD">--</td>
-          </tr>
-          <tr>
-            <td class="p-2 font-medium">E. Dersle Doğal Bütünleşme</td>
-            <td class="p-2">M16, M17, M18, M19* (Ters)</td>
-            <td class="p-2 text-center">4</td>
-            <td class="p-2 text-center font-bold" id="printScoreE">--</td>
-            <td class="p-2 text-center" id="printAvgE">--</td>
-          </tr>
-          <tr>
-            <td class="p-2 font-medium">F. Genel MMR Yansıması</td>
-            <td class="p-2">M20</td>
-            <td class="p-2 text-center">1</td>
-            <td class="p-2 text-center font-bold" id="printScoreF">--</td>
-            <td class="p-2 text-center" id="printAvgF">--</td>
-          </tr>
-          <tr class="bg-slate-50 font-bold">
-            <td class="p-2 uppercase" colspan="3">GENEL ÖLÇEK TOPLAMI VE ORTALAMA</td>
-            <td class="p-2 text-center text-sm" id="printScoreTotal">-- / 100</td>
-            <td class="p-2 text-center text-sm" id="printAvgTotal">-- / 5.00</td>
-          </tr>
-        </tbody>
-      </table>
+  </main>
 
-      <div class="mt-4 p-3 border border-slate-300 rounded text-xs bg-slate-50">
-        <div class="font-bold mb-1">Değerlendirilen Düzey: <span id="printLevelText" class="uppercase">--</span></div>
-        <div id="printDiagnosticText">--</div>
+  <!-- ======================================================== -->
+  <!-- ADMIN LOGIN MODAL                                        -->
+  <!-- ======================================================== -->
+  <div id="adminLoginModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 space-y-5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Yönetici Girişi</h3>
+            <p class="text-xs text-slate-500">50 Öğretmen Analiz Portalı</p>
+          </div>
+        </div>
+        <button onclick="closeAdminLoginModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
       </div>
 
-      <div class="mt-4 text-xs" id="printNotesContainer">
-        <div class="font-bold mb-1">Ek Görüş ve Notlar:</div>
-        <div id="printNotesContent" class="italic text-slate-700">Belirtilmedi.</div>
+      <div>
+        <label for="adminPassInput" class="block text-xs font-semibold text-slate-700 mb-1.5">Yönetici Şifresi</label>
+        <input type="password" id="adminPassInput" placeholder="Varsayılan: admin veya mmr2026" class="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+        <p class="text-[11px] text-slate-400 mt-1">İpucu: Varsayılan şifre <strong class="text-indigo-600">admin</strong> veya <strong class="text-indigo-600">mmr2026</strong></p>
+      </div>
+
+      <div class="flex items-center gap-3 pt-2">
+        <button onclick="closeAdminLoginModal()" type="button" class="w-1/2 py-2.5 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all">
+          İptal
+        </button>
+        <button onclick="verifyAdminLogin()" type="button" class="w-1/2 py-2.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all shadow-indigo-200">
+          Giriş Yap
+        </button>
       </div>
     </div>
-
-  </main>
+  </div>
 
   <!-- Footer -->
   <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 no-print mt-12">
     <div class="max-w-7xl mx-auto px-4">
-      <p class="font-semibold text-slate-700">Muallimin Manevi Rehberi (MMR) Ölçeği 50 Öğretmen Yönetim ve Pedagojik Raporlama Portalı</p>
-      <p class="mt-1 text-slate-400">20 Maddelik 5'li Likert Tipi Değerlendirme & Tanı Algoritması</p>
+      <p class="font-semibold text-slate-700">Muallimin Manevi Rehberi (MMR) Ölçeği Veri Giriş ve Yönetici Analiz Portalı</p>
+      <p class="mt-1 text-slate-400">20 Maddelik 5'li Likert Tipi Değerlendirme & Tanı Sistemi</p>
     </div>
   </footer>
 
@@ -1062,9 +947,8 @@
 
     // State Variables
     let currentAnswers = {};
-    let currentEditingId = null;
     let teachersPool = [];
-    let individualRadarChart = null;
+    let isAdminLoggedIn = false;
     let groupDoughnutChart = null;
     let groupBarChart = null;
 
@@ -1077,17 +961,30 @@
         const metaDateElem = document.getElementById('metaDate');
         if (metaDateElem) metaDateElem.value = new Date().toISOString().split('T')[0];
 
-        const printDateElem = document.getElementById('printReportDate');
-        if (printDateElem) printDateElem.textContent = new Date().toLocaleDateString('tr-TR');
+        // Listen for form changes
+        const scaleFormElem = document.getElementById('scaleForm');
+        if (scaleFormElem) {
+          scaleFormElem.addEventListener('change', (e) => {
+            if (e.target.name && e.target.name.startsWith('item_')) {
+              const itemNum = parseInt(e.target.name.replace('item_', ''));
+              currentAnswers[itemNum] = parseInt(e.target.value);
+              updateTeacherProgress();
+            }
+          });
+        }
 
-        initIndividualRadarChart();
-        initGroupCharts();
-        bindAllEvents();
+        // Search & Filter listeners
+        const searchInput = document.getElementById('filterSearch');
+        if (searchInput) searchInput.addEventListener('input', renderTeachersTable);
 
-        recalculateCurrentForm();
+        const levelFilter = document.getElementById('filterLevel');
+        if (levelFilter) levelFilter.addEventListener('change', renderTeachersTable);
+
+        const jsonInput = document.getElementById('importPoolJSONFile');
+        if (jsonInput) jsonInput.addEventListener('change', importPoolFromJSON);
+
+        updateTeacherProgress();
         refreshPoolUI();
-        populateReportTargetSelect();
-        renderPedagogicalReport();
 
         if (window.lucide && typeof window.lucide.createIcons === 'function') {
           window.lucide.createIcons();
@@ -1097,50 +994,11 @@
       }
     });
 
-    // Expose table action functions to global window scope
-    window.loadTeacherToForm = loadTeacherToForm;
-    window.deleteTeacherRecord = deleteTeacherRecord;
-    window.viewTeacherPedagogicalReport = viewTeacherPedagogicalReport;
-    window.switchTab = switchTab;
-    window.saveCurrentFormToPool = saveCurrentFormToPool;
-    window.resetCurrentForm = resetCurrentForm;
-
-    // In-App Toast Notification
-    function showToast(message, type = 'success') {
-      let toast = document.getElementById('appToast');
-      if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'appToast';
-        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-20px] opacity-0 pointer-events-none flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold';
-        document.body.appendChild(toast);
-      }
-
-      if (type === 'success') {
-        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-emerald-600 text-white border-emerald-500 shadow-emerald-200';
-        toast.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5"></i> <span>${message}</span>`;
-      } else if (type === 'warning') {
-        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-amber-500 text-white border-amber-400 shadow-amber-200';
-        toast.innerHTML = `<i data-lucide="alert-triangle" class="w-5 h-5"></i> <span>${message}</span>`;
-      } else {
-        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-indigo-600 text-white border-indigo-500 shadow-indigo-200';
-        toast.innerHTML = `<i data-lucide="info" class="w-5 h-5"></i> <span>${message}</span>`;
-      }
-
-      if (window.lucide) window.lucide.createIcons();
-
-      setTimeout(() => {
-        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-20px] opacity-0 pointer-events-none flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-slate-800 text-white';
-      }, 3500);
-    }
-
+    // LocalStorage
     function loadPoolFromStorage() {
       const stored = localStorage.getItem('MMR_TEACHERS_POOL');
       if (stored) {
-        try {
-          teachersPool = JSON.parse(stored);
-        } catch(e) {
-          teachersPool = [];
-        }
+        try { teachersPool = JSON.parse(stored); } catch(e) { teachersPool = []; }
       }
     }
 
@@ -1151,6 +1009,7 @@
       renderPedagogicalReport();
     }
 
+    // Render 1-5 buttons for each question item
     function renderLikertButtons() {
       for (let i = 1; i <= SCALE_CONFIG.totalItems; i++) {
         const itemContainer = document.querySelector(`[data-item="${i}"] .likert-group`);
@@ -1172,114 +1031,22 @@
       }
     }
 
-    function bindAllEvents() {
-      // Tab switching
-      document.getElementById('tabBtnForm').addEventListener('click', () => switchTab('form'));
-      document.getElementById('tabBtnPool').addEventListener('click', () => switchTab('pool'));
-      document.getElementById('tabBtnReport').addEventListener('click', () => {
-        switchTab('report');
-        renderPedagogicalReport();
-      });
-
-      // Jump to report button
-      document.getElementById('btnJumpToReport').addEventListener('click', () => {
-        if (currentEditingId) {
-          document.getElementById('reportTargetSelect').value = currentEditingId;
-        } else {
-          saveCurrentFormToPool();
-        }
-        switchTab('report');
-        renderPedagogicalReport();
-      });
-
-      // Form item change
-      document.getElementById('scaleForm').addEventListener('change', (e) => {
-        if (e.target.name && e.target.name.startsWith('item_')) {
-          const itemNum = parseInt(e.target.name.replace('item_', ''));
-          currentAnswers[itemNum] = parseInt(e.target.value);
-          recalculateCurrentForm();
-        }
-      });
-
-      // Save to Pool Buttons
-      document.getElementById('btnSaveToPool').addEventListener('click', saveCurrentFormToPool);
-      document.getElementById('btnSaveToPoolSide').addEventListener('click', saveCurrentFormToPool);
-
-      // Sample Case
-      document.getElementById('btnLoadSample').addEventListener('click', () => {
-        loadSampleCase({
-          teacher: "Dr. Ayşe Yılmaz",
-          branch: "Fen Bilimleri",
-          grade: "7. Sınıf",
-          notes: "Öğrenciler doğadaki nizam ve biyomimikri konusunda derinlikli sorular sormaya başladı.",
-          answers: { 1: 4, 2: 4, 3: 5, 4: 4, 5: 4, 6: 5, 7: 4, 8: 3, 9: 4, 10: 4, 11: 3, 12: 4, 13: 4, 14: 3, 15: 4, 16: 4, 17: 5, 18: 4, 19: 2, 20: 5 }
-        });
-      });
-
-      document.getElementById('btnReset').addEventListener('click', resetCurrentForm);
-
-      // Print Buttons
-      document.getElementById('btnHeaderPrint').addEventListener('click', () => window.print());
-      document.getElementById('btnPrintPedagogicalReport').addEventListener('click', () => window.print());
-
-      // 50 Teachers Simulation
-      document.getElementById('btnGenerate50Sample').addEventListener('click', generate50SimulationData);
-      document.getElementById('btnQuickFill50').addEventListener('click', generate50SimulationData);
-
-      // Pool Actions
-      document.getElementById('btnClearPool').addEventListener('click', clearEntirePool);
-      document.getElementById('btnExportBulkCSV').addEventListener('click', exportPoolToCSV);
-      document.getElementById('btnExportPoolJSON').addEventListener('click', exportPoolToJSON);
-      document.getElementById('importPoolJSONFile').addEventListener('change', importPoolFromJSON);
-
-      // Search & Filter
-      document.getElementById('filterSearch').addEventListener('input', renderTeachersTable);
-      document.getElementById('filterLevel').addEventListener('change', renderTeachersTable);
-
-      // Report Selector Change
-      document.getElementById('reportTargetSelect').addEventListener('change', renderPedagogicalReport);
-    }
-
-    function switchTab(tab) {
-      const tabs = ['form', 'pool', 'report'];
-      tabs.forEach(t => {
-        const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        const content = document.getElementById(`tabContent${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        if (t === tab) {
-          btn.classList.add('active');
-          content.classList.remove('hidden');
-        } else {
-          btn.classList.remove('active');
-          content.classList.add('hidden');
-        }
-      });
-
-      if (tab === 'pool') refreshPoolUI();
-      if (tab === 'report') renderPedagogicalReport();
-      lucide.createIcons();
-    }
-
-    function recalculateCurrentForm() {
+    // Progress update for teacher
+    function updateTeacherProgress() {
       const answeredCount = Object.keys(currentAnswers).length;
-      const subscaleResults = calculateTeacherScores(currentAnswers);
-      const totalRawScore = subscaleResults.totalRaw;
-      const overallAverage = answeredCount > 0 ? (totalRawScore / 20) : 0;
+      const pct = Math.round((answeredCount / SCALE_CONFIG.totalItems) * 100);
 
-      if (answeredCount === 0) {
-        document.getElementById('dispTotalScore').textContent = "--";
-        document.getElementById('dispAverageScore').textContent = "--";
-        updateLevelBadge(null);
-      } else {
-        document.getElementById('dispTotalScore').textContent = totalRawScore;
-        document.getElementById('dispAverageScore').textContent = overallAverage.toFixed(2);
-        const norm = findNorm(overallAverage);
-        updateLevelBadge(norm, answeredCount === SCALE_CONFIG.totalItems);
-      }
+      const countElem = document.getElementById('teacherAnsweredCount');
+      if (countElem) countElem.innerHTML = `${answeredCount} <span class="text-xs font-normal text-indigo-300">/ 20</span>`;
 
-      updateIndividualRadarChart(subscaleResults.dimensions);
-      updatePrintableReport(subscaleResults.dimensions, totalRawScore, overallAverage);
+      const barElem = document.getElementById('teacherProgressBar');
+      if (barElem) barElem.style.width = `${pct}%`;
+
+      const pctElem = document.getElementById('teacherProgressPercent');
+      if (pctElem) pctElem.textContent = `%${pct}`;
     }
 
+    // Pure scoring function
     function calculateTeacherScores(ans) {
       const dimensions = {};
       let totalRaw = 0;
@@ -1327,105 +1094,11 @@
       return SCALE_CONFIG.norms[SCALE_CONFIG.norms.length - 1];
     }
 
-    function updateLevelBadge(norm, isComplete) {
-      const badge = document.getElementById('levelBadge');
-      const diagBox = document.getElementById('diagnosticBox');
-      const diagTitle = document.getElementById('diagnosticTitle');
-      const diagText = document.getElementById('diagnosticText');
+    // =========================================================================
+    // TEACHER ACTIONS: SAVE & AUTOMATIC FORM RESET
+    // =========================================================================
 
-      if (!norm) {
-        badge.className = "px-3 py-1 text-xs font-extrabold rounded-full bg-slate-100 text-slate-700";
-        badge.textContent = "Veri Bekleniyor";
-        diagBox.className = "p-3.5 rounded-xl text-xs sm:text-sm leading-relaxed border bg-slate-50 border-slate-200 text-slate-600";
-        diagTitle.innerHTML = `<i data-lucide="info" class="w-4 h-4"></i> Tanısal Yorum`;
-        diagText.textContent = "Ölçek maddeleri puanlandıkça genel düzey ve pedagojik yorum burada hesaplanacaktır.";
-      } else {
-        badge.className = `px-3 py-1 text-xs font-extrabold rounded-full border ${norm.colorClass}`;
-        badge.textContent = norm.level + (isComplete ? "" : " (Kısmi)");
-        diagBox.className = `p-3.5 rounded-xl text-xs sm:text-sm leading-relaxed border ${norm.boxClass}`;
-        diagTitle.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4"></i> Düzey: ${norm.level} (${norm.min.toFixed(2)} - ${norm.max.toFixed(2)})`;
-        diagText.textContent = norm.comment;
-      }
-      lucide.createIcons();
-    }
-
-    function initIndividualRadarChart() {
-      const canvas = document.getElementById('subscaleRadarChart');
-      if (!canvas || typeof canvas.getContext !== 'function' || !window.Chart) return;
-      const ctx = canvas.getContext('2d');
-      individualRadarChart = new Chart(ctx, {
-        type: 'radar',
-        data: {
-          labels: ['A. Ders Anlayışı', 'B. Anlamlandırma', 'C. Düşünce', 'D. Değer & Davranış', 'E. Bütünleşme', 'F. Genel'],
-          datasets: [{
-            label: 'Alt Boyut Ortalaması',
-            data: [0, 0, 0, 0, 0, 0],
-            backgroundColor: 'rgba(99, 102, 241, 0.2)',
-            borderColor: 'rgba(79, 70, 229, 0.9)',
-            borderWidth: 2,
-            pointBackgroundColor: 'rgba(79, 70, 229, 1)',
-            pointRadius: 3
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            r: {
-              min: 0,
-              max: 5,
-              ticks: { stepSize: 1, font: { size: 9 }, backdropColor: 'transparent' },
-              grid: { color: 'rgba(148, 163, 184, 0.25)' },
-              pointLabels: { font: { size: 10, weight: '600' }, color: '#334155' }
-            }
-          },
-          plugins: { legend: { display: false } }
-        }
-      });
-    }
-
-    function updateIndividualRadarChart(dims) {
-      if (!individualRadarChart) return;
-      individualRadarChart.data.datasets[0].data = [
-        dims.A ? dims.A.avg : 0,
-        dims.B ? dims.B.avg : 0,
-        dims.C ? dims.C.avg : 0,
-        dims.D ? dims.D.avg : 0,
-        dims.E ? dims.E.avg : 0,
-        dims.F ? dims.F.avg : 0
-      ];
-      individualRadarChart.update();
-    }
-
-    function updatePrintableReport(dims, totalRaw, avg) {
-      if (!dims.A) return;
-      document.getElementById('printScoreA').textContent = dims.A.raw;
-      document.getElementById('printAvgA').textContent = dims.A.avg.toFixed(2);
-      document.getElementById('printScoreB').textContent = dims.B.raw;
-      document.getElementById('printAvgB').textContent = dims.B.avg.toFixed(2);
-      document.getElementById('printScoreC').textContent = dims.C.raw;
-      document.getElementById('printAvgC').textContent = dims.C.avg.toFixed(2);
-      document.getElementById('printScoreD').textContent = dims.D.raw;
-      document.getElementById('printAvgD').textContent = dims.D.avg.toFixed(2);
-      document.getElementById('printScoreE').textContent = dims.E.raw;
-      document.getElementById('printAvgE').textContent = dims.E.avg.toFixed(2);
-      document.getElementById('printScoreF').textContent = dims.F.raw;
-      document.getElementById('printAvgF').textContent = dims.F.avg.toFixed(2);
-
-      document.getElementById('printScoreTotal').textContent = `${totalRaw} / 100`;
-      document.getElementById('printAvgTotal').textContent = `${avg.toFixed(2)} / 5.00`;
-
-      const norm = findNorm(avg);
-      if (norm) {
-        document.getElementById('printLevelText').textContent = norm.level;
-        document.getElementById('printDiagnosticText').textContent = norm.comment;
-      }
-
-      const notes = document.getElementById('metaNotes').value.trim();
-      document.getElementById('printNotesContent').textContent = notes || "Belirtilmedi.";
-    }
-
-    function saveCurrentFormToPool() {
+    function saveTeacherEvaluationAndReset() {
       try {
         let teacher = (document.getElementById('metaTeacher')?.value || "").trim();
         let branch = (document.getElementById('metaBranch')?.value || "").trim();
@@ -1434,24 +1107,14 @@
         const notes = (document.getElementById('metaNotes')?.value || "").trim();
 
         const count = teachersPool.length;
-        if (!teacher) {
-          teacher = `Öğretmen #${count + 1}`;
-          const teacherInput = document.getElementById('metaTeacher');
-          if (teacherInput) teacherInput.value = teacher;
-        }
-
-        if (!branch) {
-          branch = "Genel";
-          const branchInput = document.getElementById('metaBranch');
-          if (branchInput) branchInput.value = branch;
-        }
+        if (!teacher) teacher = `Öğretmen #${count + 1}`;
+        if (!branch) branch = "Genel";
 
         const scoreData = calculateTeacherScores(currentAnswers);
         const norm = findNorm(scoreData.avg);
 
-        const recordId = currentEditingId || ('t_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4));
         const record = {
-          id: recordId,
+          id: 't_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
           teacher,
           branch,
           grade,
@@ -1465,70 +1128,60 @@
           updatedAt: new Date().toISOString()
         };
 
-        if (currentEditingId) {
-          const idx = teachersPool.findIndex(t => t.id === currentEditingId);
-          if (idx !== -1) teachersPool[idx] = record;
-          else teachersPool.push(record);
-          currentEditingId = null;
-          const notice = document.getElementById('currentEditingTeacherNotice');
-          if (notice) notice.classList.add('hidden');
-        } else {
-          teachersPool.push(record);
-        }
-
+        teachersPool.push(record);
         savePoolToStorage();
-        showToast(`"${teacher}" öğretmen kaydı başarıyla havuza kaydedildi!`, 'success');
-        switchTab('pool');
+
+        // Show Success Toast
+        showToast(`🎉 "${teacher}" değerlendirmesi başarıyla kaydedildi! Sayfa sıradaki öğretmen için sıfırlandı.`, 'success');
+
+        // Automatic Form Reset for Next Teacher
+        resetTeacherForm(false);
+
+        // Smooth scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
       } catch (err) {
         console.error("Save error:", err);
         showToast("Kayıt sırasında bir hata oluştu: " + err.message, 'warning');
       }
     }
 
-    function loadTeacherToForm(id) {
-      const record = teachersPool.find(t => t.id === id);
-      if (!record) return;
-
-      currentEditingId = record.id;
-      document.getElementById('currentEditingTeacherNotice').classList.remove('hidden');
-
-      document.getElementById('metaTeacher').value = record.teacher;
-      document.getElementById('metaBranch').value = record.branch;
-      document.getElementById('metaGrade').value = record.grade;
-      document.getElementById('metaDate').value = record.date;
-      document.getElementById('metaNotes').value = record.notes || "";
-
-      document.getElementById('scaleForm').reset();
-      currentAnswers = { ...record.answers };
-
-      for (let i = 1; i <= 20; i++) {
-        if (currentAnswers[i]) {
-          const radio = document.getElementById(`item_${i}_opt_${currentAnswers[i]}`);
-          if (radio) radio.checked = true;
-        }
+    function resetTeacherForm(confirmPrompt = true) {
+      if (confirmPrompt && !confirm("Formdaki yanıtları temizlemek istediğinizden emin misiniz?")) {
+        return;
       }
 
-      recalculateCurrentForm();
-      switchTab('form');
+      const form = document.getElementById('scaleForm');
+      if (form) form.reset();
+
+      const metaTeacher = document.getElementById('metaTeacher');
+      if (metaTeacher) metaTeacher.value = "";
+
+      const metaBranch = document.getElementById('metaBranch');
+      if (metaBranch) metaBranch.value = "";
+
+      const metaGrade = document.getElementById('metaGrade');
+      if (metaGrade) metaGrade.value = "";
+
+      const metaNotes = document.getElementById('metaNotes');
+      if (metaNotes) metaNotes.value = "";
+
+      const metaDate = document.getElementById('metaDate');
+      if (metaDate) metaDate.value = new Date().toISOString().split('T')[0];
+
+      for (let k in currentAnswers) delete currentAnswers[k];
+      updateTeacherProgress();
     }
 
-    function resetCurrentForm() {
-      if (confirm("Formu temizlemek istediğinizden emin misiniz?")) {
-        currentEditingId = null;
-        document.getElementById('currentEditingTeacherNotice').classList.add('hidden');
-        document.getElementById('scaleForm').reset();
-        document.getElementById('metaTeacher').value = "";
-        document.getElementById('metaBranch').value = "";
-        document.getElementById('metaGrade').value = "";
-        document.getElementById('metaNotes').value = "";
-        for (let k in currentAnswers) delete currentAnswers[k];
-        recalculateCurrentForm();
-      }
-    }
+    function loadSampleTeacherCase() {
+      const sample = {
+        teacher: "Örnek Öğretmen (Dr. Ayşe Yılmaz)",
+        branch: "Fen Bilimleri",
+        grade: "7. Sınıf",
+        notes: "Öğrenciler doğadaki nizam ve biyomimikri konusunda derinlikli sorular sormaya başladı.",
+        answers: { 1: 4, 2: 4, 3: 5, 4: 4, 5: 4, 6: 5, 7: 4, 8: 3, 9: 4, 10: 4, 11: 3, 12: 4, 13: 4, 14: 3, 15: 4, 16: 4, 17: 5, 18: 4, 19: 2, 20: 5 }
+      };
 
-    function loadSampleCase(sample) {
-      currentEditingId = null;
-      document.getElementById('currentEditingTeacherNotice').classList.add('hidden');
       document.getElementById('metaTeacher').value = sample.teacher;
       document.getElementById('metaBranch').value = sample.branch;
       document.getElementById('metaGrade').value = sample.grade;
@@ -1539,12 +1192,109 @@
         const radio = document.getElementById(`item_${i}_opt_${sample.answers[i]}`);
         if (radio) radio.checked = true;
       }
-      recalculateCurrentForm();
+      updateTeacherProgress();
+      showToast("Örnek öğretmen verisi forma yüklendi.", 'info');
     }
+
+    // =========================================================================
+    // ADMIN AUTHENTICATION & ROLE SWITCHING
+    // =========================================================================
+
+    function openAdminLoginModal() {
+      if (isAdminLoggedIn) {
+        switchToAdminMode();
+      } else {
+        document.getElementById('adminLoginModal').classList.remove('hidden');
+        document.getElementById('adminPassInput').value = '';
+        setTimeout(() => document.getElementById('adminPassInput').focus(), 100);
+      }
+    }
+
+    function closeAdminLoginModal() {
+      document.getElementById('adminLoginModal').classList.add('hidden');
+    }
+
+    function verifyAdminLogin() {
+      const pass = document.getElementById('adminPassInput').value.trim();
+      if (pass === 'admin' || pass === 'mmr2026' || pass === '1234') {
+        isAdminLoggedIn = true;
+        closeAdminLoginModal();
+        showToast("Yönetici girişi başarılı! Yönetim paneli açıldı.", 'success');
+        switchToAdminMode();
+      } else {
+        showToast("Hatalı şifre! (Varsayılan: admin)", 'warning');
+      }
+    }
+
+    function switchToAdminMode() {
+      document.getElementById('sectionTeacherView').classList.add('hidden');
+      document.getElementById('sectionAdminView').classList.remove('hidden');
+      document.getElementById('adminNavContainer').classList.remove('hidden');
+
+      document.getElementById('roleBadge').className = "px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-indigo-100 text-indigo-800 border border-indigo-200";
+      document.getElementById('roleBadge').textContent = "Yönetici Modu";
+
+      document.getElementById('btnSwitchToTeacher').classList.remove('hidden');
+      document.getElementById('btnOpenAdminModal').classList.add('hidden');
+
+      initGroupCharts();
+      refreshPoolUI();
+      populateReportTargetSelect();
+      renderPedagogicalReport();
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function switchToTeacherMode() {
+      document.getElementById('sectionAdminView').classList.add('hidden');
+      document.getElementById('sectionTeacherView').classList.remove('hidden');
+      document.getElementById('adminNavContainer').classList.add('hidden');
+
+      document.getElementById('roleBadge').className = "px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200";
+      document.getElementById('roleBadge').textContent = "Öğretmen Giriş Modu";
+
+      document.getElementById('btnSwitchToTeacher').classList.add('hidden');
+      document.getElementById('btnOpenAdminModal').classList.remove('hidden');
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function logoutAdmin() {
+      isAdminLoggedIn = false;
+      showToast("Yönetici oturumu kapatıldı.", 'info');
+      switchToTeacherMode();
+    }
+
+    function switchAdminTab(tab) {
+      const btnPool = document.getElementById('adminTabPool');
+      const btnReport = document.getElementById('adminTabReport');
+      const contentPool = document.getElementById('adminContentPool');
+      const contentReport = document.getElementById('adminContentReport');
+
+      if (tab === 'pool') {
+        btnPool.className = "admin-tab-btn active py-2.5 text-indigo-400 font-bold border-b-2 border-indigo-500 flex items-center gap-1.5";
+        btnReport.className = "admin-tab-btn py-2.5 text-slate-400 hover:text-white font-medium flex items-center gap-1.5";
+        contentPool.classList.remove('hidden');
+        contentReport.classList.add('hidden');
+        refreshPoolUI();
+      } else {
+        btnReport.className = "admin-tab-btn active py-2.5 text-emerald-400 font-bold border-b-2 border-emerald-500 flex items-center gap-1.5";
+        btnPool.className = "admin-tab-btn py-2.5 text-slate-400 hover:text-white font-medium flex items-center gap-1.5";
+        contentReport.classList.remove('hidden');
+        contentPool.classList.add('hidden');
+        renderPedagogicalReport();
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    // =========================================================================
+    // ADMIN DATA POOL & GROUP ANALYTICS
+    // =========================================================================
 
     function initGroupCharts() {
       const c1 = document.getElementById('groupLevelDoughnutChart');
-      if (c1 && typeof c1.getContext === 'function' && window.Chart) {
+      if (c1 && typeof c1.getContext === 'function' && window.Chart && !groupDoughnutChart) {
         const ctx1 = c1.getContext('2d');
         groupDoughnutChart = new Chart(ctx1, {
           type: 'doughnut',
@@ -1566,7 +1316,7 @@
       }
 
       const c2 = document.getElementById('groupSubscaleBarChart');
-      if (c2 && typeof c2.getContext === 'function' && window.Chart) {
+      if (c2 && typeof c2.getContext === 'function' && window.Chart && !groupBarChart) {
         const ctx2 = c2.getContext('2d');
         groupBarChart = new Chart(ctx2, {
           type: 'bar',
@@ -1594,12 +1344,17 @@
 
     function refreshPoolUI() {
       const count = teachersPool.length;
-      document.getElementById('badgeTeacherCountHeader').textContent = `${count}/50`;
-      document.getElementById('statPoolCount').textContent = count;
+      const countHeader = document.getElementById('badgeAdminCount');
+      if (countHeader) countHeader.textContent = `${count}/50`;
+
+      const statCount = document.getElementById('statPoolCount');
+      if (statCount) statCount.textContent = count;
 
       if (count === 0) {
-        document.getElementById('poolEmptyState').classList.remove('hidden');
-        document.getElementById('teachersTableBody').innerHTML = '';
+        document.getElementById('poolEmptyState')?.classList.remove('hidden');
+        const tbody = document.getElementById('teachersTableBody');
+        if (tbody) tbody.innerHTML = '';
+
         document.getElementById('statPoolGroupAverage').textContent = "--";
         document.getElementById('statPoolDominantLevel').textContent = "--";
         document.getElementById('statPoolDominantDesc').textContent = "Yeterli veri yok";
@@ -1608,7 +1363,7 @@
         return;
       }
 
-      document.getElementById('poolEmptyState').classList.add('hidden');
+      document.getElementById('poolEmptyState')?.classList.add('hidden');
 
       let sumAvg = 0;
       const levelCounts = { "Çok Düşük": 0, "Düşük": 0, "Orta / Kısmi": 0, "Yüksek": 0, "Çok Yüksek": 0 };
@@ -1680,8 +1435,10 @@
 
     function renderTeachersTable() {
       const tbody = document.getElementById('teachersTableBody');
-      const searchQuery = (document.getElementById('filterSearch').value || "").toLowerCase();
-      const levelFilter = document.getElementById('filterLevel').value;
+      if (!tbody) return;
+
+      const searchQuery = (document.getElementById('filterSearch')?.value || "").toLowerCase();
+      const levelFilter = document.getElementById('filterLevel')?.value || "all";
 
       const filtered = teachersPool.filter(t => {
         const matchText = (t.teacher + " " + t.branch + " " + t.grade).toLowerCase().includes(searchQuery);
@@ -1717,9 +1474,6 @@
               <button onclick="viewTeacherPedagogicalReport('${t.id}')" title="Pedagojik Raporunu Gör" class="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors">
                 <i data-lucide="sparkles" class="w-3.5 h-3.5 inline"></i>
               </button>
-              <button onclick="loadTeacherToForm('${t.id}')" title="Düzenle / İncele" class="p-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors">
-                <i data-lucide="edit-3" class="w-3.5 h-3.5 inline"></i>
-              </button>
               <button onclick="deleteTeacherRecord('${t.id}')" title="Kaydı Sil" class="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors">
                 <i data-lucide="trash" class="w-3.5 h-3.5 inline"></i>
               </button>
@@ -1728,12 +1482,12 @@
         `;
       });
       tbody.innerHTML = html;
-      lucide.createIcons();
+      if (window.lucide) window.lucide.createIcons();
     }
 
     function viewTeacherPedagogicalReport(id) {
       document.getElementById('reportTargetSelect').value = id;
-      switchTab('report');
+      switchAdminTab('report');
       renderPedagogicalReport();
     }
 
@@ -1743,6 +1497,7 @@
       if (confirm(`"${rec.teacher}" isimli öğretmen kaydını silmek istediğinizden emin misiniz?`)) {
         teachersPool = teachersPool.filter(t => t.id !== id);
         savePoolToStorage();
+        showToast("Kayıt başarıyla silindi.", 'info');
       }
     }
 
@@ -1750,6 +1505,7 @@
       if (confirm("DİKKAT: Havuzdaki TÜM öğretmen kayıtları silinecektir! Bu işlemi onaylıyor musunuz?")) {
         teachersPool = [];
         savePoolToStorage();
+        showToast("Havuzdaki tüm kayıtlar temizlendi.", 'info');
       }
     }
 
@@ -1812,12 +1568,12 @@
 
       teachersPool = generated;
       savePoolToStorage();
-      alert("50 adet farklı branş ve düzeyde gerçekçi öğretmen simülasyon verisi başarıyla oluşturuldu!");
+      showToast("50 adet öğretmen simülasyon verisi başarıyla oluşturuldu!", 'success');
     }
 
     function exportPoolToCSV() {
       if (teachersPool.length === 0) {
-        alert("Dışa aktarılacak öğretmen kaydı bulunmuyor.");
+        showToast("Dışa aktarılacak öğretmen kaydı bulunmuyor.", 'warning');
         return;
       }
 
@@ -1850,11 +1606,12 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      showToast("SPSS / Excel uyumlu CSV dosyası indirildi.", 'success');
     }
 
     function exportPoolToJSON() {
       if (teachersPool.length === 0) {
-        alert("Dışa aktarılacak öğretmen kaydı bulunmuyor.");
+        showToast("Dışa aktarılacak öğretmen kaydı bulunmuyor.", 'warning');
         return;
       }
       const data = {
@@ -1871,6 +1628,7 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      showToast("JSON yedek dosyası indirildi.", 'success');
     }
 
     function importPoolFromJSON(e) {
@@ -1883,11 +1641,11 @@
           const parsed = JSON.parse(evt.target.result);
           if (parsed && Array.isArray(parsed.teachers)) teachersPool = parsed.teachers;
           else if (Array.isArray(parsed)) teachersPool = parsed;
-          else { alert("Geçersiz JSON formatı."); return; }
+          else { showToast("Geçersiz JSON formatı.", 'warning'); return; }
           savePoolToStorage();
-          alert(`${teachersPool.length} adet öğretmen kaydı başarıyla yüklendi!`);
+          showToast(`${teachersPool.length} adet öğretmen kaydı başarıyla yüklendi!`, 'success');
         } catch(err) {
-          alert("Dosya okunurken bir hata oluştu: " + err.message);
+          showToast("Dosya okunurken bir hata oluştu: " + err.message, 'warning');
         }
       };
       reader.readAsText(file);
@@ -1899,6 +1657,7 @@
 
     function populateReportTargetSelect() {
       const select = document.getElementById('reportTargetSelect');
+      if (!select) return;
       const currentVal = select.value;
       const count = teachersPool.length;
 
@@ -1919,14 +1678,14 @@
     }
 
     function renderPedagogicalReport() {
-      const targetId = document.getElementById('reportTargetSelect').value;
+      const selectElem = document.getElementById('reportTargetSelect');
+      const targetId = selectElem ? selectElem.value : 'group';
 
       let reportData = null;
       let isGroup = (targetId === 'group');
 
       if (isGroup) {
         if (teachersPool.length === 0) {
-          // Fallback if empty
           reportData = {
             title: "Okul Geneli MMR Uygulama ve Yansıma Raporu",
             subtitle: "Henüz havuzda kayıtlı öğretmen verisi bulunmamaktadır.",
@@ -1982,18 +1741,24 @@
       }
 
       // Update Header
-      document.getElementById('reportHeaderTitle').textContent = reportData.title;
-      document.getElementById('reportHeaderSubtitle').textContent = reportData.subtitle;
-      document.getElementById('reportHeaderAvg').textContent = reportData.avg > 0 ? `${reportData.avg.toFixed(2)} / 5.00` : "-- / 5.00";
-      
-      const badgeElem = document.getElementById('reportHeaderBadge');
-      badgeElem.textContent = reportData.level;
+      const hTitle = document.getElementById('reportHeaderTitle');
+      if (hTitle) hTitle.textContent = reportData.title;
 
-      if (reportData.level === "Çok Yüksek") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-green-500 text-white shadow-sm";
-      else if (reportData.level === "Yüksek") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-emerald-500 text-white shadow-sm";
-      else if (reportData.level === "Orta / Kısmi") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-amber-500 text-slate-900 shadow-sm";
-      else if (reportData.level === "Düşük") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-orange-500 text-white shadow-sm";
-      else badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-slate-400 text-white shadow-sm";
+      const hSub = document.getElementById('reportHeaderSubtitle');
+      if (hSub) hSub.textContent = reportData.subtitle;
+
+      const hAvg = document.getElementById('reportHeaderAvg');
+      if (hAvg) hAvg.textContent = reportData.avg > 0 ? `${reportData.avg.toFixed(2)} / 5.00` : "-- / 5.00";
+
+      const badgeElem = document.getElementById('reportHeaderBadge');
+      if (badgeElem) {
+        badgeElem.textContent = reportData.level;
+        if (reportData.level === "Çok Yüksek") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-green-500 text-white shadow-sm";
+        else if (reportData.level === "Yüksek") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-emerald-500 text-white shadow-sm";
+        else if (reportData.level === "Orta / Kısmi") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-amber-500 text-slate-900 shadow-sm";
+        else if (reportData.level === "Düşük") badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-orange-500 text-white shadow-sm";
+        else badgeElem.className = "inline-block px-3 py-1 text-xs font-black rounded-lg bg-slate-400 text-white shadow-sm";
+      }
 
       // Calculate Strongest & Growth Dimensions
       let topDimKey = 'A';
@@ -2024,33 +1789,49 @@
       if (reportData.notes) {
         diagnosticHtml += `<p class="p-3 bg-slate-50 border-l-4 border-indigo-500 rounded text-slate-700 italic"><strong>Öğretmen Görüş / Uygulama Notu:</strong> "${reportData.notes}"</p>`;
       }
-      document.getElementById('reportDiagnosticParagraph').innerHTML = diagnosticHtml;
+      const diagElem = document.getElementById('reportDiagnosticParagraph');
+      if (diagElem) diagElem.innerHTML = diagnosticHtml;
 
       // 2. Strongest Dimension Card
       const topConfig = SCALE_CONFIG.subscales[topDimKey];
-      document.getElementById('reportTopDimTitle').textContent = `En Güçlü Boyut: ${topDimKey}. ${topConfig.short}`;
-      document.getElementById('reportTopDimScore').textContent = `Ortalama: ${topDimVal.toFixed(2)} / 5.0`;
-      document.getElementById('reportTopDimDesc').textContent = topConfig.strengths;
-      document.getElementById('reportTopDimAction').textContent = `Bu boyuttaki başarıyı ${topConfig.short} ile sınırlı tutmayıp, özellikle ${SCALE_CONFIG.subscales[lowDimKey].short} alanındaki kazanımlara köprü kuracak şekilde ders planlarına entegre ediniz.`;
+      const tTitle = document.getElementById('reportTopDimTitle');
+      if (tTitle) tTitle.textContent = `En Güçlü Boyut: ${topDimKey}. ${topConfig.short}`;
+
+      const tScore = document.getElementById('reportTopDimScore');
+      if (tScore) tScore.textContent = `Ortalama: ${topDimVal.toFixed(2)} / 5.0`;
+
+      const tDesc = document.getElementById('reportTopDimDesc');
+      if (tDesc) tDesc.textContent = topConfig.strengths;
+
+      const tAction = document.getElementById('reportTopDimAction');
+      if (tAction) tAction.textContent = `Bu boyuttaki başarıyı ${topConfig.short} ile sınırlı tutmayıp, özellikle ${SCALE_CONFIG.subscales[lowDimKey].short} alanındaki kazanımlara köprü kuracak şekilde ders planlarına entegre ediniz.`;
 
       // 3. Growth Dimension Card
       const lowConfig = SCALE_CONFIG.subscales[lowDimKey];
-      document.getElementById('reportLowDimTitle').textContent = `Geliştirilmeye Açık Boyut: ${lowDimKey}. ${lowConfig.short}`;
-      document.getElementById('reportLowDimScore').textContent = `Ortalama: ${lowDimVal.toFixed(2)} / 5.0`;
-      document.getElementById('reportLowDimDesc').textContent = lowConfig.weaknesses;
-      document.getElementById('reportLowDimAction').textContent = lowConfig.recommendations;
+      const lTitle = document.getElementById('reportLowDimTitle');
+      if (lTitle) lTitle.textContent = `Geliştirilmeye Açık Boyut: ${lowDimKey}. ${lowConfig.short}`;
 
-      // 4. Action Recommendations (4 Concrete Cards)
+      const lScore = document.getElementById('reportLowDimScore');
+      if (lScore) lScore.textContent = `Ortalama: ${lowDimVal.toFixed(2)} / 5.0`;
+
+      const lDesc = document.getElementById('reportLowDimDesc');
+      if (lDesc) lDesc.textContent = lowConfig.weaknesses;
+
+      const lAction = document.getElementById('reportLowDimAction');
+      if (lAction) lAction.textContent = lowConfig.recommendations;
+
+      // 4. Action Recommendations
       renderActionRecommendations(topDimKey, lowDimKey);
 
-      // 5. Subscale Score Table
+      // 5. Subscale Matrix Table
       renderSubscaleMatrixTable(reportData.subscales);
 
-      lucide.createIcons();
+      if (window.lucide) window.lucide.createIcons();
     }
 
     function renderActionRecommendations(topKey, lowKey) {
       const grid = document.getElementById('reportActionRecommendationsGrid');
+      if (!grid) return;
       const lowSub = SCALE_CONFIG.subscales[lowKey];
 
       const cards = [
@@ -2101,6 +1882,7 @@
 
     function renderSubscaleMatrixTable(subscales) {
       const tbody = document.getElementById('reportSubscaleTableBody');
+      if (!tbody) return;
       let html = '';
 
       for (const [key, sub] of Object.entries(SCALE_CONFIG.subscales)) {
@@ -2135,6 +1917,53 @@
       }
       tbody.innerHTML = html;
     }
+
+    // In-App Toast Notification
+    function showToast(message, type = 'success') {
+      let toast = document.getElementById('appToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'appToast';
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-20px] opacity-0 pointer-events-none flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold';
+        document.body.appendChild(toast);
+      }
+
+      if (type === 'success') {
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-emerald-600 text-white border-emerald-500 shadow-emerald-200';
+        toast.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5"></i> <span>${message}</span>`;
+      } else if (type === 'warning') {
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-amber-500 text-white border-amber-400 shadow-amber-200';
+        toast.innerHTML = `<i data-lucide="alert-triangle" class="w-5 h-5"></i> <span>${message}</span>`;
+      } else {
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-indigo-600 text-white border-indigo-500 shadow-indigo-200';
+        toast.innerHTML = `<i data-lucide="info" class="w-5 h-5"></i> <span>${message}</span>`;
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+
+      setTimeout(() => {
+        toast.className = 'fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-20px] opacity-0 pointer-events-none flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold bg-slate-800 text-white';
+      }, 4000);
+    }
+
+    // Expose all functions to global window scope
+    window.saveTeacherEvaluationAndReset = saveTeacherEvaluationAndReset;
+    window.resetTeacherForm = resetTeacherForm;
+    window.loadSampleTeacherCase = loadSampleTeacherCase;
+    window.openAdminLoginModal = openAdminLoginModal;
+    window.closeAdminLoginModal = closeAdminLoginModal;
+    window.verifyAdminLogin = verifyAdminLogin;
+    window.switchToAdminMode = switchToAdminMode;
+    window.switchToTeacherMode = switchToTeacherMode;
+    window.logoutAdmin = logoutAdmin;
+    window.switchAdminTab = switchAdminTab;
+    window.generate50SimulationData = generate50SimulationData;
+    window.exportPoolToCSV = exportPoolToCSV;
+    window.exportPoolToJSON = exportPoolToJSON;
+    window.clearEntirePool = clearEntirePool;
+    window.deleteTeacherRecord = deleteTeacherRecord;
+    window.viewTeacherPedagogicalReport = viewTeacherPedagogicalReport;
+    window.renderPedagogicalReport = renderPedagogicalReport;
   </script>
 </body>
 </html>

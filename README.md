@@ -6,7 +6,9 @@ Bu proje, **Muallimin Manevi Rehberi (MMR)** yaklaşımının sınıf içi öğr
 
 ## 🌟 Öne Çıkan Özellikler
 
-### 1. Bireysel Öğretmen Formu & Canlı Analiz
+### 1. 👩‍🏫 Öğretmen Veri Giriş Portalı (Sade & Hızlı)
+* **Yalnızca Ölçek Maddeleri:** Öğretmenler için kafa karıştırıcı tüm panel ve butonlar gizlenmiştir. Sadece öğretmen adı/branşı ve 20 maddeye odaklanılır.
+* **Kaydet ve Sıfırla (Auto-Reset):** Öğretmen verilerini kaydedip onayı aldığında, form otomatik olarak tamamen sıfırlanır ve boş temiz bir sayfa olarak bir sonraki öğretmenin girişine hazır hale gelir.
 * **20 Madde ve 6 Alt Boyut:**
   - **A. Öğretmenin Ders Anlayışı ve Öğretim Süreci** (M1, M2, M3, M4 $\rightarrow$ Maks: 20 Puan)
   - **B. Bilgiyi Anlamlandırma** (M5, M6, M7 $\rightarrow$ Maks: 15 Puan)
@@ -15,12 +17,10 @@ Bu proje, **Muallimin Manevi Rehberi (MMR)** yaklaşımının sınıf içi öğr
   - **E. MMR'nin Dersle Doğal Bütünleşmesi** (M16, M17, M18, M19\* $\rightarrow$ Maks: 20 Puan)
   - **F. Genel MMR Yansıması** (M20 $\rightarrow$ Maks: 5 Puan)
 * **Otomatik Ters Kodlama:** 19. madde olumsuz ifade olduğu için sistem $\text{Puan}_{19} = 6 - \text{Seçim}$ formülüyle anlık hesaplama yapar.
-* **Canlı Radar Grafiği:** Öğretmenin 6 alt boyuttaki yansıma profilini çok boyutlu olarak görselleştirir.
-* **Pedagojik Tanı & Düzey Rozeti:** Aritmetik ortalamaya göre norm düzeyi ve yönlendirici açıklama metni sunar.
-* **Resmi Yazdırma / PDF:** Tek tıkla resmi karne ve değerlendirme raporu çıktısı.
 
-### 2. 50 Öğretmen Havuzu & Grup Analiz Portalı
-* **Kapasite ve Veri Havuzu:** 50 farklı öğretmenin veri girişini kaydetme, düzenleme ve listeleme.
+### 2. 🔐 Yönetici Portalı (Şifre Korumalı Analiz & Havuz)
+* **Giriş Şifresi:** `admin` (veya `mmr2026`)
+* **Kapasite ve Veri Havuzu:** 50 farklı öğretmenin veri girişini kaydetme, düzenleme, silme ve listeleme.
 * **Kalıcı Depolama:** Tarayıcı kapansa dahi `localStorage` sayesinde veriler korunur.
 * **Grup İstatistikleri & Grafikler:**
   - Okul / Grup Genel Ortalaması (1.00 – 5.00).
@@ -58,3 +58,4 @@ Bu proje, **Muallimin Manevi Rehberi (MMR)** yaklaşımının sınıf içi öğr
 
 * 🚀 **Canlı İnternet Portalı (GitHub Pages):** [https://mahofen.github.io/mmr-olcek-portali/](https://mahofen.github.io/mmr-olcek-portali/)
 * 📂 **GitHub Deposu:** [https://github.com/mahofen/mmr-olcek-portali](https://github.com/mahofen/mmr-olcek-portali)
+
