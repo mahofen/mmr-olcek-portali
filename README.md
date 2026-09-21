@@ -63,15 +63,28 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
 
 ---
 
-### 3. 📊 Kapsamlı Haftalık & Genel Saha Değerlendirme Raporu
+### 3. 📊 Bilimsel MMR Saha Araştırması & Pedagojik Raporlama Çerçevesi
 * **Rapor Kapsamı Seçimi:**
-  - 🏫 **Tüm Haftaların Genel Saha Raporu (1–35 Hafta Toplamı)**
+  - 🏫 **Tüm Haftaların Genel Saha Raporu (1–35. Hafta Toplamı)**
   - 📅 **Haftalık Özel Raporlar (1. Hafta Özel Raporu ... 35. Hafta)**
   - 👤 **Tekil Öğretmen Saha Karnesi**
-* **İl Dağılımı, Ulaşılan Toplam Öğrenci ve Pedagojik Çıkarımlar.**
-* **Güçlüklerin Tespiti ve Çözüm Odaklı Pedagojik Eylem Planı.**
-* **Niteliksel Saha Notları Listesi.**
-* **📥 Raporlama Alanında Excel İndir (.xls):** Arayüzde toplanan tüm veri alanlarını (Sıra No, Öğretmen, Branş, İl, Sınıf Düzeyi, Öğrenci Sayısı, Hafta, S1-S5 tüm anket soruları ve Tarih) seçilen rapor kapsamına göre renkli, biçimlendirilmiş ve Türkçe karakter uyumlu Excel (.xls) formatında tek tıkla indirme.
+* **🎯 MMR Uygulanabilirlik Profili (5 Temel Gösterge + 2 Kök Neden):**
+  1. **Genel Uygulama Oranı:** (Rahat + Kısmen + Zorlanarak uygulayan öğretmenler %) – *Ders akışında MMR'ye yer verme düzeyi.*
+  2. **Sorunsuz / Tam Uygulama Oranı:** (A. Rahat uygulayanlar %) – *Doğrudan uygulanabilirlik göstergesi.*
+  3. **Kısmi Uygulama Oranı:** (B. Kısmen uygulayanlar %) – *Uyarlama ihtiyacı göstergesi.*
+  4. **Uygulama Güçlüğü Oranı:** (C. Zorlananlar %) – *Süreç içi güçlük analizi (1A).*
+  5. **Uygulama Engeli Oranı:** (D. Uygulayamayanlar %) – *Uygulamayı engelleyen koşullar / bariyerler analizi (1B).*
+  6. **1A En Sık Karşılaşılan Güçlük Rozeti**
+  7. **1B En Sık Karşılaşılan Engel Rozeti**
+* **📋 Karşılaştırmalı ve Boylamsal Analitik Matrisler:**
+  - **1. Branşlara Göre Uygulanabilirlik & Güçlük Dağılım Matrisi:** Belirlenen 13 temel branş dersi için tek tek Kayıt Sayısı, Öğrenci Sayısı, Rahat %, Kısmen %, Zorlandı %, Uygulayamadı %, Renkli Görsel Yığın Barı ve o branştaki Hakim Zorlanma/Engel Nedeni.
+  - **2. Zaman İçerisindeki Değişim & Boylamsal Trend Analizi (1–35. Haftalar):** 1. Haftadan 35. Haftaya kadar öğretmenlerin haftalık uygulama deneyimlerindeki gelişimi, öğrenci erişimini ve pedagojik kabul trendini izleyen boylamsal tablo.
+  - **3. Sınıf Seviyesine Göre Uygulanabilirlik Matrisi:** Okul Öncesi, İlkokul, Ortaokul ve Lise sınıf seviyelerine göre Rahat / Kısmi / Güçlük / Engel dağılımı.
+  - **4. Kök Neden Ayrışması (1A Süreç Güçlükleri vs 1B Uygulama Bariyerleri):** Öğretmenlerin bildirdiği gerekçeleri sıklık sırasına göre yüzdeli ve renkli ilerleme çubuklarıyla analiz eden çift panelli alan.
+  - **5. Öğrenci İlgisi (S3) & 4 Şıklı Kazanım Uyumu (S4) Saha Çıkarımları.**
+  - **6. Saha Bulgularına Dayalı Pedagojik Eylem Planı:** Süre yönetimi, kazanım köprüsü, öğrenci geri bildirimi ve zümre dayanışması önerileri.
+  - **7. Niteliksel Öğretmen Saha Notları (S5).**
+* **📥 Kapsamlı Excel İndirme (.xls):** Raporlama alanından indirilen Excel dosyasına MMR Uygulanabilirlik Profili özet kartları, 13 Branş Dağılım Matrisi, 35 Haftalık Boylamsal Trend Tablosu ve Detaylı Anket Satırları biçimlendirilmiş ve renkli olarak dahil edilir.
 * **🖨️ Yazdır / PDF Çıktısı Alma.**
 
 ---
@@ -79,3 +92,4 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
 ## 💻 Canlı Yayın ve Depo
 * 🚀 **GitHub Pages:** [https://mahofen.github.io/mmr-olcek-portali/](https://mahofen.github.io/mmr-olcek-portali/)
 * 📂 **GitHub Deposu:** [https://github.com/mahofen/mmr-olcek-portali](https://github.com/mahofen/mmr-olcek-portali)
+

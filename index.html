@@ -1091,14 +1091,14 @@
                   Tüm Haftaların Genel Saha Uygulama ve Yansıma Raporu
                 </h2>
                 <p id="reportHeaderSubtitle" class="text-xs sm:text-sm text-indigo-200/80">
-                  Kapsam: 1–25. Haftalar Toplamı | 81 İl ve Çoklu Sınıf Analizi
+                  Kapsam: 1–35. Haftalar Toplamı | 81 İl ve Çoklu Sınıf Analizi
                 </p>
               </div>
 
               <!-- Score Badge Box -->
               <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 min-w-[240px] justify-between">
                 <div>
-                  <span class="text-[11px] text-indigo-200 font-semibold block">Uygulanabilirlik</span>
+                  <span class="text-[11px] text-indigo-200 font-semibold block">Genel Uygulama</span>
                   <div class="text-2xl sm:text-3xl font-black text-emerald-300" id="reportHeaderSuccessRate">%0</div>
                   <span class="text-[10px] text-indigo-200" id="reportHeaderStudentReach">0 Öğrenci</span>
                 </div>
@@ -1112,6 +1112,72 @@
             </div>
           </div>
 
+          <!-- MMR UYGULANABİLİRLİK PROFİLİ (5 TEMEL ORAN + 2 KÖK NEDEN) -->
+          <div id="reportProfileCardsContainer" class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold shadow-sm shadow-indigo-200">
+                  <i data-lucide="gauge" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">MMR Uygulanabilirlik Profili (Temel Göstergeler)</h3>
+                  <p class="text-xs text-slate-400">Çok boyutlu saha uygulanabilirlik, sorunsuzluk, güçlük ve engel metrikleri</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-800 border border-indigo-200" id="profileDatasetSizeBadge">0 Kayıt</span>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+              <!-- 1. Uygulama Oranı -->
+              <div class="p-4 rounded-2xl bg-indigo-900 text-white shadow-sm space-y-1">
+                <span class="text-[10px] font-bold uppercase text-indigo-200 block tracking-wider">1. Genel Uygulama</span>
+                <div class="text-2xl font-black text-white" id="profileRateOverall">%0</div>
+                <p class="text-[10px] text-indigo-200/90 leading-tight">Rahat + Kısmen + Zorlanarak</p>
+              </div>
+
+              <!-- 2. Sorunsuz Uygulama -->
+              <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 shadow-sm space-y-1">
+                <span class="text-[10px] font-bold uppercase text-emerald-800 block tracking-wider">2. Sorunsuz Uygulama</span>
+                <div class="text-2xl font-black text-emerald-700" id="profileRateFull">%0</div>
+                <p class="text-[10px] text-emerald-800/80 leading-tight">A. Rahat Uygulama</p>
+              </div>
+
+              <!-- 3. Kısmi Uygulama -->
+              <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-200 shadow-sm space-y-1">
+                <span class="text-[10px] font-bold uppercase text-sky-800 block tracking-wider">3. Kısmi Uygulama</span>
+                <div class="text-2xl font-black text-sky-700" id="profileRatePart">%0</div>
+                <p class="text-[10px] text-sky-800/80 leading-tight">B. Uyarlama İhtiyacı</p>
+              </div>
+
+              <!-- 4. Uygulama Güçlüğü -->
+              <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 shadow-sm space-y-1">
+                <span class="text-[10px] font-bold uppercase text-amber-800 block tracking-wider">4. Uygulama Güçlüğü</span>
+                <div class="text-2xl font-black text-amber-700" id="profileRateHard">%0</div>
+                <p class="text-[10px] text-amber-800/80 leading-tight">C. Süreç İçi Güçlük</p>
+              </div>
+
+              <!-- 5. Uygulama Engeli -->
+              <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-200 shadow-sm space-y-1 col-span-2 sm:col-span-1">
+                <span class="text-[10px] font-bold uppercase text-rose-800 block tracking-wider">5. Uygulama Engeli</span>
+                <div class="text-2xl font-black text-rose-700" id="profileRateNone">%0</div>
+                <p class="text-[10px] text-rose-800/80 leading-tight">D. Uygulanamadı (Bariyer)</p>
+              </div>
+            </div>
+
+            <!-- Top Barriers Highlight Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-950 flex items-start gap-2.5 shadow-xs">
+                <span class="px-2 py-0.5 rounded bg-amber-200 font-extrabold text-[10px] text-amber-900 shrink-0 mt-0.5">1A En Sık Güçlük</span>
+                <div id="profileTopHardReason" class="font-medium leading-snug">--</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-300 text-xs text-rose-950 flex items-start gap-2.5 shadow-xs">
+                <span class="px-2 py-0.5 rounded bg-rose-200 font-extrabold text-[10px] text-rose-900 shrink-0 mt-0.5">1B En Sık Engel</span>
+                <div id="profileTopNoneReason" class="font-medium leading-snug">--</div>
+              </div>
+            </div>
+          </div>
+
           <!-- 1. GENEL SAHA ÖZETİ VE YÜRÜTME ANALİZİ -->
           <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-3">
             <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
@@ -1119,14 +1185,153 @@
                 <i data-lucide="file-text" class="w-4 h-4"></i>
               </div>
               <div>
-                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">1. Saha Uygulama ve Süreç Değerlendirmesi</h3>
-                <p class="text-xs text-slate-400">Muallimin Manevî Rehberi içeriklerinin ders içi uygulanabilirlik ve öğrenciye ulaşma düzeyi</p>
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">1. Saha Uygulama Durumu ve Süreç Değerlendirmesi</h3>
+                <p class="text-xs text-slate-400">Muallimin Manevî Rehberi içeriklerinin ders içi uygulanabilirlik, uyarlama ve engel analizi</p>
               </div>
             </div>
             <div id="reportDiagnosticParagraph" class="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2.5 pt-1"></div>
           </div>
 
-          <!-- 2 & 3: ÖĞRENCİ TEPKİLERİ VE KAZANIM UYUMU (4 ŞIKLI) -->
+          <!-- 2. BRANŞLARA GÖRE UYGULANABİLİRLİK VE GÜÇLÜK DAĞILIM MATRİSİ -->
+          <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold shadow-sm shadow-indigo-200">
+                  <i data-lucide="pie-chart" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">2. Branşlara Göre Uygulanabilirlik & Güçlük Dağılım Matrisi</h3>
+                  <p class="text-xs text-slate-400">Her branş dersi için Rahat, Kısmen, Güçlükle ve Uygulayamama dağılımı</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200" id="reportBranchMatrixBadge">13 Branş Analizi</span>
+            </div>
+            
+            <div class="overflow-x-auto border border-slate-200 rounded-xl">
+              <table class="w-full text-xs text-left text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 font-bold uppercase text-[10px] border-b border-slate-200">
+                  <tr>
+                    <th class="p-3">Branş</th>
+                    <th class="p-3 text-center">Kayıt</th>
+                    <th class="p-3 text-center">Öğrenci</th>
+                    <th class="p-3 text-center text-emerald-700">Rahat (%)</th>
+                    <th class="p-3 text-center text-sky-700">Kısmen (%)</th>
+                    <th class="p-3 text-center text-amber-700">Zorlandı (%)</th>
+                    <th class="p-3 text-center text-rose-700">Uygulayamadı (%)</th>
+                    <th class="p-3 text-center" style="min-width: 140px;">Görsel Dağılım Profili</th>
+                    <th class="p-3">Hakim Zorlanma / Engel Nedeni</th>
+                  </tr>
+                </thead>
+                <tbody id="reportBranchMatrixTableBody" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 3. ZAMAN İÇERİSİNDEKİ DEĞİŞİM (BOYLAMSAL HAFTALIK TREND ANALİZİ) -->
+          <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold shadow-sm shadow-emerald-200">
+                  <i data-lucide="trending-up" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">3. Zaman İçerisindeki Değişim & Boylamsal Trend Raporu</h3>
+                  <p class="text-xs text-slate-400">1. Hafta → 4. Hafta → 8. Hafta ... boyunca öğretmenlerin uygulama deneyimlerinin gelişimi</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200" id="reportWeekTrendBadge">35 Hafta Takibi</span>
+            </div>
+
+            <div class="overflow-x-auto border border-slate-200 rounded-xl">
+              <table class="w-full text-xs text-left text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 font-bold uppercase text-[10px] border-b border-slate-200">
+                  <tr>
+                    <th class="p-3">Hafta</th>
+                    <th class="p-3 text-center">Kayıt</th>
+                    <th class="p-3 text-center">Ulaşılan Öğrenci</th>
+                    <th class="p-3 text-center font-bold text-slate-900">Uygulama Oranı (%)</th>
+                    <th class="p-3 text-center text-emerald-700">Sorunsuz (%)</th>
+                    <th class="p-3 text-center text-sky-700">Kısmi (%)</th>
+                    <th class="p-3 text-center text-amber-700">Güçlük (%)</th>
+                    <th class="p-3 text-center text-rose-700">Engel (%)</th>
+                    <th class="p-3">Haftalık Pedagojik Yansıma ve Trend</th>
+                  </tr>
+                </thead>
+                <tbody id="reportWeekTrendTableBody" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 4. SINIF DÜZEYİNE GÖRE UYGULANABİLİRLİK MATRİSİ -->
+          <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold shadow-sm shadow-purple-200">
+                  <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">4. Sınıf Seviyesine Göre Uygulanabilirlik Matrisi</h3>
+                  <p class="text-xs text-slate-400">Okul Öncesi, İlkokul, Ortaokul ve Lise seviyelerinde MMR uygulama oranları</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto border border-slate-200 rounded-xl">
+              <table class="w-full text-xs text-left text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 font-bold uppercase text-[10px] border-b border-slate-200">
+                  <tr>
+                    <th class="p-3">Sınıf Düzeyi</th>
+                    <th class="p-3 text-center">Kayıt</th>
+                    <th class="p-3 text-center">Öğrenci</th>
+                    <th class="p-3 text-center font-bold text-slate-900">Uygulama Oranı (%)</th>
+                    <th class="p-3 text-center text-emerald-700">Sorunsuz (%)</th>
+                    <th class="p-3 text-center text-sky-700">Kısmi (%)</th>
+                    <th class="p-3 text-center text-amber-700">Güçlük (%)</th>
+                    <th class="p-3 text-center text-rose-700">Engel (%)</th>
+                    <th class="p-3 text-center" style="min-width: 140px;">Görsel Dağılım Barı</th>
+                  </tr>
+                </thead>
+                <tbody id="reportGradeMatrixTableBody" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 5. KÖK NEDEN AYRIŞMASI: 1A GÜÇLÜKLER vs 1B ENGELLER -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- 1A Süreç Güçlükleri -->
+            <div class="bg-amber-50/50 rounded-2xl p-6 border border-amber-200 shadow-sm card-shadow space-y-3">
+              <div class="flex items-center justify-between pb-3 border-b border-amber-200/70">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center font-bold shadow-sm shadow-amber-200">
+                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800 block">C. Uygulama Süreci Analizi</span>
+                    <h4 class="text-sm font-black text-amber-950">Uygulamada Karşılaşılan Güçlükler (1A)</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="space-y-2 text-xs sm:text-sm text-amber-950" id="reportHardReasonsBreakdown"></div>
+            </div>
+
+            <!-- 1B Uygulama Engelleri -->
+            <div class="bg-rose-50/50 rounded-2xl p-6 border border-rose-200 shadow-sm card-shadow space-y-3">
+              <div class="flex items-center justify-between pb-3 border-b border-rose-200/70">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center font-bold shadow-sm shadow-rose-200">
+                    <i data-lucide="slash" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-800 block">D. Uygulama Engelleri Analizi</span>
+                    <h4 class="text-sm font-black text-rose-950">Uygulamayı Engelleyen Koşullar / Bariyerler (1B)</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="space-y-2 text-xs sm:text-sm text-rose-950" id="reportNoneReasonsBreakdown"></div>
+            </div>
+          </div>
+
+          <!-- 6 & 7: ÖĞRENCİ TEPKİLERİ VE KAZANIM UYUMU (4 ŞIKLI) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-200 shadow-sm card-shadow space-y-3">
               <div class="flex items-center justify-between pb-3 border-b border-emerald-200/70">
@@ -1136,7 +1341,7 @@
                   </div>
                   <div>
                     <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block">Saha Gözlemi</span>
-                    <h4 class="text-sm font-black text-emerald-950">Öğrenci İlgisi ve Katılım Dinamikleri</h4>
+                    <h4 class="text-sm font-black text-emerald-950">Öğrenci İlgisi ve Katılım Dinamikleri (S3)</h4>
                   </div>
                 </div>
               </div>
@@ -1153,7 +1358,7 @@
                   </div>
                   <div>
                     <span class="text-[10px] font-extrabold uppercase tracking-wider text-indigo-800 block">Müfredat Uyumu (4 Şıklı)</span>
-                    <h4 class="text-sm font-black text-indigo-950">Ders Öğrenme Çıktısı ile Entegrasyon</h4>
+                    <h4 class="text-sm font-black text-indigo-950">Ders Öğrenme Çıktısı ile Entegrasyon (S4)</h4>
                   </div>
                 </div>
               </div>
@@ -1163,28 +1368,28 @@
             </div>
           </div>
 
-          <!-- 4. GÜÇLÜKLER & GELİŞTİRME EYLEM PLANI -->
+          <!-- 8. GÜÇLÜKLER & GELİŞTİRME EYLEM PLANI -->
           <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
             <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
               <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold shadow-sm shadow-indigo-200">
                 <i data-lucide="lightbulb" class="w-4 h-4"></i>
               </div>
               <div>
-                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">4. Saha Bulgularına Dayalı Pedagojik Eylem Planı & Çözüm Önerileri</h3>
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">7. Saha Bulgularına Dayalı Pedagojik Eylem Planı & Çözüm Önerileri</h3>
                 <p class="text-xs text-slate-400">Karşılaşılan güçlükleri aşmak ve ders içi verimliliği artırmak için somut adımlar</p>
               </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm" id="reportActionRecommendationsGrid"></div>
           </div>
 
-          <!-- 5. ÖĞRETMEN SAHA NOTLARI & NİTELİKSEL YANSIMALAR -->
+          <!-- 9. ÖĞRETMEN SAHA NOTLARI & NİTELİKSEL YANSIMALAR -->
           <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-4">
             <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
               <div class="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold">
                 <i data-lucide="message-square" class="w-4 h-4"></i>
               </div>
               <div>
-                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">5. Öğretmen Saha Notları & Doğrudan Gözlemler</h3>
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">8. Öğretmen Saha Notları & Doğrudan Gözlemler (S5)</h3>
                 <p class="text-xs text-slate-400">Saha anketlerinde paylaşılan nitel görüş ve anekdotlar</p>
               </div>
             </div>
@@ -2647,7 +2852,7 @@
         .replace(/'/g, '&apos;');
     }
 
-    // Export Field Report to Excel (.xls)
+    // Export Field Report to Excel (.xls) with Analytics Summary & Matrices
     function exportReportToExcel() {
       const selectElem = document.getElementById('reportTargetSelect');
       const targetVal = selectElem ? selectElem.value : 'group_all';
@@ -2679,9 +2884,112 @@
         return;
       }
 
+      const count = dataset.length;
+      let appliedFull = 0, appliedPart = 0, diffHard = 0, diffNone = 0;
       let totalStudents = dataset.reduce((acc, curr) => acc + (parseInt(curr.studentCount, 10) || 0), 0);
       let distinctCities = new Set(dataset.map(r => r.city).filter(Boolean));
+      const hardReasonsMap = {};
+      const noneReasonsMap = {};
 
+      dataset.forEach(r => {
+        if (r.q1_code === 'applied_full') appliedFull++;
+        else if (r.q1_code === 'applied_part') appliedPart++;
+        else if (r.q1_code === 'diff_hard') {
+          diffHard++;
+          if (r.q1a_reason) hardReasonsMap[r.q1a_reason] = (hardReasonsMap[r.q1a_reason] || 0) + 1;
+        } else if (r.q1_code === 'diff_none') {
+          diffNone++;
+          if (r.q1a_reason) noneReasonsMap[r.q1a_reason] = (noneReasonsMap[r.q1a_reason] || 0) + 1;
+        }
+      });
+
+      const overallAppRate = Math.round(((appliedFull + appliedPart + diffHard) / count) * 100);
+      const fullRate = Math.round((appliedFull / count) * 100);
+      const partRate = Math.round((appliedPart / count) * 100);
+      const hardRate = Math.round((diffHard / count) * 100);
+      const noneRate = Math.round((diffNone / count) * 100);
+
+      const topHard = Object.entries(hardReasonsMap).sort((a,b) => b[1] - a[1])[0];
+      const topNone = Object.entries(noneReasonsMap).sort((a,b) => b[1] - a[1])[0];
+
+      // Build Branch Matrix for Excel
+      const branchSet = new Set(STANDARD_BRANCHES);
+      dataset.forEach(r => { if (r.branch && r.branch.trim()) branchSet.add(r.branch.trim()); });
+      let branchMatrixRows = '';
+      branchSet.forEach(bName => {
+        const bData = dataset.filter(r => (r.branch || '').trim() === bName);
+        const bCount = bData.length;
+        const bStuds = bData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
+        const bFull = bData.filter(r => r.q1_code === 'applied_full').length;
+        const bPart = bData.filter(r => r.q1_code === 'applied_part').length;
+        const bHard = bData.filter(r => r.q1_code === 'diff_hard').length;
+        const bNone = bData.filter(r => r.q1_code === 'diff_none').length;
+
+        const bFullPct = bCount ? Math.round((bFull / bCount) * 100) : 0;
+        const bPartPct = bCount ? Math.round((bPart / bCount) * 100) : 0;
+        const bHardPct = bCount ? Math.round((bHard / bCount) * 100) : 0;
+        const bNonePct = bCount ? Math.round((bNone / bCount) * 100) : 0;
+
+        const bReasons = {};
+        bData.forEach(r => { if (r.q1a_reason) bReasons[r.q1a_reason] = (bReasons[r.q1a_reason] || 0) + 1; });
+        const bTopR = Object.entries(bReasons).sort((a,b) => b[1] - a[1])[0];
+        const bDominantReason = bTopR ? `${bTopR[0]} (${bTopR[1]})` : (bCount > 0 ? "Sorunsuz / Belirtilmedi" : "-");
+
+        branchMatrixRows += `
+          <tr>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; font-weight: bold;">${escapeXml(bName)}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center;">${bCount}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center;">${bStuds}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #166534; font-weight: bold;">%${bFullPct}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #4338ca;">%${bPartPct}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #b45309;">%${bHardPct}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #b91c1c; font-weight: bold;">%${bNonePct}</td>
+            <td colspan="7" style="border: 1px solid #cbd5e1; padding: 6px; font-size: 9pt;">${escapeXml(bDominantReason)}</td>
+          </tr>
+        `;
+      });
+
+      // Build Weekly Trend Matrix for Excel
+      let weekTrendRows = '';
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        const wStr = `${w}. Hafta`;
+        const wData = dataset.filter(r => r.week === wStr);
+        const wCount = wData.length;
+        if (wCount === 0) continue;
+
+        const wStuds = wData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
+        const wFull = wData.filter(r => r.q1_code === 'applied_full').length;
+        const wPart = wData.filter(r => r.q1_code === 'applied_part').length;
+        const wHard = wData.filter(r => r.q1_code === 'diff_hard').length;
+        const wNone = wData.filter(r => r.q1_code === 'diff_none').length;
+
+        const wApp = Math.round(((wFull + wPart + wHard) / wCount) * 100);
+        const wFullPct = Math.round((wFull / wCount) * 100);
+        const wPartPct = Math.round((wPart / wCount) * 100);
+        const wHardPct = Math.round((wHard / wCount) * 100);
+        const wNonePct = Math.round((wNone / wCount) * 100);
+
+        let wTrendDesc = wApp >= 90 ? "Yüksek saha kabulü; tefekkür ve kazanım bağı güçlü."
+          : (wApp >= 75 ? "İstikrarlı uygulama; kısmi uyarlama ihtiyacı."
+          : (wApp >= 50 ? "Orta düzey uygulama; yöntem rehberliği önerilir."
+          : "Uygulama bariyerleri baskın; zümre desteği elzem."));
+
+        weekTrendRows += `
+          <tr>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; font-weight: bold; color: #4338ca;">${wStr}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center;">${wCount}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center;">${wStuds}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-weight: bold; background-color: #f0fdf4;">%${wApp}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #166534;">%${wFullPct}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #4338ca;">%${wPartPct}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #b45309;">%${wHardPct}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #b91c1c;">%${wNonePct}</td>
+            <td colspan="6" style="border: 1px solid #cbd5e1; padding: 6px; font-size: 9pt;">${escapeXml(wTrendDesc)}</td>
+          </tr>
+        `;
+      }
+
+      // Build Detail Survey Rows
       let rowsHtml = '';
       dataset.forEach((r, idx) => {
         const isEven = idx % 2 === 1;
@@ -2722,7 +3030,7 @@
             <x:ExcelWorkbook>
               <x:ExcelWorksheets>
                 <x:ExcelWorksheet>
-                  <x:Name>MMR Saha Verileri</x:Name>
+                  <x:Name>MMR Saha Analiz Raporu</x:Name>
                   <x:WorksheetOptions>
                     <x:DisplayGridlines/>
                   </x:WorksheetOptions>
@@ -2733,44 +3041,123 @@
           <![endif]-->
           <meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"/>
           <style>
-            table { border-collapse: collapse; width: 100%; }
-            th { background-color: #059669; color: #ffffff; font-weight: bold; border: 1px solid #047857; padding: 8px; text-align: center; font-size: 11pt; }
-            td { font-size: 10pt; font-family: Calibri, Arial, sans-serif; vertical-align: middle; }
-            .header-title { font-size: 14pt; font-weight: bold; color: #1e1b4b; text-align: left; padding: 10px 0 4px 0; }
-            .header-meta { font-size: 10pt; color: #475569; padding-bottom: 12px; }
+            table { border-collapse: collapse; width: 100%; font-family: Calibri, Arial, sans-serif; }
+            th { background-color: #1e1b4b; color: #ffffff; font-weight: bold; border: 1px solid #312e81; padding: 8px; text-align: center; font-size: 10pt; }
+            td { font-size: 10pt; vertical-align: middle; }
+            .header-title { font-size: 15pt; font-weight: bold; color: #1e1b4b; text-align: left; padding: 10px 0 4px 0; }
+            .header-meta { font-size: 10pt; color: #475569; padding-bottom: 8px; }
+            .section-header { font-size: 12pt; font-weight: bold; background-color: #e0e7ff; color: #1e1b4b; padding: 8px; border: 1px solid #c7d2fe; }
+            .kpi-title { font-size: 9pt; font-weight: bold; color: #475569; text-align: center; background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 6px; }
+            .kpi-val { font-size: 14pt; font-weight: bold; text-align: center; border: 1px solid #cbd5e1; padding: 8px; }
           </style>
         </head>
         <body>
           <table>
             <tr>
-              <td colspan="14" class="header-title">MUALLİMİN MANEVÎ REHBERİ (MMR) - SAHA ÇALIŞMASI UYGULAMA VERİLERİ RAPORU</td>
+              <td colspan="14" class="header-title">MUALLİMİN MANEVÎ REHBERİ (MMR) - PEDAGOJİK SAHA ANALİZ VE BULGULAR RAPORU</td>
             </tr>
             <tr>
               <td colspan="14" class="header-meta">
                 <strong>Rapor Kapsamı:</strong> ${escapeXml(scopeTitle)} &nbsp;|&nbsp; 
-                <strong>Toplam Anket Kaydı:</strong> ${dataset.length} &nbsp;|&nbsp; 
+                <strong>Toplam Anket Kaydı:</strong> ${count} &nbsp;|&nbsp; 
                 <strong>Ulaşılan Öğrenci:</strong> ${totalStudents.toLocaleString('tr-TR')} &nbsp;|&nbsp; 
                 <strong>Farklı İl Sayısı:</strong> ${distinctCities.size} &nbsp;|&nbsp; 
                 <strong>Oluşturulma Tarihi:</strong> ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'})}
               </td>
             </tr>
             <tr><td colspan="14"></td></tr>
+
+            <!-- BÖLÜM 1: MMR UYGULANABİLİRLİK PROFİLİ -->
+            <tr>
+              <td colspan="14" class="section-header">1. MMR UYGULANABİLİRLİK PROFİLİ (TEMEL GÖSTERGELER)</td>
+            </tr>
+            <tr>
+              <td colspan="2" class="kpi-title">1. Genel Uygulama Oranı</td>
+              <td colspan="3" class="kpi-title">2. Sorunsuz Uygulama</td>
+              <td colspan="3" class="kpi-title">3. Kısmi Uygulama (Uyarlama)</td>
+              <td colspan="3" class="kpi-title">4. Uygulama Güçlüğü</td>
+              <td colspan="3" class="kpi-title">5. Uygulama Engeli</td>
+            </tr>
+            <tr>
+              <td colspan="2" class="kpi-val" style="color: #1e1b4b; background-color: #e0e7ff;">%${overallAppRate}</td>
+              <td colspan="3" class="kpi-val" style="color: #166534; background-color: #dcfce7;">%${fullRate}</td>
+              <td colspan="3" class="kpi-val" style="color: #4338ca; background-color: #ede9fe;">%${partRate}</td>
+              <td colspan="3" class="kpi-val" style="color: #b45309; background-color: #fef3c7;">%${hardRate}</td>
+              <td colspan="3" class="kpi-val" style="color: #b91c1c; background-color: #fee2e2;">%${noneRate}</td>
+            </tr>
+            <tr>
+              <td colspan="7" style="border: 1px solid #cbd5e1; padding: 6px; background-color: #fffbeb;">
+                <strong>1A. En Sık Karşılaşılan Güçlük:</strong> ${escapeXml(topHard ? `${topHard[0]} (${topHard[1]} Öğretmen)` : "Veri Yok")}
+              </td>
+              <td colspan="7" style="border: 1px solid #cbd5e1; padding: 6px; background-color: #fef2f2;">
+                <strong>1B. En Sık Karşılaşılan Engel:</strong> ${escapeXml(topNone ? `${topNone[0]} (${topNone[1]} Öğretmen)` : "Veri Yok")}
+              </td>
+            </tr>
+            <tr><td colspan="14"></td></tr>
+
+            <!-- BÖLÜM 2: BRANŞLARA GÖRE UYGULANABİLİRLİK MATRİSİ -->
+            <tr>
+              <td colspan="14" class="section-header">2. BRANŞLARA GÖRE UYGULANABİLİRLİK & GÜÇLÜK DAĞILIM MATRİSİ</td>
+            </tr>
+            <thead>
+              <tr>
+                <th style="width: 140px;">Branş</th>
+                <th style="width: 60px;">Kayıt</th>
+                <th style="width: 70px;">Öğrenci</th>
+                <th style="width: 80px;">Rahat (%)</th>
+                <th style="width: 80px;">Kısmen (%)</th>
+                <th style="width: 80px;">Zorlandı (%)</th>
+                <th style="width: 90px;">Uygulayamadı (%)</th>
+                <th colspan="7">Hakim Zorlanma / Engel Nedeni</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${branchMatrixRows}
+            </tbody>
+            <tr><td colspan="14"></td></tr>
+
+            <!-- BÖLÜM 3: BOYLAMSAL HAFTALIK TREND MATRİSİ -->
+            <tr>
+              <td colspan="14" class="section-header">3. ZAMAN İÇERİSİNDEKİ DEĞİŞİM & BOYLAMSAL TREND ANALİZİ (1–35. HAFTALAR)</td>
+            </tr>
+            <thead>
+              <tr>
+                <th style="width: 90px;">Hafta</th>
+                <th style="width: 60px;">Kayıt</th>
+                <th style="width: 70px;">Öğrenci</th>
+                <th style="width: 90px;">Uygulama (%)</th>
+                <th style="width: 80px;">Sorunsuz (%)</th>
+                <th style="width: 80px;">Kısmi (%)</th>
+                <th style="width: 80px;">Güçlük (%)</th>
+                <th style="width: 80px;">Engel (%)</th>
+                <th colspan="6">Haftalık Pedagojik Yansıma ve Trend</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${weekTrendRows}
+            </tbody>
+            <tr><td colspan="14"></td></tr>
+
+            <!-- BÖLÜM 4: DETAYLI ANKET LİSTESİ -->
+            <tr>
+              <td colspan="14" class="section-header">4. DETAYLI SAHA ANKETİ KAYITLARI</td>
+            </tr>
             <thead>
               <tr>
                 <th style="width: 45px;">#</th>
-                <th style="width: 170px;">Öğretmen Adı Soyadı</th>
+                <th style="width: 160px;">Öğretmen Adı Soyadı</th>
                 <th style="width: 130px;">Branş</th>
-                <th style="width: 100px;">İl</th>
-                <th style="width: 110px;">Sınıf Düzeyi</th>
-                <th style="width: 90px;">Katılan Öğrenci</th>
-                <th style="width: 95px;">Uygulanan Hafta</th>
-                <th style="width: 170px;">1. Soru: Uygulama Durumu</th>
-                <th style="width: 240px;">1A. Soru: Zorlanma / Uygulayamama Temel Nedeni</th>
-                <th style="width: 130px;">2. Soru: Uygulama Süresi</th>
-                <th style="width: 150px;">3. Soru: Öğrenci İlgisi ve Katılımı</th>
-                <th style="width: 180px;">4. Soru: Ders Öğrenme Çıktısı Uyumu</th>
-                <th style="width: 250px;">5. Soru: Saha Notu / Görüşler</th>
-                <th style="width: 100px;">Uygulama Tarihi</th>
+                <th style="width: 90px;">İl</th>
+                <th style="width: 100px;">Sınıf Düzeyi</th>
+                <th style="width: 80px;">Öğrenci</th>
+                <th style="width: 85px;">Hafta</th>
+                <th style="width: 160px;">1. Soru: Uygulama Durumu</th>
+                <th style="width: 230px;">1A/1B. Zorlanma / Engel Nedeni</th>
+                <th style="width: 120px;">2. Soru: Süre</th>
+                <th style="width: 140px;">3. Soru: İlgi/Katılım</th>
+                <th style="width: 160px;">4. Soru: Kazanım Uyumu</th>
+                <th style="width: 230px;">5. Soru: Saha Notu</th>
+                <th style="width: 95px;">Tarih</th>
               </tr>
             </thead>
             <tbody>
@@ -2930,14 +3317,16 @@
         reportSubtitle = `Kapsam: Sadece ${selectedWeek} Verileri | Toplam ${dataset.length} Öğretmen Geri Bildirimi`;
         reportScopeBadge = `${selectedWeek} Özel Raporu`;
       } else {
-        // Individual Teacher
+        // Individual Teacher Card
         const r = surveyPool.find(item => item.id === targetVal);
         if (!r) return;
 
         document.getElementById('reportBadgeScope').textContent = "Öğretmen Karnesi";
         document.getElementById('reportHeaderTitle').textContent = `${r.teacher} - Saha Uygulama Karnesi`;
         document.getElementById('reportHeaderSubtitle').textContent = `İl: ${r.city || "--"} | Branş: ${r.branch} | Sınıf: ${r.grade || "--"} (${r.studentCount || 0} Öğrenci) | Hafta: ${r.week || "1. Hafta"} | Tarih: ${r.date}`;
-        document.getElementById('reportHeaderSuccessRate').textContent = r.q1_code.startsWith('applied') ? "%100" : "%0";
+        
+        const isApp = r.q1_code && (r.q1_code === 'applied_full' || r.q1_code === 'applied_part' || r.q1_code === 'diff_hard');
+        document.getElementById('reportHeaderSuccessRate').textContent = isApp ? "%100" : "%0";
         document.getElementById('reportHeaderStudentReach').textContent = `${r.studentCount || 0} Öğrenci`;
 
         const badgeElem = document.getElementById('reportHeaderBadge');
@@ -2947,15 +3336,32 @@
         else if (r.q1_code === 'diff_hard') badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-amber-500 text-slate-900 shadow-sm";
         else badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-rose-500 text-white shadow-sm";
 
+        // Update Profile Cards for Individual
+        document.getElementById('profileRateOverall').textContent = isApp ? "%100" : "%0";
+        document.getElementById('profileRateFull').textContent = r.q1_code === 'applied_full' ? "%100" : "%0";
+        document.getElementById('profileRatePart').textContent = r.q1_code === 'applied_part' ? "%100" : "%0";
+        document.getElementById('profileRateHard').textContent = r.q1_code === 'diff_hard' ? "%100" : "%0";
+        document.getElementById('profileRateNone').textContent = r.q1_code === 'diff_none' ? "%100" : "%0";
+        document.getElementById('profileDatasetSizeBadge').textContent = `1 Öğretmen Karnesi (${r.studentCount || 0} Öğrenci)`;
+        
+        document.getElementById('profileTopHardReason').textContent = r.q1_code === 'diff_hard' && r.q1a_reason ? r.q1a_reason : "Uygulama güçlüğü bildirilmedi.";
+        document.getElementById('profileTopNoneReason').textContent = r.q1_code === 'diff_none' && r.q1a_reason ? r.q1a_reason : "Uygulama engeli bildirilmedi.";
+
         let diagHtml = `
           <p><strong>Öğretmen:</strong> ${r.teacher} | <strong>İl:</strong> ${r.city || "--"} | <strong>Branş:</strong> ${r.branch}</p>
           <p><strong>Sınıf Düzeyi:</strong> ${r.grade || "--"} | <strong>Katılan Öğrenci:</strong> ${r.studentCount || 0} | <strong>Hafta:</strong> ${r.week || "1. Hafta"}</p>
           <p><strong>Saha Durumu (S1):</strong> ${r.q1_text}</p>
         `;
         if (r.q1a_reason) {
-          diagHtml += `<p class="p-3 bg-amber-50 border-l-4 border-amber-500 rounded text-amber-900"><strong>Zorlanma / Uygulayamama Temel Gerekçesi (S1A):</strong> ${r.q1a_reason}</p>`;
+          diagHtml += `<p class="p-3 bg-amber-50 border-l-4 border-amber-500 rounded-xl text-amber-900"><strong>Zorlanma / Uygulayamama Temel Gerekçesi (S1A/1B):</strong> ${r.q1a_reason}</p>`;
         }
         document.getElementById('reportDiagnosticParagraph').innerHTML = diagHtml;
+
+        // Render Single Row Tables for this individual
+        renderBranchMatrixTable([r]);
+        renderWeekTrendTable([r]);
+        renderGradeMatrixTable([r]);
+        renderReasonsBreakdown([r]);
 
         document.getElementById('reportStudentEngagementInsight').innerHTML = `
           <p><strong>Uygulama Süresi (S2):</strong> ${r.q2_duration || "Uygulanmadı"}</p>
@@ -2967,7 +3373,7 @@
           <p class="text-xs text-slate-600 mt-2">Bu içerik için ders planlama aşamasında öğrenci seviyesine göre analoji kancaları kullanılması tavsiye edilir.</p>
         `;
 
-        renderFieldActionCards(r.q1a_reason ? [r.q1a_reason] : [], r.q1_code.startsWith('applied') ? 100 : 0);
+        renderFieldActionCards(r.q1a_reason ? [r.q1a_reason] : [], isApp ? 100 : 0);
 
         if (r.fieldNote) {
           renderFieldNotesList([{ teacher: r.teacher, city: r.city, branch: r.branch, note: r.fieldNote, week: r.week }]);
@@ -2979,7 +3385,7 @@
         return;
       }
 
-      // Group or Weekly Aggregate
+      // Group or Weekly Aggregate View
       const count = dataset.length;
       document.getElementById('reportBadgeScope').textContent = reportScopeBadge;
       document.getElementById('reportHeaderTitle').textContent = reportTitle;
@@ -2990,9 +3396,24 @@
         document.getElementById('reportHeaderStudentReach').textContent = "0 Öğrenci";
         document.getElementById('reportHeaderBadge').textContent = "Veri Yok";
         document.getElementById('reportHeaderBadge').className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-slate-400 text-white";
-        document.getElementById('reportDiagnosticParagraph').innerHTML = "<p>Bu hafta / kapsam için henüz kayıtlı saha anketi bulunmamaktadır.</p>";
-        document.getElementById('reportStudentEngagementInsight').innerHTML = "<p>Veri yok.</p>";
-        document.getElementById('reportCurriculumFitInsight').innerHTML = "<p>Veri yok.</p>";
+        
+        document.getElementById('profileRateOverall').textContent = "%0";
+        document.getElementById('profileRateFull').textContent = "%0";
+        document.getElementById('profileRatePart').textContent = "%0";
+        document.getElementById('profileRateHard').textContent = "%0";
+        document.getElementById('profileRateNone').textContent = "%0";
+        document.getElementById('profileDatasetSizeBadge').textContent = "0 Kayıt";
+        document.getElementById('profileTopHardReason').textContent = "--";
+        document.getElementById('profileTopNoneReason').textContent = "--";
+
+        document.getElementById('reportDiagnosticParagraph').innerHTML = "<p class='text-slate-400 italic'>Bu hafta / kapsam için henüz kayıtlı saha anketi bulunmamaktadır.</p>";
+        document.getElementById('reportBranchMatrixTableBody').innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">Veri bulunmuyor.</td></tr>`;
+        document.getElementById('reportWeekTrendTableBody').innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">Veri bulunmuyor.</td></tr>`;
+        document.getElementById('reportGradeMatrixTableBody').innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">Veri bulunmuyor.</td></tr>`;
+        document.getElementById('reportHardReasonsBreakdown').innerHTML = "<p class='text-amber-800/70 italic text-xs'>Bildirilen güçlük bulunmuyor.</p>";
+        document.getElementById('reportNoneReasonsBreakdown').innerHTML = "<p class='text-rose-800/70 italic text-xs'>Bildirilen engel bulunmuyor.</p>";
+        document.getElementById('reportStudentEngagementInsight').innerHTML = "<p class='text-slate-400 italic'>Veri yok.</p>";
+        document.getElementById('reportCurriculumFitInsight').innerHTML = "<p class='text-slate-400 italic'>Veri yok.</p>";
         document.getElementById('reportActionRecommendationsGrid').innerHTML = "";
         document.getElementById('reportFieldNotesContainer').innerHTML = "<p class='text-slate-400 italic'>Henüz eklenmiş saha notu bulunmuyor.</p>";
         return;
@@ -3005,12 +3426,19 @@
       let reasonsList = [];
       let notesList = [];
       const distinctCities = new Set();
+      const hardReasonsMap = {};
+      const noneReasonsMap = {};
 
       dataset.forEach(r => {
         if (r.q1_code === 'applied_full') appliedFull++;
         else if (r.q1_code === 'applied_part') appliedPart++;
-        else if (r.q1_code === 'diff_hard') diffHard++;
-        else if (r.q1_code === 'diff_none') diffNone++;
+        else if (r.q1_code === 'diff_hard') {
+          diffHard++;
+          if (r.q1a_reason) hardReasonsMap[r.q1a_reason] = (hardReasonsMap[r.q1a_reason] || 0) + 1;
+        } else if (r.q1_code === 'diff_none') {
+          diffNone++;
+          if (r.q1a_reason) noneReasonsMap[r.q1a_reason] = (noneReasonsMap[r.q1a_reason] || 0) + 1;
+        }
 
         totalStudents += (r.studentCount || 0);
         if (r.city) distinctCities.add(r.city);
@@ -3033,20 +3461,31 @@
         if (r.fieldNote) notesList.push({ teacher: r.teacher, city: r.city, branch: r.branch, note: r.fieldNote, week: r.week });
       });
 
-      const totalApplied = appliedFull + appliedPart;
-      const appRate = Math.round((totalApplied / count) * 100);
+      // MMR UYGULANABİLİRLİK PROFİLİ (5 METRİK)
+      // 1. Uygulama Oranı = Rahat + Kısmen + Zorlanarak uygulayanlar
+      const overallAppliedCount = appliedFull + appliedPart + diffHard;
+      const appRateOverall = Math.round((overallAppliedCount / count) * 100);
+      const appRateFull = Math.round((appliedFull / count) * 100);
+      const appRatePart = Math.round((appliedPart / count) * 100);
+      const appRateHard = Math.round((diffHard / count) * 100);
+      const appRateNone = Math.round((diffNone / count) * 100);
 
-      document.getElementById('reportHeaderSuccessRate').textContent = `%${appRate}`;
+      // Top Barriers
+      const topHard = Object.entries(hardReasonsMap).sort((a,b) => b[1] - a[1])[0];
+      const topNone = Object.entries(noneReasonsMap).sort((a,b) => b[1] - a[1])[0];
+
+      // Update Top Badge & Headers
+      document.getElementById('reportHeaderSuccessRate').textContent = `%${appRateOverall}`;
       document.getElementById('reportHeaderStudentReach').textContent = `${totalStudents.toLocaleString('tr-TR')} Öğrenci`;
 
       const badgeElem = document.getElementById('reportHeaderBadge');
-      if (appRate >= 80) {
-        badgeElem.textContent = "Çok Yüksek Uygunluk";
+      if (appRateOverall >= 85) {
+        badgeElem.textContent = "Çok Yüksek Uygulanabilirlik";
         badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-emerald-500 text-white shadow-sm";
-      } else if (appRate >= 60) {
-        badgeElem.textContent = "İyi / Geliştirilebilir";
+      } else if (appRateOverall >= 70) {
+        badgeElem.textContent = "İyi / Uyarlama Desteği";
         badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-indigo-600 text-white shadow-sm";
-      } else if (appRate >= 40) {
+      } else if (appRateOverall >= 50) {
         badgeElem.textContent = "Kısmi Zorlanma";
         badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-amber-500 text-slate-900 shadow-sm";
       } else {
@@ -3054,31 +3493,290 @@
         badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-rose-500 text-white shadow-sm";
       }
 
-      // 1. Diagnostic Summary
+      // Profile Cards Population
+      document.getElementById('profileRateOverall').textContent = `%${appRateOverall}`;
+      document.getElementById('profileRateFull').textContent = `%${appRateFull}`;
+      document.getElementById('profileRatePart').textContent = `%${appRatePart}`;
+      document.getElementById('profileRateHard').textContent = `%${appRateHard}`;
+      document.getElementById('profileRateNone').textContent = `%${appRateNone}`;
+      document.getElementById('profileDatasetSizeBadge').textContent = `${count} Kayıt (${totalStudents.toLocaleString('tr-TR')} Öğrenci)`;
+
+      document.getElementById('profileTopHardReason').textContent = topHard 
+        ? `${topHard[0]} (${topHard[1]} Öğretmen - %${Math.round((topHard[1]/diffHard)*100)})` 
+        : "Bildirilen uygulama güçlüğü bulunmuyor.";
+      document.getElementById('profileTopNoneReason').textContent = topNone 
+        ? `${topNone[0]} (${topNone[1]} Öğretmen - %${Math.round((topNone[1]/diffNone)*100)})` 
+        : "Bildirilen uygulama engeli bulunmuyor.";
+
+      // 1. Diagnostic Summary Paragraph
       document.getElementById('reportDiagnosticParagraph').innerHTML = `
-        <p>Seçilen kapsam dahilinde <strong>${distinctCities.size} farklı ilden</strong> toplanan <strong>${count}</strong> öğretmen bildirimine göre, toplam <strong>${totalStudents.toLocaleString('tr-TR')} öğrenciye</strong> ulaşılmıştır. İçeriklerin <strong>%${appRate}</strong> oranında (<strong>${totalApplied} öğretmen</strong>) ders akışı içerisinde başarıyla uygulandığı tespit edilmiştir.</p>
-        <p>Öğretmenlerin <strong>%${Math.round((appliedFull/count)*100)}</strong>'i (<strong>${appliedFull}</strong> kişi) içeriği <em>rahatlıkla uyguladığını</em>, <strong>%${Math.round((appliedPart/count)*100)}</strong>'i (<strong>${appliedPart}</strong> kişi) <em>kısmen uyguladığını</em>, <strong>%${Math.round((diffHard/count)*100)}</strong>'i ise uygulamakta <em>zorlandığını</em> bildirmiştir.</p>
+        <p>Seçilen kapsam dahilinde <strong>${distinctCities.size} farklı ilden</strong> toplanan <strong>${count}</strong> öğretmen bildirimine göre, toplam <strong>${totalStudents.toLocaleString('tr-TR')} öğrenciye</strong> ulaşılmıştır. Öğretmenlerin <strong>%${appRateOverall}</strong>'i (<strong>${overallAppliedCount} öğretmen</strong>) dersinde MMR içeriğine yer vermiştir.</p>
+        <p>MMR Uygulanabilirlik Profili incelendiğinde; öğretmenlerin <strong>%${appRateFull}</strong>'i (<strong>${appliedFull}</strong> kişi) <em>sorunsuz/rahatlıkla</em>, <strong>%${appRatePart}</strong>'i (<strong>${appliedPart}</strong> kişi) <em>kısmen uyarlayarak</em>, <strong>%${appRateHard}</strong>'i (<strong>${diffHard}</strong> kişi) ise <em>süreç içi güçlük yaşayarak</em> uygulamıştır. Uygulanamama/engel oranı ise <strong>%${appRateNone}</strong> (<strong>${diffNone}</strong> kişi) seviyesindedir.</p>
       `;
 
-      // 2. Student Engagement
+      // 2. Render Analytical Matrices
+      renderBranchMatrixTable(dataset);
+      renderWeekTrendTable(dataset);
+      renderGradeMatrixTable(dataset);
+      renderReasonsBreakdown(dataset);
+
+      // 3. Student Engagement Insight (S3)
+      const totalInClass = appliedFull + appliedPart + diffHard;
       document.getElementById('reportStudentEngagementInsight').innerHTML = `
-        <p>Uygulama yapılan sınıflarda öğrencilerin <strong>%${totalApplied > 0 ? Math.round(((engHigh + engMed)/totalApplied)*100) : 0}</strong>'inde (<strong>${engHigh + engMed}</strong> sınıf) ilgi ve katılımın <strong>"Çok İyi" veya "İyi"</strong> seviyede gerçekleştiği gözlemlenmiştir.</p>
+        <p>Uygulama yapılan sınıflarda öğrencilerin <strong>%${totalInClass > 0 ? Math.round(((engHigh + engMed)/totalInClass)*100) : 0}</strong>'inde (<strong>${engHigh + engMed}</strong> sınıf) ilgi ve katılımın <strong>"Çok İyi" veya "İyi"</strong> seviyede gerçekleştiği gözlemlenmiştir.</p>
         <p class="text-xs text-emerald-800 leading-snug">Sınıf içi katılım ortalaması <strong>${Math.round(totalStudents/count)} öğrenci</strong> olup, öğrencilerin varlık ve nizam odaklı tefekkür konularına aktif ilgi gösterdikleri gözlemlenmiştir.</p>
       `;
 
-      // 3. Curriculum Fit (4 Şıklı)
+      // 4. Curriculum Fit Insight (S4 - 4 Şıklı)
       document.getElementById('reportCurriculumFitInsight').innerHTML = `
-        <p>4 şıklı kazanım uyum sklasına göre; öğretmenlerin <strong>%${totalApplied > 0 ? Math.round(((align4VeryHigh + align4High)/totalApplied)*100) : 0}</strong>'i (<strong>${align4VeryHigh + align4High}</strong> kişi) içeriğin ders öğrenme çıktısıyla <strong>"Çok Uyumlu" veya "Uyumlu"</strong> olduğunu belirtmiştir.</p>
+        <p>4 şıklı kazanım uyum skalasına göre; öğretmenlerin <strong>%${totalInClass > 0 ? Math.round(((align4VeryHigh + align4High)/totalInClass)*100) : 0}</strong>'i (<strong>${align4VeryHigh + align4High}</strong> kişi) içeriğin ders öğrenme çıktısıyla <strong>"Çok Uyumlu" veya "Uyumlu"</strong> olduğunu belirtmiştir.</p>
         <p class="text-xs text-indigo-800 leading-snug">Kısmen uyumlu (${align4Med}) ve uyumsuz (${align4Low}) sınıflarda ise temel etkenin süre kısıtı ve sınıf seviyesi uyarlaması olduğu görülmektedir.</p>
       `;
 
-      // 4. Action Plan Cards
-      renderFieldActionCards(reasonsList, appRate);
-
-      // 5. Field Notes
+      // 5. Action Plan Cards & Field Notes
+      renderFieldActionCards(reasonsList, appRateOverall);
       renderFieldNotesList(notesList);
 
       if (window.lucide) window.lucide.createIcons();
+    }
+
+    // Helper: Render Branch Matrix Table
+    function renderBranchMatrixTable(dataset) {
+      const tbody = document.getElementById('reportBranchMatrixTableBody');
+      if (!tbody) return;
+
+      const branchSet = new Set(STANDARD_BRANCHES);
+      dataset.forEach(r => { if (r.branch && r.branch.trim()) branchSet.add(r.branch.trim()); });
+
+      let html = '';
+      branchSet.forEach(bName => {
+        const bData = dataset.filter(r => (r.branch || '').trim() === bName);
+        const bCount = bData.length;
+        const bStuds = bData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
+        const bFull = bData.filter(r => r.q1_code === 'applied_full').length;
+        const bPart = bData.filter(r => r.q1_code === 'applied_part').length;
+        const bHard = bData.filter(r => r.q1_code === 'diff_hard').length;
+        const bNone = bData.filter(r => r.q1_code === 'diff_none').length;
+
+        const bFullPct = bCount ? Math.round((bFull / bCount) * 100) : 0;
+        const bPartPct = bCount ? Math.round((bPart / bCount) * 100) : 0;
+        const bHardPct = bCount ? Math.round((bHard / bCount) * 100) : 0;
+        const bNonePct = bCount ? Math.round((bNone / bCount) * 100) : 0;
+
+        const bReasons = {};
+        bData.forEach(r => { if (r.q1a_reason) bReasons[r.q1a_reason] = (bReasons[r.q1a_reason] || 0) + 1; });
+        const bTopR = Object.entries(bReasons).sort((a,b) => b[1] - a[1])[0];
+        const bDominantReason = bTopR ? `${bTopR[0]} (${bTopR[1]})` : (bCount > 0 ? "Sorunsuz / Belirtilmedi" : "-");
+
+        html += `
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="p-3 font-bold text-slate-900">${escapeXml(bName)}</td>
+            <td class="p-3 text-center font-bold text-slate-700">${bCount}</td>
+            <td class="p-3 text-center text-slate-600">${bStuds.toLocaleString('tr-TR')}</td>
+            <td class="p-3 text-center font-bold text-emerald-700 bg-emerald-50/40">%${bFullPct}</td>
+            <td class="p-3 text-center font-bold text-sky-700 bg-sky-50/40">%${bPartPct}</td>
+            <td class="p-3 text-center font-bold text-amber-700 bg-amber-50/40">%${bHardPct}</td>
+            <td class="p-3 text-center font-bold text-rose-700 bg-rose-50/40">%${bNonePct}</td>
+            <td class="p-3 text-center">
+              ${bCount > 0 ? `
+                <div class="flex h-3 w-full rounded-full overflow-hidden bg-slate-100 shadow-inner">
+                  <div style="width: ${bFullPct}%" title="Rahat: %${bFullPct}" class="bg-emerald-500"></div>
+                  <div style="width: ${bPartPct}%" title="Kısmen: %${bPartPct}" class="bg-sky-500"></div>
+                  <div style="width: ${bHardPct}%" title="Zorlandı: %${bHardPct}" class="bg-amber-500"></div>
+                  <div style="width: ${bNonePct}%" title="Uygulayamadı: %${bNonePct}" class="bg-rose-500"></div>
+                </div>
+              ` : `<span class="text-slate-300 text-[10px]">-</span>`}
+            </td>
+            <td class="p-3 text-xs text-slate-600 max-w-[260px] truncate" title="${escapeXml(bDominantReason)}">
+              ${escapeXml(bDominantReason)}
+            </td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
+
+    // Helper: Render Longitudinal Weekly Trend Table (1-35 Weeks)
+    function renderWeekTrendTable(dataset) {
+      const tbody = document.getElementById('reportWeekTrendTableBody');
+      if (!tbody) return;
+
+      let html = '';
+      let activeWeekCount = 0;
+
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        const wStr = `${w}. Hafta`;
+        const wData = dataset.filter(r => r.week === wStr);
+        const wCount = wData.length;
+        if (wCount === 0) continue;
+
+        activeWeekCount++;
+        const wStuds = wData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
+        const wFull = wData.filter(r => r.q1_code === 'applied_full').length;
+        const wPart = wData.filter(r => r.q1_code === 'applied_part').length;
+        const wHard = wData.filter(r => r.q1_code === 'diff_hard').length;
+        const wNone = wData.filter(r => r.q1_code === 'diff_none').length;
+
+        const wApp = Math.round(((wFull + wPart + wHard) / wCount) * 100);
+        const wFullPct = Math.round((wFull / wCount) * 100);
+        const wPartPct = Math.round((wPart / wCount) * 100);
+        const wHardPct = Math.round((wHard / wCount) * 100);
+        const wNonePct = Math.round((wNone / wCount) * 100);
+
+        let wTrendDesc = wApp >= 90 ? "🌟 Yüksek saha kabulü; tefekkür ve kazanım bağı güçlü."
+          : (wApp >= 75 ? "✅ İstikrarlı uygulama; kısmi zaman ve seviye uyarlama ihtiyacı."
+          : (wApp >= 50 ? "⚠️ Orta düzey uygulama; yöntem rehberliği ve etkinlik desteği önerilir."
+          : "🛑 Uygulama bariyerleri baskın; zümre desteği ve içerik sadeleştirmesi elzem."));
+
+        html += `
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="p-3 font-bold text-indigo-900">${wStr}</td>
+            <td class="p-3 text-center font-bold text-slate-700">${wCount}</td>
+            <td class="p-3 text-center text-slate-600">${wStuds.toLocaleString('tr-TR')}</td>
+            <td class="p-3 text-center font-black text-slate-900 bg-slate-100/70">%${wApp}</td>
+            <td class="p-3 text-center font-bold text-emerald-700 bg-emerald-50/40">%${wFullPct}</td>
+            <td class="p-3 text-center font-bold text-sky-700 bg-sky-50/40">%${wPartPct}</td>
+            <td class="p-3 text-center font-bold text-amber-700 bg-amber-50/40">%${wHardPct}</td>
+            <td class="p-3 text-center font-bold text-rose-700 bg-rose-50/40">%${wNonePct}</td>
+            <td class="p-3 text-xs text-slate-700">${wTrendDesc}</td>
+          </tr>
+        `;
+      }
+
+      if (activeWeekCount === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">Seçilen filtre için haftalık veri bulunmuyor.</td></tr>`;
+      } else {
+        tbody.innerHTML = html;
+      }
+    }
+
+    // Helper: Render Grade Level Matrix Table
+    function renderGradeMatrixTable(dataset) {
+      const tbody = document.getElementById('reportGradeMatrixTableBody');
+      if (!tbody) return;
+
+      const grades = [
+        'Okul Öncesi', '1. Sınıf', '2. Sınıf', '3. Sınıf', '4. Sınıf',
+        '5. Sınıf', '6. Sınıf', '7. Sınıf', '8. Sınıf',
+        '9. Sınıf', '10. Sınıf', '11. Sınıf', '12. Sınıf'
+      ];
+
+      let html = '';
+      let activeGradeCount = 0;
+
+      grades.forEach(gName => {
+        const gData = dataset.filter(r => r.grade === gName);
+        const gCount = gData.length;
+        if (gCount === 0) return;
+
+        activeGradeCount++;
+        const gStuds = gData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
+        const gFull = gData.filter(r => r.q1_code === 'applied_full').length;
+        const gPart = gData.filter(r => r.q1_code === 'applied_part').length;
+        const gHard = gData.filter(r => r.q1_code === 'diff_hard').length;
+        const gNone = gData.filter(r => r.q1_code === 'diff_none').length;
+
+        const gApp = Math.round(((gFull + gPart + gHard) / gCount) * 100);
+        const gFullPct = Math.round((gFull / gCount) * 100);
+        const gPartPct = Math.round((gPart / gCount) * 100);
+        const gHardPct = Math.round((gHard / gCount) * 100);
+        const gNonePct = Math.round((gNone / gCount) * 100);
+
+        html += `
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="p-3 font-bold text-purple-950">${gName}</td>
+            <td class="p-3 text-center font-bold text-slate-700">${gCount}</td>
+            <td class="p-3 text-center text-slate-600">${gStuds.toLocaleString('tr-TR')}</td>
+            <td class="p-3 text-center font-black text-slate-900 bg-slate-100/70">%${gApp}</td>
+            <td class="p-3 text-center font-bold text-emerald-700 bg-emerald-50/40">%${gFullPct}</td>
+            <td class="p-3 text-center font-bold text-sky-700 bg-sky-50/40">%${gPartPct}</td>
+            <td class="p-3 text-center font-bold text-amber-700 bg-amber-50/40">%${gHardPct}</td>
+            <td class="p-3 text-center font-bold text-rose-700 bg-rose-50/40">%${gNonePct}</td>
+            <td class="p-3 text-center">
+              <div class="flex h-3 w-full rounded-full overflow-hidden bg-slate-100 shadow-inner">
+                <div style="width: ${gFullPct}%" title="Rahat: %${gFullPct}" class="bg-emerald-500"></div>
+                <div style="width: ${gPartPct}%" title="Kısmen: %${gPartPct}" class="bg-sky-500"></div>
+                <div style="width: ${gHardPct}%" title="Zorlandı: %${gHardPct}" class="bg-amber-500"></div>
+                <div style="width: ${gNonePct}%" title="Uygulayamadı: %${gNonePct}" class="bg-rose-500"></div>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      if (activeGradeCount === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">Sınıf düzeyine göre veri bulunmuyor.</td></tr>`;
+      } else {
+        tbody.innerHTML = html;
+      }
+    }
+
+    // Helper: Render 1A & 1B Root Causes Breakdown
+    function renderReasonsBreakdown(dataset) {
+      const containerHard = document.getElementById('reportHardReasonsBreakdown');
+      const containerNone = document.getElementById('reportNoneReasonsBreakdown');
+      if (!containerHard || !containerNone) return;
+
+      const hardReasons = {};
+      let totalHard = 0;
+      const noneReasons = {};
+      let totalNone = 0;
+
+      dataset.forEach(r => {
+        if (r.q1_code === 'diff_hard' && r.q1a_reason) {
+          hardReasons[r.q1a_reason] = (hardReasons[r.q1a_reason] || 0) + 1;
+          totalHard++;
+        } else if (r.q1_code === 'diff_none' && r.q1a_reason) {
+          noneReasons[r.q1a_reason] = (noneReasons[r.q1a_reason] || 0) + 1;
+          totalNone++;
+        }
+      });
+
+      // 1A Hard Breakdown
+      if (totalHard === 0) {
+        containerHard.innerHTML = `<p class="text-xs text-amber-800/80 italic p-3 bg-amber-100/50 rounded-xl">Seçilen kapsamda bildirilen uygulama güçlüğü (1A) bulunmamaktadır.</p>`;
+      } else {
+        let hHtml = '';
+        const sortedHard = Object.entries(hardReasons).sort((a,b) => b[1] - a[1]);
+        sortedHard.forEach(([reason, cnt]) => {
+          const pct = Math.round((cnt / totalHard) * 100);
+          hHtml += `
+            <div class="space-y-1 bg-white/70 p-2.5 rounded-xl border border-amber-200/80">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-amber-950">${escapeXml(reason)}</span>
+                <span class="font-extrabold text-amber-800 shrink-0 ml-2">${cnt} Öğretmen (%${pct})</span>
+              </div>
+              <div class="w-full bg-amber-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-amber-500 h-2 rounded-full" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `;
+        });
+        containerHard.innerHTML = hHtml;
+      }
+
+      // 1B None Breakdown
+      if (totalNone === 0) {
+        containerNone.innerHTML = `<p class="text-xs text-rose-800/80 italic p-3 bg-rose-100/50 rounded-xl">Seçilen kapsamda bildirilen uygulama engeli (1B) bulunmamaktadır.</p>`;
+      } else {
+        let nHtml = '';
+        const sortedNone = Object.entries(noneReasons).sort((a,b) => b[1] - a[1]);
+        sortedNone.forEach(([reason, cnt]) => {
+          const pct = Math.round((cnt / totalNone) * 100);
+          nHtml += `
+            <div class="space-y-1 bg-white/70 p-2.5 rounded-xl border border-rose-200/80">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-rose-950">${escapeXml(reason)}</span>
+                <span class="font-extrabold text-rose-800 shrink-0 ml-2">${cnt} Öğretmen (%${pct})</span>
+              </div>
+              <div class="w-full bg-rose-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-rose-500 h-2 rounded-full" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `;
+        });
+        containerNone.innerHTML = nHtml;
+      }
     }
 
     function renderFieldActionCards(reasonsList, appRate) {
