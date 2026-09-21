@@ -207,18 +207,21 @@
             <input type="text" id="metaTeacher" placeholder="Adınız ve Soyadınız" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
           </div>
 
-          <!-- 2. Branş -->
-          <div>
-            <label for="metaBranch" class="block text-xs font-semibold text-slate-700 mb-1">Branş <span class="text-rose-500">*</span></label>
-            <input type="text" id="metaBranch" placeholder="Örn: Fen Bilimleri, DKAB..." class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
-          </div>
-
-          <!-- 3. İl (81 İl Açılır Pencere) -->
+          <!-- 2. İl (81 İl Açılır Pencere) -->
           <div>
             <label for="metaCity" class="block text-xs font-semibold text-slate-700 mb-1">Bulunduğunuz İl <span class="text-rose-500">*</span></label>
             <select id="metaCity" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-bold text-indigo-900 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
               <option value="">İl Seçiniz (81 İl)...</option>
               <!-- 81 Provinces dynamically populated -->
+            </select>
+          </div>
+
+          <!-- 3. Branş (Açılır Pencere) -->
+          <div>
+            <label for="metaBranch" class="block text-xs font-semibold text-slate-700 mb-1">Branş <span class="text-rose-500">*</span></label>
+            <select id="metaBranch" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+              <option value="">Branş Seçiniz...</option>
+              <!-- Populated dynamically with specific branches -->
             </select>
           </div>
 
@@ -243,19 +246,19 @@
             </select>
           </div>
 
-          <!-- 5. Katılan Öğrenci Sayısı -->
-          <div>
-            <label for="metaStudentCount" class="block text-xs font-semibold text-slate-700 mb-1">Katılan Öğrenci Sayısı <span class="text-rose-500">*</span></label>
-            <input type="number" id="metaStudentCount" min="1" max="150" placeholder="Örn: 26" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
-          </div>
-
-          <!-- 6. Uygulanan Hafta (1-25) -->
+          <!-- 5. Uygulanan Hafta (1-35) -->
           <div>
             <label for="metaWeek" class="block text-xs font-semibold text-slate-700 mb-1">Uygulanan Hafta <span class="text-rose-500">*</span></label>
             <select id="metaWeek" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-bold text-indigo-900 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
               <option value="">Hafta Seçiniz...</option>
-              <!-- 1 to 25 weeks dynamically populated -->
+              <!-- 1 to 35 weeks dynamically populated -->
             </select>
+          </div>
+
+          <!-- 6. Katılan Öğrenci Sayısı -->
+          <div>
+            <label for="metaStudentCount" class="block text-xs font-semibold text-slate-700 mb-1">Katılan Öğrenci Sayısı <span class="text-rose-500">*</span></label>
+            <input type="number" id="metaStudentCount" min="1" max="150" placeholder="Örn: 26" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
           </div>
         </div>
       </div>
@@ -1334,28 +1337,21 @@
 ];
 
 
-    // Standard Branches List
+    // Standard Branches List (13 Branş)
     const STANDARD_BRANCHES = [
-      "Bilişim Teknolojileri / Yazılım",
+      "Fen Bilimleri",
+      "Ortaokul Matematik",
+      "Lise Matematik",
+      "Türkçe",
+      "Sosyal Bilgiler",
+      "Fizik",
+      "Kimya",
       "Biyoloji",
       "Coğrafya",
-      "Din Kültürü ve Ahlak Bilgisi (DKAB)",
-      "Felsefe / Mantık",
-      "Fen Bilimleri",
-      "Fizik",
-      "Görsel Sanatlar",
-      "İmam Hatip Meslek Dersleri",
-      "İngilizce / Yabancı Dil",
-      "Kimya",
-      "Matematik",
-      "Müzik",
-      "Okul Öncesi Öğretmenliği",
-      "Rehberlik ve Psikolojik Danışmanlık",
-      "Sınıf Öğretmenliği",
-      "Sosyal Bilgiler",
+      "İngilizce",
+      "Din Kültürü ve Ahlak Bilgisi",
       "Tarih",
-      "Türk Dili ve Edebiyatı",
-      "Türkçe"
+      "Hayat Bilgisi"
     ];
 
     // Initialize on page load
@@ -1397,7 +1393,7 @@
       }
     });
 
-    // Populate 81 Cities, Branches & 25 Weeks
+    // Populate 81 Cities, Branches & 35 Weeks
     function populateDropdowns() {
       // 1. Cities
       const metaCitySelect = document.getElementById('metaCity');
@@ -1421,6 +1417,17 @@
       }
 
       // 2. Branches
+      const metaBranchSelect = document.getElementById('metaBranch');
+      if (metaBranchSelect) {
+        const currentVal = metaBranchSelect.value || "";
+        let opts = '<option value="">Branş Seçiniz...</option>';
+        STANDARD_BRANCHES.forEach(b => {
+          opts += `<option value="${b}">${b}</option>`;
+        });
+        metaBranchSelect.innerHTML = opts;
+        if (currentVal) metaBranchSelect.value = currentVal;
+      }
+
       const filterBranchSelect = document.getElementById('filterBranch');
       if (filterBranchSelect) {
         const currentVal = filterBranchSelect.value || "all";

@@ -7,14 +7,13 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
 ## 🌟 Öne Çıkan Özellikler
 
 ### 1. 👩‍🏫 Öğretmen Saha Anketi Giriş Portalı
-* **Öğretmen & Sınıf Bilgileri:**
-  - **Ad Soyad** (Zorunlu)
-  - **Branş** (Zorunlu)
-  - **Bulunduğunuz İl (81 İl Açılır Liste):** 81 il plaka kodlarıyla birlikte doğrudan seçilebilir.
-  - **Sınıf Düzeyi (Açılır Liste):** Okul Öncesi, 1. Sınıf - 12. Sınıf arası seçim.
-  - **Katılan Öğrenci Sayısı:** Sayısal veri girişi.
-  - **Uygulanan Hafta (1–35. Hafta Açılır Liste):** 1'den 35'e kadar hafta seçimi.
-  - **Uygulama Tarihi:** Tarih seçimi.
+* **Öğretmen & Sınıf Bilgileri (Özel Sıralama):**
+  1. **Ad Soyad** (Metin kutusu, zorunlu)
+  2. **Bulunduğunuz İl (81 İl Açılır Liste):** 81 il plaka kodlarıyla birlikte doğrudan seçilebilir.
+  3. **Branş (13 Branş Açılır Liste):** Sadece belirlenen 13 temel branş dersi seçilebilir (*Fen Bilimleri, Ortaokul Matematik, Lise Matematik, Türkçe, Sosyal Bilgiler, Fizik, Kimya, Biyoloji, Coğrafya, İngilizce, Din Kültürü ve Ahlak Bilgisi, Tarih, Hayat Bilgisi*).
+  4. **Sınıf Düzeyi (Açılır Liste):** Okul Öncesi, 1. Sınıf - 12. Sınıf arası seçim.
+  5. **Uygulanan Hafta (1–35. Hafta Açılır Liste):** 1'den 35'e kadar hafta seçimi.
+  6. **Katılan Öğrenci Sayısı:** Sayısal veri girişi.
 * **Saha Çalışması Soruları:**
   - **1. Soru:** *Bu hafta MMR içeriğini dersinizde uyguladınız mı?* (Evet / Kısmen / Zorlandım / Uygulayamadım)
   - **1A. Soru (Dinamik Yönlendirme):** Zorlanma / uygulayamama temel gerekçesi (Kazanım bağı, süre kısıtı, öğrenci ilgisi/seviyesi, yöntem, sınıf ortamı, içerik geliştirme, Diğer).
