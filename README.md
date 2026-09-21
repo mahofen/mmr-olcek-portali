@@ -43,6 +43,7 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
   - **📊 Filtreli Excel İndir (.xls):** Filtreler ve arama kriterleri sonucunda ekranda listelenen verileri, tüm saha parametreleri ve renkli durum göstergeleriyle birlikte Excel tablosu olarak indirme.
 * **⚙️ Ayrı Veri Yedekleme & Sistem Yönetimi Alanı:**
   - Tablonun altındaki özel ayarlar kartında yer alan **JSON Yedekle**, **JSON Geri Yükle** ve **Havuzu Temizle** araçları.
+  - **🔒 Şifre Korumalı Havuz Temizleme Arayüzü:** "Havuzu Temizle" butonuna tıklandığında açılan özel modal pencerede yönetici şifresi (`mmr.2026`) girilip "Onayla ve Temizle" butonuna basılmadıkça veriler silinmez.
 * **🗺️ 81 İlin Fiziki Sınırlarıyla Çizili Vektörel Türkiye Haritası (Açık Kum/Bej & Rakamlı Gösterim):**
   - 81 ilin gerçek coğrafi/fiziki sınır çizgileri (SVG path vektörleri).
   - Sıcak bej, sarımsı kum beyazı ve krem tonlarında şık zemin tasarımı.

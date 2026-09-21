@@ -876,7 +876,7 @@
                 Geri Yükle (JSON)
                 <input type="file" id="importPoolJSONFile" accept=".json" class="hidden">
               </label>
-              <button id="btnClearPool" onclick="clearEntireSurveyPool()" type="button" title="Havuzdaki tüm kayıtları kalıcı olarak temizler" class="inline-flex items-center px-3.5 py-2.5 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 active:scale-95 rounded-xl border border-rose-200 transition-all cursor-pointer">
+              <button id="btnClearPool" onclick="openClearPoolModal()" type="button" title="Yönetici şifresi doğrulaması ile havuzu temizler" class="inline-flex items-center px-3.5 py-2.5 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 active:scale-95 rounded-xl border border-rose-200 transition-all cursor-pointer">
                 <i data-lucide="trash-2" class="w-3.5 h-3.5 mr-1.5 text-rose-600"></i>
                 Havuzu Temizle
               </button>
@@ -1158,11 +1158,66 @@
     </div>
   </div>
 
+  <!-- ======================================================== -->
+  <!-- CLEAR SURVEY POOL PASSWORD CONFIRMATION MODAL            -->
+  <!-- ======================================================== -->
+  <div id="clearPoolConfirmModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-rose-100 space-y-5 animate-in fade-in zoom-in duration-200">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Havuzu Temizle - Şifre Onayı</h3>
+            <p class="text-xs text-slate-500">Kalıcı Veri Silme Güvenlik Doğrulaması</p>
+          </div>
+        </div>
+        <button onclick="closeClearPoolModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Warning Alert Box -->
+      <div class="p-4 bg-rose-50 border border-rose-200 rounded-2xl space-y-1.5">
+        <div class="flex items-center gap-2 text-rose-800 font-bold text-xs">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-rose-600"></i>
+          <span>DİKKAT: Bu işlem geri alınamaz!</span>
+        </div>
+        <p id="clearPoolModalWarningText" class="text-xs text-rose-700 leading-relaxed">
+          Veri havuzundaki tüm saha kayıtları kalıcı olarak silinecektir. Devam etmek için yönetici şifresini giriniz.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label for="clearPoolPassInput" class="block text-xs font-semibold text-slate-700 mb-1.5">
+            Yönetici Şifresi <span class="text-rose-500">*</span>
+          </label>
+          <div class="relative">
+            <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 transform -translate-y-1/2"></i>
+            <input type="password" id="clearPoolPassInput" placeholder="Yönetici şifrenizi giriniz..." onkeydown="if(event.key==='Enter') verifyAndClearSurveyPool()" class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:bg-white focus:outline-none transition-all">
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 pt-2">
+        <button onclick="closeClearPoolModal()" type="button" class="w-1/2 py-2.5 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all">
+          İptal
+        </button>
+        <button onclick="verifyAndClearSurveyPool()" type="button" class="w-1/2 py-2.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 active:scale-95 rounded-xl shadow-sm transition-all shadow-rose-200 flex items-center justify-center gap-1.5">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          Onayla ve Temizle
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 no-print mt-12">
     <div class="max-w-7xl mx-auto px-4">
       <p class="font-semibold text-slate-700">Muallimin Manevî Rehberi (MMR) Saha Çalışması Uygulama & Analiz Portalı</p>
-      <p class="mt-1 text-slate-400">81 İl, 25 Hafta Sınıf İçi Uygulama, Öğrenci Tepkileri ve Güçlükleri Belirleme Sistemi</p>
+      <p class="mt-1 text-slate-400">81 İl, 35 Hafta Sınıf İçi Uygulama, Öğrenci Tepkileri ve Güçlükleri Belirleme Sistemi</p>
     </div>
   </footer>
 
@@ -2406,12 +2461,57 @@
       }
     }
 
-    function clearEntireSurveyPool() {
-      if (confirm("DİKKAT: Havuzdaki TÜM saha anket kayıtları silinecektir! Bu işlemi onaylıyor musunuz?")) {
+    function openClearPoolModal() {
+      if (surveyPool.length === 0) {
+        showToast("Havuzda temizlenecek saha anketi kaydı bulunmuyor.", 'warning');
+        return;
+      }
+      const warningText = document.getElementById('clearPoolModalWarningText');
+      if (warningText) {
+        warningText.innerHTML = `Veri havuzundaki <strong>${surveyPool.length} adet</strong> saha anketi kaydı kalıcı olarak silinecektir. Devam etmek için yönetici şifresini giriniz.`;
+      }
+      const passInp = document.getElementById('clearPoolPassInput');
+      if (passInp) passInp.value = '';
+
+      document.getElementById('clearPoolConfirmModal')?.classList.remove('hidden');
+      setTimeout(() => {
+        if (passInp) passInp.focus();
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.lucide.createIcons();
+        }
+      }, 100);
+    }
+
+    function closeClearPoolModal() {
+      document.getElementById('clearPoolConfirmModal')?.classList.add('hidden');
+    }
+
+    function verifyAndClearSurveyPool() {
+      const password = (document.getElementById('clearPoolPassInput')?.value || "").trim();
+      if (!password) {
+        showToast("Lütfen yönetici şifresini giriniz.", 'warning');
+        document.getElementById('clearPoolPassInput')?.focus();
+        return;
+      }
+
+      if (password === 'mmr.2026') {
+        const deletedCount = surveyPool.length;
         surveyPool = [];
         saveSurveyPoolToStorage();
-        showToast("Havuzdaki tüm kayıtlar temizlendi.", 'info');
+        closeClearPoolModal();
+        showToast(`Havuzdaki ${deletedCount} adet kayıt başarıyla temizlendi!`, 'success');
+      } else {
+        showToast("Hatalı yönetici şifresi! Havuz temizleme işlemi onaylanmadı.", 'warning');
+        const passInp = document.getElementById('clearPoolPassInput');
+        if (passInp) {
+          passInp.value = '';
+          passInp.focus();
+        }
       }
+    }
+
+    function clearEntireSurveyPool() {
+      openClearPoolModal();
     }
 
     // Helper XML escaper
@@ -2974,6 +3074,9 @@
     window.switchAdminTab = switchAdminTab;
     window.exportFieldSurveyToCSV = exportFieldSurveyToCSV;
     window.exportFieldSurveyToJSON = exportFieldSurveyToJSON;
+    window.openClearPoolModal = openClearPoolModal;
+    window.closeClearPoolModal = closeClearPoolModal;
+    window.verifyAndClearSurveyPool = verifyAndClearSurveyPool;
     window.clearEntireSurveyPool = clearEntireSurveyPool;
     window.deleteSurveyRecord = deleteSurveyRecord;
     window.viewTeacherPedagogicalReport = viewTeacherPedagogicalReport;
