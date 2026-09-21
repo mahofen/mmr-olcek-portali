@@ -866,6 +866,10 @@
           </div>
 
           <div class="flex items-center gap-2">
+            <button id="btnExportReportExcel" onclick="exportReportToExcel()" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition-all shadow-emerald-200">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 mr-1.5"></i>
+              Excel İndir (.xls)
+            </button>
             <button id="btnPrintPedagogicalReport" onclick="window.print()" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all shadow-indigo-200">
               <i data-lucide="printer" class="w-3.5 h-3.5 mr-1.5"></i>
               Saha Raporunu Yazdır / PDF
@@ -2158,6 +2162,163 @@
       showToast("81 il ve 25 haftaya yayılmış 50 adet gerçekçi saha anketi üretildi!", 'success');
     }
 
+    // Helper XML escaper
+    function escapeXml(unsafe) {
+      if (unsafe === undefined || unsafe === null) return "";
+      return String(unsafe)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+
+    // Export Field Report to Excel (.xls)
+    function exportReportToExcel() {
+      const selectElem = document.getElementById('reportTargetSelect');
+      const targetVal = selectElem ? selectElem.value : 'group_all';
+
+      let dataset = [];
+      let scopeTitle = "";
+      let fileSuffix = "";
+
+      if (targetVal === 'group_all') {
+        dataset = [...surveyPool];
+        scopeTitle = "Tüm Haftalar Genel Saha Raporu (1–25. Haftalar)";
+        fileSuffix = "Tum_Haftalar";
+      } else if (targetVal && targetVal.startsWith('week_')) {
+        const selectedWeek = targetVal.replace('week_', '');
+        dataset = surveyPool.filter(r => r.week === selectedWeek);
+        scopeTitle = `${selectedWeek} Özel Saha Raporu`;
+        fileSuffix = selectedWeek.replace(/[^a-zA-Z0-9çğıöşüÇĞİÖŞÜ_]/g, '_');
+      } else {
+        const r = surveyPool.find(item => item.id === targetVal);
+        if (r) {
+          dataset = [r];
+          scopeTitle = `${r.teacher} - Saha Uygulama Karnesi`;
+          fileSuffix = `${r.teacher.replace(/[^a-zA-Z0-9çğıöşüÇĞİÖŞÜ_]/g, '_')}_Karnesi`;
+        }
+      }
+
+      if (!dataset || dataset.length === 0) {
+        showToast("Dışa aktarılacak saha anketi verisi bulunmuyor.", 'warning');
+        return;
+      }
+
+      let totalStudents = dataset.reduce((acc, curr) => acc + (parseInt(curr.studentCount, 10) || 0), 0);
+      let distinctCities = new Set(dataset.map(r => r.city).filter(Boolean));
+
+      let rowsHtml = '';
+      dataset.forEach((r, idx) => {
+        const isEven = idx % 2 === 1;
+        const rowBg = isEven ? 'background-color: #f8fafc;' : 'background-color: #ffffff;';
+        
+        let q1Color = '#1e293b';
+        let q1Bg = '#f1f5f9';
+        if (r.q1_code === 'applied_full') { q1Bg = '#dcfce7'; q1Color = '#166534'; }
+        else if (r.q1_code === 'applied_part') { q1Bg = '#e0e7ff'; q1Color = '#3730a3'; }
+        else if (r.q1_code === 'diff_hard') { q1Bg = '#fef3c7'; q1Color = '#92400e'; }
+        else if (r.q1_code === 'diff_none') { q1Bg = '#fee2e2'; q1Color = '#991b1b'; }
+
+        rowsHtml += `
+          <tr style="${rowBg}">
+            <td style="text-align: center; border: 1px solid #cbd5e1; padding: 6px 8px; font-weight: bold;">${idx + 1}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; font-weight: bold; color: #1e1b4b;">${escapeXml(r.teacher)}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.branch)}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.city || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.grade || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-weight: bold;">${r.studentCount || 0}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-weight: bold; color: #4338ca;">${escapeXml(r.week || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; background-color: ${q1Bg}; color: ${q1Color}; font-weight: bold;">${escapeXml(r.q1_text || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; color: #9a3412;">${escapeXml(r.q1a_reason || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.q2_duration || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.q3_engagement || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.q4_alignment || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; font-style: italic;">${escapeXml(r.fieldNote || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.date || "-")}</td>
+          </tr>
+        `;
+      });
+
+      const excelTemplate = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+          <!--[if gte mso 9]>
+          <xml>
+            <x:ExcelWorkbook>
+              <x:ExcelWorksheets>
+                <x:ExcelWorksheet>
+                  <x:Name>MMR Saha Verileri</x:Name>
+                  <x:WorksheetOptions>
+                    <x:DisplayGridlines/>
+                  </x:WorksheetOptions>
+                </x:ExcelWorksheet>
+              </x:ExcelWorksheets>
+            </x:ExcelWorkbook>
+          </xml>
+          <![endif]-->
+          <meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"/>
+          <style>
+            table { border-collapse: collapse; width: 100%; }
+            th { background-color: #059669; color: #ffffff; font-weight: bold; border: 1px solid #047857; padding: 8px; text-align: center; font-size: 11pt; }
+            td { font-size: 10pt; font-family: Calibri, Arial, sans-serif; vertical-align: middle; }
+            .header-title { font-size: 14pt; font-weight: bold; color: #1e1b4b; text-align: left; padding: 10px 0 4px 0; }
+            .header-meta { font-size: 10pt; color: #475569; padding-bottom: 12px; }
+          </style>
+        </head>
+        <body>
+          <table>
+            <tr>
+              <td colspan="14" class="header-title">MUALLİMİN MANEVÎ REHBERİ (MMR) - SAHA ÇALIŞMASI UYGULAMA VERİLERİ RAPORU</td>
+            </tr>
+            <tr>
+              <td colspan="14" class="header-meta">
+                <strong>Rapor Kapsamı:</strong> ${escapeXml(scopeTitle)} &nbsp;|&nbsp; 
+                <strong>Toplam Anket Kaydı:</strong> ${dataset.length} &nbsp;|&nbsp; 
+                <strong>Ulaşılan Öğrenci:</strong> ${totalStudents.toLocaleString('tr-TR')} &nbsp;|&nbsp; 
+                <strong>Farklı İl Sayısı:</strong> ${distinctCities.size} &nbsp;|&nbsp; 
+                <strong>Oluşturulma Tarihi:</strong> ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'})}
+              </td>
+            </tr>
+            <tr><td colspan="14"></td></tr>
+            <thead>
+              <tr>
+                <th style="width: 45px;">#</th>
+                <th style="width: 170px;">Öğretmen Adı Soyadı</th>
+                <th style="width: 130px;">Branş</th>
+                <th style="width: 100px;">İl</th>
+                <th style="width: 110px;">Sınıf Düzeyi</th>
+                <th style="width: 90px;">Katılan Öğrenci</th>
+                <th style="width: 95px;">Uygulanan Hafta</th>
+                <th style="width: 170px;">1. Soru: Uygulama Durumu</th>
+                <th style="width: 240px;">1A. Soru: Zorlanma / Uygulayamama Temel Nedeni</th>
+                <th style="width: 130px;">2. Soru: Uygulama Süresi</th>
+                <th style="width: 150px;">3. Soru: Öğrenci İlgisi ve Katılımı</th>
+                <th style="width: 180px;">4. Soru: Ders Öğrenme Çıktısı Uyumu</th>
+                <th style="width: 250px;">5. Soru: Saha Notu / Görüşler</th>
+                <th style="width: 100px;">Uygulama Tarihi</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob([excelTemplate], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      const fileName = `MMR_Saha_Raporu_${fileSuffix}_${new Date().toISOString().split('T')[0]}.xls`;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast(`"${scopeTitle}" Excel (.xls) formatında başarıyla indirildi!`, 'success');
+    }
+
     // Export to CSV
     function exportFieldSurveyToCSV() {
       if (surveyPool.length === 0) {
@@ -2166,10 +2327,10 @@
       }
 
       let csv = "\uFEFF";
-      csv += "ID,Ogretmen_Adi,Brans,Il,Sinif_Duzeyi,Ogrenci_Sayisi,Uygulanan_Hafta,Uygulama_Durumu_S1,Uygulamama_Gerekcesi_S1A,Uygulama_Suresi_S2,Ogrenci_Ilgisi_S3,Kazanim_Uyumu_S4_4Sikli,Saha_Notu_S5,Uygulama_Tarihi\n";
+      csv += "Sira_No,Ogretmen_Adi,Brans,Il,Sinif_Duzeyi,Katilan_Ogrenci_Sayisi,Uygulanan_Hafta,S1_Uygulama_Durumu,S1A_Zorlanma_Gerekcesi,S2_Uygulama_Suresi,S3_Ogrenci_Ilgisi,S4_Kazanim_Uyumu_4Sikli,S5_Saha_Notu,Uygulama_Tarihi\n";
 
-      surveyPool.forEach(r => {
-        csv += `"${r.id}","${r.teacher}","${r.branch}","${r.city || ""}","${r.grade || ""}","${r.studentCount || 0}","${r.week || ""}","${r.q1_text}","${(r.q1a_reason || "").replace(/"/g, '""')}","${r.q2_duration || ""}","${(r.q3_engagement || "").replace(/"/g, '""')}","${(r.q4_alignment || "").replace(/"/g, '""')}","${(r.fieldNote || "").replace(/"/g, '""')}","${r.date}"\n`;
+      surveyPool.forEach((r, idx) => {
+        csv += `"${idx + 1}","${(r.teacher || "").replace(/"/g, '""')}","${(r.branch || "").replace(/"/g, '""')}","${(r.city || "").replace(/"/g, '""')}","${(r.grade || "").replace(/"/g, '""')}","${r.studentCount || 0}","${(r.week || "").replace(/"/g, '""')}","${(r.q1_text || "").replace(/"/g, '""')}","${(r.q1a_reason || "").replace(/"/g, '""')}","${(r.q2_duration || "").replace(/"/g, '""')}","${(r.q3_engagement || "").replace(/"/g, '""')}","${(r.q4_alignment || "").replace(/"/g, '""')}","${(r.fieldNote || "").replace(/"/g, '""')}","${r.date || ""}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -2566,6 +2727,7 @@
     window.deleteSurveyRecord = deleteSurveyRecord;
     window.viewTeacherPedagogicalReport = viewTeacherPedagogicalReport;
     window.renderFieldPedagogicalReport = renderFieldPedagogicalReport;
+    window.exportReportToExcel = exportReportToExcel;
     window.renderSurveyTable = renderSurveyTable;
     window.renderTurkeySvgMap = renderTurkeySvgMap;
     window.handleMapCityHover = handleMapCityHover;

@@ -53,7 +53,9 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
   - 👤 **Tekil Öğretmen Saha Karnesi**
 * **İl Dağılımı, Ulaşılan Toplam Öğrenci ve Pedagojik Çıkarımlar.**
 * **Güçlüklerin Tespiti ve Çözüm Odaklı Pedagojik Eylem Planı.**
-* **Niteliksel Saha Notları Listesi & Yazdır / PDF Rapor Çıktısı.**
+* **Niteliksel Saha Notları Listesi.**
+* **📥 Raporlama Alanında Excel İndir (.xls):** Arayüzde toplanan tüm veri alanlarını (Sıra No, Öğretmen, Branş, İl, Sınıf Düzeyi, Öğrenci Sayısı, Hafta, S1-S5 tüm anket soruları ve Tarih) seçilen rapor kapsamına göre renkli, biçimlendirilmiş ve Türkçe karakter uyumlu Excel (.xls) formatında tek tıkla indirme.
+* **🖨️ Yazdır / PDF Çıktısı Alma.**
 
 ---
 
