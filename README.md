@@ -32,9 +32,10 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
 
 ### 2. 🔐 Yönetici Portalı & 🗺️ İnteraktif Türkiye Fiziki Sınırlar Haritası
 * **Giriş Şifresi:** `mmr2026`
-* **🗺️ 81 İlin Fiziki Sınırlarıyla Çizili Vektörel Türkiye Haritası (Açık Kum/Bej Tasarım):**
+* **🗺️ 81 İlin Fiziki Sınırlarıyla Çizili Vektörel Türkiye Haritası (Açık Kum/Bej & Rakamlı Gösterim):**
   - 81 ilin gerçek coğrafi/fiziki sınır çizgileri (SVG path vektörleri).
   - Sıcak bej, sarımsı kum beyazı ve krem tonlarında şık zemin tasarımı.
+  - **🔢 İller Üzerinde Doğrudan Katılımcı Rakamları:** Katılım sağlanan her ilin tam coğrafi merkezinde, katılan öğretmen sayısını gösteren şık, yuvarlak ve kontrastlı sayı rozeti.
   - Katılım durumuna göre illerin dinamik renk skalası:
     - **0 Katılım:** Sıcak Kum Beji (`#f5efe6`) ve belirgin sınır çizgileri ile 81 ilin tümü net görünür.
     - **1–2 Anket:** Sıcak Bal/Altın Sarısı (`#f59e0b`).
