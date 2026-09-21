@@ -1632,8 +1632,8 @@
     // Standard Branches List (9 Branş)
     const STANDARD_BRANCHES = [
       "Hayat Bilgisi",
-      "Fen Bilimleri",
       "Türkçe",
+      "Fen Bilimleri",
       "Sosyal Bilgiler",
       "Fizik",
       "Kimya",
@@ -1766,14 +1766,14 @@
         surveyPool.forEach(r => {
           if (r.branch && r.branch.trim()) branchSet.add(r.branch.trim());
         });
-        const sortedBranches = Array.from(branchSet).sort((a, b) => a.localeCompare(b, 'tr'));
+        const branchList = Array.from(branchSet);
 
         let opts = '<option value="all">Tüm Branşlar (9 Branş)</option>';
-        sortedBranches.forEach(b => {
+        branchList.forEach(b => {
           opts += `<option value="${b}">${b}</option>`;
         });
         filterBranchSelect.innerHTML = opts;
-        if (sortedBranches.includes(currentVal) || currentVal === 'all') {
+        if (branchList.includes(currentVal) || currentVal === 'all') {
           filterBranchSelect.value = currentVal;
         } else {
           filterBranchSelect.value = 'all';
