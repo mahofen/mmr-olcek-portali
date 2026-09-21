@@ -61,6 +61,15 @@
       color: #4f46e5;
       font-weight: 700;
     }
+    .tr-map-province {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .tr-map-province:hover {
+      filter: brightness(0.85);
+      stroke: #1e1b4b !important;
+      stroke-width: 1.5 !important;
+    }
     @media print {
       .no-print {
         display: none !important;
@@ -103,7 +112,7 @@
               Öğretmen Formu
             </span>
           </div>
-          <p class="text-xs text-slate-500">25 Haftalık Saha Uygulama & Haftalık Analiz Portalı</p>
+          <p class="text-xs text-slate-500">81 İl & 25 Hafta Saha Uygulama & Analiz Sistemi</p>
         </div>
       </div>
 
@@ -134,14 +143,14 @@
             <span id="badgeAdminCount" class="ml-1 px-2 py-0.2 rounded-full text-[10px] font-extrabold bg-indigo-950 text-indigo-300 border border-indigo-700">0 Kayıt</span>
           </button>
           <button id="adminTabReport" onclick="switchAdminTab('report')" class="admin-tab-btn py-2.5 text-slate-400 hover:text-white font-medium flex items-center gap-1.5">
-            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
-            Haftalık & Genel Saha Raporları
+            <i data-lucide="map" class="w-4 h-4 text-emerald-400"></i>
+            Harita & Haftalık Saha Raporları
           </button>
         </div>
 
         <div class="flex items-center gap-2">
           <span class="text-[11px] text-slate-400 hidden md:inline">Yönetici Oturumu Açık</span>
-          <button onclick="logoutAdmin()" class="text-xs font-semibold px-2 py-1 text-rose-300 hover:text-white hover:bg-rose-900/50 rounded-transition-colors">
+          <button onclick="logoutAdmin()" class="text-xs font-semibold px-2 py-1 text-rose-300 hover:text-white hover:bg-rose-900/50 rounded transition-colors">
             Çıkış Yap
           </button>
         </div>
@@ -165,13 +174,13 @@
           <div class="max-w-3xl">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 mb-2">
               <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-              MUALLİMİN MANEVÎ REHBERİ (25 HAFTALIK UYGULAMA)
+              MUALLİMİN MANEVÎ REHBERİ (81 İL / 25 HAFTALIK UYGULAMA)
             </div>
             <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white mb-2">
               SAHA ÇALIŞMASI UYGULAMA ANKETİ
             </h2>
             <p class="text-xs sm:text-sm text-indigo-100/90 leading-relaxed">
-              Bu çalışma, <strong>Muallimin Manevî Rehberi</strong> uygulamalarının sınıf içindeki gerçek kullanımını, haftalık uygulama sıklığını, öğrenci tepkilerini ve uygulama sürecinde karşılaşılan güçlükleri belirlemek amacıyla yürütülmektedir. Katkılarınız için teşekkür ederiz.
+              Bu çalışma, <strong>Muallimin Manevî Rehberi</strong> uygulamalarının sınıf içindeki gerçek kullanımını, illere göre katılımı, öğrenci sayılarını ve uygulama sürecinde karşılaşılan güçlükleri belirlemek amacıyla yürütülmektedir. Katkılarınız için teşekkür ederiz.
             </p>
           </div>
 
@@ -188,31 +197,64 @@
       <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm card-shadow">
         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
           <i data-lucide="user-check" class="w-4 h-4 text-indigo-600"></i>
-          Öğretmen ve Uygulama Bilgileri
+          Öğretmen, İl ve Sınıf Bilgileri
         </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+          <!-- 1. Ad Soyad -->
           <div>
             <label for="metaTeacher" class="block text-xs font-semibold text-slate-700 mb-1">Ad Soyad <span class="text-rose-500">*</span></label>
             <input type="text" id="metaTeacher" placeholder="Adınız ve Soyadınız" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
           </div>
+
+          <!-- 2. Branş -->
           <div>
             <label for="metaBranch" class="block text-xs font-semibold text-slate-700 mb-1">Branş <span class="text-rose-500">*</span></label>
-            <input type="text" id="metaBranch" placeholder="Örn: Fen Bilimleri, DKAB, Matematik..." class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+            <input type="text" id="metaBranch" placeholder="Örn: Fen Bilimleri, DKAB..." class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
           </div>
+
+          <!-- 3. İl (81 İl Açılır Pencere) -->
           <div>
-            <label for="metaWeek" class="block text-xs font-semibold text-slate-700 mb-1">Uygulanan Hafta (1–25) <span class="text-rose-500">*</span></label>
-            <select id="metaWeek" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-bold text-indigo-900 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
-              <option value="">Hafta Seçiniz...</option>
-              <!-- Populated dynamically 1 to 25 -->
+            <label for="metaCity" class="block text-xs font-semibold text-slate-700 mb-1">Bulunduğunuz İl <span class="text-rose-500">*</span></label>
+            <select id="metaCity" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-bold text-indigo-900 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+              <option value="">İl Seçiniz (81 İl)...</option>
+              <!-- 81 Provinces dynamically populated -->
             </select>
           </div>
+
+          <!-- 4. Sınıf Düzeyi (Açılır Pencere) -->
           <div>
-            <label for="metaContentTopic" class="block text-xs font-semibold text-slate-700 mb-1">MMR İçeriği / Konu Başlığı</label>
-            <input type="text" id="metaContentTopic" placeholder="Örn: Canlılarda Nizam & Sanat" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+            <label for="metaGrade" class="block text-xs font-semibold text-slate-700 mb-1">Sınıf Düzeyi <span class="text-rose-500">*</span></label>
+            <select id="metaGrade" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+              <option value="">Sınıf Seçiniz...</option>
+              <option value="Okul Öncesi">Okul Öncesi</option>
+              <option value="1. Sınıf">1. Sınıf</option>
+              <option value="2. Sınıf">2. Sınıf</option>
+              <option value="3. Sınıf">3. Sınıf</option>
+              <option value="4. Sınıf">4. Sınıf</option>
+              <option value="5. Sınıf">5. Sınıf</option>
+              <option value="6. Sınıf">6. Sınıf</option>
+              <option value="7. Sınıf">7. Sınıf</option>
+              <option value="8. Sınıf">8. Sınıf</option>
+              <option value="9. Sınıf">9. Sınıf</option>
+              <option value="10. Sınıf">10. Sınıf</option>
+              <option value="11. Sınıf">11. Sınıf</option>
+              <option value="12. Sınıf">12. Sınıf</option>
+            </select>
           </div>
+
+          <!-- 5. Katılan Öğrenci Sayısı -->
           <div>
-            <label for="metaDate" class="block text-xs font-semibold text-slate-700 mb-1">Uygulama Tarihi</label>
-            <input type="date" id="metaDate" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+            <label for="metaStudentCount" class="block text-xs font-semibold text-slate-700 mb-1">Katılan Öğrenci Sayısı <span class="text-rose-500">*</span></label>
+            <input type="number" id="metaStudentCount" min="1" max="150" placeholder="Örn: 26" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+          </div>
+
+          <!-- 6. Uygulanan Hafta (1-25) -->
+          <div>
+            <label for="metaWeek" class="block text-xs font-semibold text-slate-700 mb-1">Uygulanan Hafta <span class="text-rose-500">*</span></label>
+            <select id="metaWeek" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-bold text-indigo-900 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+              <option value="">Hafta Seçiniz...</option>
+              <!-- 1 to 25 weeks dynamically populated -->
+            </select>
           </div>
         </div>
       </div>
@@ -474,7 +516,7 @@
             </div>
           </div>
 
-          <!-- SORU 4: Öğrenme Çıktısı Uyumu -->
+          <!-- SORU 4: Öğrenme Çıktısı Uyumu (4 ŞIKLI TASARIM) -->
           <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 sm:p-6 card-shadow space-y-4">
             <div class="flex items-start gap-3">
               <span class="w-7 h-7 rounded-xl bg-indigo-600 text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">4</span>
@@ -482,36 +524,51 @@
                 <h4 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">
                   MMR'nin bu haftaki içeriği ile mevcut ders öğrenme çıktısı arasındaki uyum nasıldı? <span class="text-rose-500">*</span>
                 </h4>
+                <p class="text-xs text-slate-500 mt-0.5">Ders kazanımı ile MMR teması arasındaki bütünleşme düzeyini seçiniz.</p>
               </div>
             </div>
 
-            <div class="space-y-2.5 pt-1">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
               <div>
                 <input type="radio" name="q4_alignment" id="q4_opt1" value="Çok uyumlu – İçerik, öğrenme çıktısıyla doğal biçimde bütünleşti." class="sr-only custom-radio">
-                <label for="q4_opt1" class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 cursor-pointer transition-all">
+                <label for="q4_opt1" class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 cursor-pointer transition-all h-full">
                   <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
                   <div class="text-xs sm:text-sm text-slate-800">
-                    <strong class="text-emerald-700">Çok uyumlu</strong> – İçerik, öğrenme çıktısıyla doğal biçimde bütünleşti.
+                    <strong class="text-emerald-700 block">1. Çok Uyumlu</strong>
+                    <span class="text-slate-500 text-[11px]">İçerik, öğrenme çıktısıyla doğal biçimde bütünleşti.</span>
                   </div>
                 </label>
               </div>
 
               <div>
-                <input type="radio" name="q4_alignment" id="q4_opt2" value="Kısmen uyumlu – Bağlantı kurulabildi ancak bazı noktalarda zorlanıldı." class="sr-only custom-radio">
-                <label for="q4_opt2" class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 cursor-pointer transition-all">
+                <input type="radio" name="q4_alignment" id="q4_opt2" value="Uyumlu – İçerik ile ders kazanımı arasında güçlü bir bağlantı kuruldu." class="sr-only custom-radio">
+                <label for="q4_opt2" class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 cursor-pointer transition-all h-full">
                   <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
                   <div class="text-xs sm:text-sm text-slate-800">
-                    <strong class="text-amber-700">Kısmen uyumlu</strong> – Bağlantı kurulabildi ancak bazı noktalarda zorlanıldı.
+                    <strong class="text-indigo-700 block">2. Uyumlu</strong>
+                    <span class="text-slate-500 text-[11px]">İçerik ile ders kazanımı arasında güçlü bağlantı kuruldu.</span>
                   </div>
                 </label>
               </div>
 
               <div>
-                <input type="radio" name="q4_alignment" id="q4_opt3" value="Uyumlu değildi / uygulamakta zorlandım." class="sr-only custom-radio">
-                <label for="q4_opt3" class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 cursor-pointer transition-all">
+                <input type="radio" name="q4_alignment" id="q4_opt3" value="Kısmen uyumlu – Bağlantı kurulabildi ancak bazı noktalarda zorlanıldı." class="sr-only custom-radio">
+                <label for="q4_opt3" class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 cursor-pointer transition-all h-full">
                   <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
                   <div class="text-xs sm:text-sm text-slate-800">
-                    <strong class="text-rose-700">Uyumlu değildi / uygulamakta zorlandım.</strong>
+                    <strong class="text-amber-700 block">3. Kısmen Uyumlu</strong>
+                    <span class="text-slate-500 text-[11px]">Bağlantı kurulabildi ancak bazı noktalarda zorlanıldı.</span>
+                  </div>
+                </label>
+              </div>
+
+              <div>
+                <input type="radio" name="q4_alignment" id="q4_opt4" value="Uyumlu değildi / zorlayıcıydı – Kazanım ile içerik arasında bağ kurulamadı." class="sr-only custom-radio">
+                <label for="q4_opt4" class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 cursor-pointer transition-all h-full">
+                  <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                  <div class="text-xs sm:text-sm text-slate-800">
+                    <strong class="text-rose-700 block">4. Uyumsuz / Zorlayıcı</strong>
+                    <span class="text-slate-500 text-[11px]">Kazanım ile içerik arasında bağ kurulamadı.</span>
                   </div>
                 </label>
               </div>
@@ -535,7 +592,7 @@
           </div>
 
           <div class="pt-2">
-            <textarea id="metaFieldNote" rows="3" placeholder="Örn: Öğrenciler fotosentez konusundaki nizam örneğini duyunca kendi aralarında şükür ve hayret duygusunu paylaştılar..." class="w-full p-3.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all"></textarea>
+            <textarea id="metaFieldNote" rows="3" placeholder="Örn: Öğrenciler doğadaki nizam ve sanat örneğini duyunca kendi aralarında şükür ve hayret duygusunu paylaştılar..." class="w-full p-3.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all"></textarea>
           </div>
         </div>
 
@@ -578,13 +635,14 @@
       <div id="adminContentPool" class="space-y-6">
 
         <!-- Header Statistics Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <!-- 1. Toplam Anket -->
           <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
               <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Toplam Saha Anketi</span>
               <div class="text-2xl font-black text-slate-900 flex items-baseline gap-1">
                 <span id="statPoolCount">0</span>
-                <span class="text-xs font-semibold text-slate-400">Kayıt</span>
+                <span class="text-xs font-semibold text-slate-400">Öğretmen</span>
               </div>
             </div>
             <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg">
@@ -592,9 +650,40 @@
             </div>
           </div>
 
+          <!-- 2. Toplam Öğrenci -->
           <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Başarılı Uygulama Oranı</span>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Ulaşılan Öğrenci</span>
+              <div class="text-2xl font-black text-emerald-600 flex items-baseline gap-1">
+                <span id="statPoolStudentCount">0</span>
+                <span class="text-xs font-semibold text-emerald-500">Öğrenci</span>
+              </div>
+              <span class="text-[10px] text-slate-400" id="statPoolAvgStudentPerClass">Ort: 0 / sınıf</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg">
+              <i data-lucide="users" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <!-- 3. Katılımcı İl -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Katılımcı İl Sayısı</span>
+              <div class="text-2xl font-black text-indigo-600 flex items-baseline gap-1">
+                <span id="statPoolCityCount">0</span>
+                <span class="text-xs font-semibold text-slate-400">/ 81 İl</span>
+              </div>
+              <span class="text-[10px] text-indigo-500" id="statPoolDominantCity">--</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg">
+              <i data-lucide="map-pin" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <!-- 4. Uygulama Oranı -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Uygulama Başarısı</span>
               <div class="text-2xl font-black text-emerald-600" id="statPoolApplicationRate">--</div>
               <span class="text-[11px] text-slate-400 font-medium" id="statPoolAppliedCountDesc">Evet + Kısmen</span>
             </div>
@@ -603,25 +692,15 @@
             </div>
           </div>
 
+          <!-- 5. Hakim Kazanım Uyumu (4 Şıklı) -->
           <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Hakim Öğrenci İlgisi</span>
-              <div class="text-sm font-extrabold text-slate-800" id="statPoolDominantEngagement">--</div>
-              <span class="text-[11px] text-slate-400 font-medium" id="statPoolDominantEngagementDesc">Yeterli veri yok</span>
-            </div>
-            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-lg">
-              <i data-lucide="smile" class="w-6 h-6"></i>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
-            <div>
-              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Hakim Uygulama Süresi</span>
-              <div class="text-sm font-extrabold text-indigo-700" id="statPoolDominantDuration">--</div>
-              <span class="text-[11px] text-slate-400 font-medium" id="statPoolDominantDurationScore">--</span>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Kazanım Uyumu</span>
+              <div class="text-sm font-extrabold text-slate-800" id="statPoolDominantAlignment">--</div>
+              <span class="text-[10px] text-slate-400" id="statPoolDominantAlignmentDesc">4 Şıklı Skala</span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-lg">
-              <i data-lucide="clock" class="w-6 h-6"></i>
+              <i data-lucide="sparkles" class="w-6 h-6"></i>
             </div>
           </div>
         </div>
@@ -644,23 +723,23 @@
             <div class="flex items-center justify-between mb-3">
               <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                 <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-600"></i>
-                S3: Öğrenci İlgisi ve Katılımı
+                S4: Kazanım Uyumu (4 Şıklı Skala)
               </h4>
             </div>
             <div class="relative w-full h-[220px] flex items-center justify-center">
-              <canvas id="groupQ3BarChart"></canvas>
+              <canvas id="groupQ4AlignmentBarChart"></canvas>
             </div>
           </div>
 
           <div class="lg:col-span-4 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
             <div class="flex items-center justify-between mb-3">
               <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                <i data-lucide="clock" class="w-4 h-4 text-purple-600"></i>
-                S2: Uygulama Süreleri
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-purple-600"></i>
+                Sınıf Düzeyleri ve Öğrenci Dağılımı
               </h4>
             </div>
             <div class="relative w-full h-[220px] flex items-center justify-center">
-              <canvas id="groupQ2DurationChart"></canvas>
+              <canvas id="groupGradeBarChart"></canvas>
             </div>
           </div>
         </div>
@@ -681,14 +760,18 @@
         <!-- Action & Toolbar for Survey Pool -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div class="flex flex-1 flex-wrap items-center gap-2 max-w-xl">
-              <div class="relative flex-1 min-w-[200px]">
+            <div class="flex flex-1 flex-wrap items-center gap-2 max-w-2xl">
+              <div class="relative flex-1 min-w-[180px]">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                <input type="text" id="filterSearch" placeholder="Öğretmen adı, branş veya konu ara..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+                <input type="text" id="filterSearch" placeholder="Öğretmen, branş veya il ara..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
               </div>
+              <select id="filterCity" class="py-2 px-3 text-xs sm:text-sm font-medium bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <option value="all">Tüm İller (81 İl)</option>
+                <!-- Populated dynamically -->
+              </select>
               <select id="filterWeek" class="py-2 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 <option value="all">Tüm Haftalar (1–25)</option>
-                <!-- Dynamically populated 1 to 25 -->
+                <!-- Populated dynamically 1 to 25 -->
               </select>
               <select id="filterStatus" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 <option value="all">Tüm Durumlar</option>
@@ -732,8 +815,10 @@
                   <th class="p-3">#</th>
                   <th class="p-3">Öğretmen Adı Soyadı</th>
                   <th class="p-3">Branş</th>
+                  <th class="p-3">İl</th>
+                  <th class="p-3">Sınıf</th>
+                  <th class="p-3 text-center">Öğrenci</th>
                   <th class="p-3">Hafta</th>
-                  <th class="p-3">MMR Konusu / İçerik</th>
                   <th class="p-3 text-center">Uygulama Durumu (S1)</th>
                   <th class="p-3 text-center">Süre (S2)</th>
                   <th class="p-3 text-center">Öğrenci İlgisi (S3)</th>
@@ -752,7 +837,7 @@
             </div>
             <h5 class="text-sm font-bold text-slate-700">Henüz Saha Anketi Kaydı Bulunmuyor</h5>
             <p class="text-xs text-slate-400 max-w-sm mx-auto mt-1 mb-4">
-              Öğretmenler haftalık saha anketini doldurdukça kayıtlar buraya eklenecektir veya "50 Saha Anketi Simülasyonu Üret" butonuna basarak 25 haftaya yayılmış örnek veri oluşturabilirsiniz.
+              Öğretmenler haftalık saha anketini doldurdukça kayıtlar buraya eklenecektir veya "50 Saha Anketi Simülasyonu Üret" butonuna basarak 81 il ve 25 haftaya yayılmış örnek veri oluşturabilirsiniz.
             </p>
             <button onclick="generate50FieldSurveySimulation()" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all">
               <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5"></i>
@@ -764,7 +849,7 @@
       </div>
 
       <!-- ========================================================= -->
-      <!-- ADMIN SUB-TAB 2: PEDAGOGICAL FIELD REPORT (WEEKLY & ALL)  -->
+      <!-- ADMIN SUB-TAB 2: TURKEY MAP & FIELD PEDAGOGICAL REPORT    -->
       <!-- ========================================================= -->
       <div id="adminContentReport" class="hidden space-y-6">
 
@@ -788,6 +873,77 @@
           </div>
         </div>
 
+        <!-- TÜRKİYE HARİTASI & İLLERE GÖRE KATILIM ALANI -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm card-shadow space-y-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-500 text-white flex items-center justify-center font-bold shadow-md shadow-indigo-100">
+                <i data-lucide="map" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-sm sm:text-base font-black text-slate-900">Türkiye Geneli Saha Katılım Haritası (81 İl)</h3>
+                <p class="text-xs text-slate-500">İllerin katılım yoğunluğu, öğretmen ve öğrenci sayıları analizi</p>
+              </div>
+            </div>
+
+            <!-- Map Summary Badges -->
+            <div class="flex items-center gap-2 text-xs font-bold">
+              <span class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="mapActiveCityCount">0 İl Aktif</span>
+              </span>
+              <span class="px-3 py-1.5 rounded-xl bg-indigo-50 text-indigo-800 border border-indigo-200 flex items-center gap-1.5">
+                <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                <span id="mapTotalStudentsCount">0 Öğrenciye Ulaşıldı</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Interactive Map Container and Top Cities Sidebar -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Map Visualization Box -->
+            <div class="lg:col-span-8 bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-inner relative overflow-hidden flex flex-col justify-between min-h-[380px]">
+              <div class="flex items-center justify-between mb-2 text-white text-xs">
+                <span class="font-bold flex items-center gap-1.5 text-indigo-300">
+                  <i data-lucide="navigation" class="w-3.5 h-3.5"></i>
+                  İl Yoğunluk Haritası
+                </span>
+                <span id="mapHoverInfo" class="font-semibold text-emerald-300 bg-white/10 px-2.5 py-1 rounded-lg">
+                  İl detayını görmek için üzerine geliniz
+                </span>
+              </div>
+
+              <!-- SVG Interactive Turkey Map -->
+              <div id="turkeyMapSvgContainer" class="w-full flex items-center justify-center my-auto overflow-hidden">
+                <!-- SVG injected via JS -->
+              </div>
+
+              <!-- Map Legend -->
+              <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-white/10 text-[10px] text-slate-300">
+                <span class="font-semibold text-slate-400">Katılım Skalası:</span>
+                <div class="flex items-center gap-2">
+                  <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-slate-800 border border-slate-700"></span> 0 Katılım</span>
+                  <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-indigo-900 border border-indigo-700"></span> 1-2 Anket</span>
+                  <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-indigo-600"></span> 3-5 Anket</span>
+                  <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-emerald-500"></span> 6+ Anket</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Top Participating Cities List -->
+            <div class="lg:col-span-4 bg-slate-50 rounded-2xl p-4 border border-slate-200/80 space-y-3">
+              <div class="flex items-center justify-between">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <i data-lucide="trophy" class="w-4 h-4 text-amber-500"></i>
+                  En Çok Katılım Sağlanan İller
+                </h4>
+                <span class="text-[10px] font-bold text-slate-400" id="topCitiesBadge">Sıralama</span>
+              </div>
+              <div id="topCitiesListContainer" class="space-y-1.5 max-h-[340px] overflow-y-auto pr-1"></div>
+            </div>
+          </div>
+        </div>
+
         <!-- Field Pedagogical Report Container -->
         <div id="pedagogicalReportView" class="space-y-6">
 
@@ -803,15 +959,16 @@
                   Tüm Haftaların Genel Saha Uygulama ve Yansıma Raporu
                 </h2>
                 <p id="reportHeaderSubtitle" class="text-xs sm:text-sm text-indigo-200/80">
-                  Kapsam: 1–25. Haftalar Toplamı | Sınıf İçi Uygulama ve Öğrenci Tepkileri
+                  Kapsam: 1–25. Haftalar Toplamı | 81 İl ve Çoklu Sınıf Analizi
                 </p>
               </div>
 
               <!-- Score Badge Box -->
-              <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 min-w-[220px] justify-between">
+              <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 min-w-[240px] justify-between">
                 <div>
                   <span class="text-[11px] text-indigo-200 font-semibold block">Uygulanabilirlik</span>
                   <div class="text-2xl sm:text-3xl font-black text-emerald-300" id="reportHeaderSuccessRate">%0</div>
+                  <span class="text-[10px] text-indigo-200" id="reportHeaderStudentReach">0 Öğrenci</span>
                 </div>
                 <div class="text-right">
                   <span class="text-[11px] text-indigo-200 font-semibold block">Saha Düzeyi</span>
@@ -831,13 +988,13 @@
               </div>
               <div>
                 <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">1. Saha Uygulama ve Süreç Değerlendirmesi</h3>
-                <p class="text-xs text-slate-400">Muallimin Manevî Rehberi içeriklerinin ders içi uygulanabilirlik ve entegrasyon düzeyi</p>
+                <p class="text-xs text-slate-400">Muallimin Manevî Rehberi içeriklerinin ders içi uygulanabilirlik ve öğrenciye ulaşma düzeyi</p>
               </div>
             </div>
             <div id="reportDiagnosticParagraph" class="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2.5 pt-1"></div>
           </div>
 
-          <!-- 2 & 3: ÖĞRENCİ TEPKİLERİ VE KAZANIM UYUMU -->
+          <!-- 2 & 3: ÖĞRENCİ TEPKİLERİ VE KAZANIM UYUMU (4 ŞIKLI) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-200 shadow-sm card-shadow space-y-3">
               <div class="flex items-center justify-between pb-3 border-b border-emerald-200/70">
@@ -863,7 +1020,7 @@
                     <i data-lucide="layers" class="w-4 h-4"></i>
                   </div>
                   <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-indigo-800 block">Müfredat Uyumu</span>
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-indigo-800 block">Müfredat Uyumu (4 Şıklı)</span>
                     <h4 class="text-sm font-black text-indigo-950">Ders Öğrenme Çıktısı ile Entegrasyon</h4>
                   </div>
                 </div>
@@ -950,28 +1107,67 @@
   <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 no-print mt-12">
     <div class="max-w-7xl mx-auto px-4">
       <p class="font-semibold text-slate-700">Muallimin Manevî Rehberi (MMR) Saha Çalışması Uygulama & Analiz Portalı</p>
-      <p class="mt-1 text-slate-400">25 Haftalık Sınıf İçi Uygulama, Öğrenci Tepkileri ve Güçlükleri Belirleme Sistemi</p>
+      <p class="mt-1 text-slate-400">81 İl, 25 Hafta Sınıf İçi Uygulama, Öğrenci Tepkileri ve Güçlükleri Belirleme Sistemi</p>
     </div>
   </footer>
 
   <!-- Application Logic -->
   <script>
-    // Constants
+    // 81 Provinces of Turkey
+    const TURKEY_CITIES = [
+      "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin",
+      "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa",
+      "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan",
+      "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta",
+      "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir",
+      "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla",
+      "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt",
+      "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak",
+      "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman",
+      "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
+    ];
+
     const TOTAL_WEEKS = 25;
 
     // State Variables
     let surveyPool = [];
     let isAdminLoggedIn = false;
     let groupQ1Chart = null;
-    let groupQ3Chart = null;
-    let groupQ2Chart = null;
+    let groupQ4Chart = null;
+    let groupGradeChart = null;
     let groupQ1AChart = null;
+
+    // Approximate Coordinates for 81 Provinces for interactive SVG Map
+    const CITY_COORDS = {
+      "Edirne": [70, 60], "Kırklareli": [115, 45], "Tekirdağ": [120, 80], "Çanakkale": [65, 125],
+      "İstanbul": [180, 80], "Yalova": [180, 110], "Kocaeli": [220, 95], "Sakarya": [250, 100],
+      "Düzce": [280, 95], "Bolu": [310, 115], "Zonguldak": [290, 65], "Bartın": [320, 55],
+      "Karabük": [330, 80], "Kastamonu": [380, 70], "Sinop": [450, 50], "Samsun": [500, 75],
+      "Çorum": [430, 125], "Amasya": [470, 115], "Tokat": [505, 140], "Ordu": [560, 95],
+      "Giresun": [600, 105], "Trabzon": [650, 100], "Rize": [700, 95], "Artvin": [750, 80],
+      "Ardahan": [810, 75], "Kars": [820, 115], "Iğdır": [870, 140], "Ağrı": [840, 170],
+      "Erzurum": [740, 145], "Bayburt": [680, 130], "Gümüşhane": [630, 135], "Erzincan": [650, 175],
+      "Sivas": [530, 180], "Yozgat": [420, 170], "Kırıkkale": [360, 160], "Çankırı": [360, 115],
+      "Ankara": [320, 160], "Eskişehir": [230, 165], "Bilecik": [210, 130], "Bursa": [150, 125],
+      "Balıkesir": [110, 155], "Manisa": [105, 205], "İzmir": [75, 225], "Aydın": [95, 275],
+      "Muğla": [115, 335], "Denizli": [165, 280], "Uşak": [165, 220], "Kütahya": [185, 180],
+      "Afyonkarahisar": [225, 225], "Isparta": [235, 280], "Burdur": [200, 295], "Antalya": [245, 345],
+      "Konya": [325, 260], "Karaman": [345, 320], "Aksaray": [385, 240], "Kırşehir": [400, 205],
+      "Nevşehir": [420, 235], "Niğde": [420, 275], "Kayseri": [480, 235], "Adana": [435, 320],
+      "Mersin": [390, 335], "Osmaniye": [480, 310], "Hatay": [480, 365], "Kahramanmaraş": [535, 285],
+      "Gaziantep": [555, 325], "Kilis": [550, 355], "Şanlıurfa": [635, 325], "Adıyaman": [595, 275],
+      "Malatya": [590, 225], "Elazığ": [655, 225], "Tunceli": [670, 195], "Bingöl": [720, 205],
+      "Muş": [770, 205], "Bitlis": [805, 225], "Van": [870, 220], "Siirt": [795, 260],
+      "Batman": [745, 265], "Diyarbakır": [685, 265], "Mardin": [720, 310], "Şırnak": [805, 305],
+      "Hakkari": [875, 285]
+    };
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
       try {
-        populateWeekDropdowns();
+        populateDropdowns();
         loadSurveyPoolFromStorage();
+        renderTurkeySvgMap();
 
         const metaDateElem = document.getElementById('metaDate');
         if (metaDateElem) metaDateElem.value = new Date().toISOString().split('T')[0];
@@ -979,6 +1175,9 @@
         // Search & Filter listeners
         const searchInput = document.getElementById('filterSearch');
         if (searchInput) searchInput.addEventListener('input', renderSurveyTable);
+
+        const cityFilter = document.getElementById('filterCity');
+        if (cityFilter) cityFilter.addEventListener('change', renderSurveyTable);
 
         const weekFilter = document.getElementById('filterWeek');
         if (weekFilter) weekFilter.addEventListener('change', renderSurveyTable);
@@ -999,37 +1198,57 @@
       }
     });
 
-    // Populate 25 Weeks into Select Elements
-    function populateWeekDropdowns() {
+    // Populate 81 Cities & 25 Weeks
+    function populateDropdowns() {
+      // 1. Cities
+      const metaCitySelect = document.getElementById('metaCity');
+      if (metaCitySelect) {
+        let opts = '<option value="">İl Seçiniz (81 İl)...</option>';
+        TURKEY_CITIES.forEach((c, idx) => {
+          opts += `<option value="${c}">${idx + 1 < 10 ? '0' + (idx + 1) : (idx + 1)} - ${c}</option>`;
+        });
+        metaCitySelect.innerHTML = opts;
+      }
+
+      const filterCitySelect = document.getElementById('filterCity');
+      if (filterCitySelect) {
+        let opts = '<option value="all">Tüm İller (81 İl)</option>';
+        TURKEY_CITIES.forEach(c => {
+          opts += `<option value="${c}">${c}</option>`;
+        });
+        filterCitySelect.innerHTML = opts;
+      }
+
+      // 2. Weeks
       const metaWeekSelect = document.getElementById('metaWeek');
       if (metaWeekSelect) {
-        let options = '<option value="">Hafta Seçiniz...</option>';
+        let opts = '<option value="">Hafta Seçiniz...</option>';
         for (let i = 1; i <= TOTAL_WEEKS; i++) {
-          options += `<option value="${i}. Hafta">${i}. Hafta</option>`;
+          opts += `<option value="${i}. Hafta">${i}. Hafta</option>`;
         }
-        metaWeekSelect.innerHTML = options;
+        metaWeekSelect.innerHTML = opts;
       }
 
       const filterWeekSelect = document.getElementById('filterWeek');
       if (filterWeekSelect) {
-        let options = '<option value="all">Tüm Haftalar (1–25)</option>';
+        let opts = '<option value="all">Tüm Haftalar (1–25)</option>';
         for (let i = 1; i <= TOTAL_WEEKS; i++) {
-          options += `<option value="${i}. Hafta">${i}. Hafta</option>`;
+          opts += `<option value="${i}. Hafta">${i}. Hafta</option>`;
         }
-        filterWeekSelect.innerHTML = options;
+        filterWeekSelect.innerHTML = opts;
       }
     }
 
     // LocalStorage
     function loadSurveyPoolFromStorage() {
-      const stored = localStorage.getItem('MMR_FIELD_SURVEY_POOL');
+      const stored = localStorage.getItem('MMR_FIELD_SURVEY_POOL_V2');
       if (stored) {
         try { surveyPool = JSON.parse(stored); } catch(e) { surveyPool = []; }
       }
     }
 
     function saveSurveyPoolToStorage() {
-      localStorage.setItem('MMR_FIELD_SURVEY_POOL', JSON.stringify(surveyPool));
+      localStorage.setItem('MMR_FIELD_SURVEY_POOL_V2', JSON.stringify(surveyPool));
       refreshSurveyPoolUI();
       populateReportTargetSelect();
       renderFieldPedagogicalReport();
@@ -1067,8 +1286,11 @@
       try {
         const teacher = (document.getElementById('metaTeacher')?.value || "").trim();
         const branch = (document.getElementById('metaBranch')?.value || "").trim();
+        const city = (document.getElementById('metaCity')?.value || "").trim();
+        const grade = (document.getElementById('metaGrade')?.value || "").trim();
+        const studentCountVal = document.getElementById('metaStudentCount')?.value;
+        const studentCount = parseInt(studentCountVal, 10);
         const week = (document.getElementById('metaWeek')?.value || "").trim();
-        const contentTopic = (document.getElementById('metaContentTopic')?.value || "").trim();
         const date = document.getElementById('metaDate')?.value || new Date().toISOString().split('T')[0];
         const fieldNote = (document.getElementById('metaFieldNote')?.value || "").trim();
 
@@ -1080,6 +1302,21 @@
         if (!branch) {
           showToast("Lütfen Branş alanını doldurunuz.", 'warning');
           document.getElementById('metaBranch')?.focus();
+          return;
+        }
+        if (!city) {
+          showToast("Lütfen İl (Şehir) seçimini yapınız.", 'warning');
+          document.getElementById('metaCity')?.focus();
+          return;
+        }
+        if (!grade) {
+          showToast("Lütfen Sınıf Düzeyi seçimini yapınız.", 'warning');
+          document.getElementById('metaGrade')?.focus();
+          return;
+        }
+        if (!studentCount || studentCount < 1) {
+          showToast("Lütfen geçerli bir Katılan Öğrenci Sayısı giriniz.", 'warning');
+          document.getElementById('metaStudentCount')?.focus();
           return;
         }
         if (!week) {
@@ -1145,9 +1382,10 @@
           id: 's_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
           teacher,
           branch,
+          city,
+          grade,
+          studentCount,
           week,
-          contentTopic: contentTopic || `${week} Teması`,
-          contentWeek: `${week} - ${contentTopic || 'MMR İçeriği'}`,
           date,
           q1_code: q1Val,
           q1_text: q1Text,
@@ -1162,7 +1400,7 @@
         surveyPool.push(record);
         saveSurveyPoolToStorage();
 
-        showToast(`🎉 "${teacher}" - ${week} saha anketi başarıyla kaydedildi! Sayfa sıfırlandı.`, 'success');
+        showToast(`🎉 "${teacher}" (${city} - ${week}) saha anketi kaydedildi! Sayfa sıfırlandı.`, 'success');
 
         resetSurveyForm(false);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1187,11 +1425,17 @@
       const metaBranch = document.getElementById('metaBranch');
       if (metaBranch) metaBranch.value = "";
 
+      const metaCity = document.getElementById('metaCity');
+      if (metaCity) metaCity.value = "";
+
+      const metaGrade = document.getElementById('metaGrade');
+      if (metaGrade) metaGrade.value = "";
+
+      const metaStudentCount = document.getElementById('metaStudentCount');
+      if (metaStudentCount) metaStudentCount.value = "";
+
       const metaWeek = document.getElementById('metaWeek');
       if (metaWeek) metaWeek.value = "";
-
-      const metaContentTopic = document.getElementById('metaContentTopic');
-      if (metaContentTopic) metaContentTopic.value = "";
 
       const metaFieldNote = document.getElementById('metaFieldNote');
       if (metaFieldNote) metaFieldNote.value = "";
@@ -1237,7 +1481,7 @@
       if (pass === 'mmr2026') {
         isAdminLoggedIn = true;
         closeAdminLoginModal();
-        showToast("Yönetici girişi başarılı! Saha yönetim paneli açıldı.", 'success');
+        showToast("Yönetici girişi başarılı! Harita ve Analiz Portalı açıldı.", 'success');
         switchToAdminMode();
       } else {
         showToast("Hatalı yönetici şifresi!", 'warning');
@@ -1259,6 +1503,7 @@
       refreshSurveyPoolUI();
       populateReportTargetSelect();
       renderFieldPedagogicalReport();
+      renderTurkeySvgMap();
 
       if (window.lucide) window.lucide.createIcons();
     }
@@ -1301,9 +1546,140 @@
         contentReport.classList.remove('hidden');
         contentPool.classList.add('hidden');
         renderFieldPedagogicalReport();
+        renderTurkeySvgMap();
       }
 
       if (window.lucide) window.lucide.createIcons();
+    }
+
+    // =========================================================================
+    // TURKEY SVG MAP VISUALIZATION ENGINE
+    // =========================================================================
+
+    function renderTurkeySvgMap() {
+      const container = document.getElementById('turkeyMapSvgContainer');
+      if (!container) return;
+
+      // Count surveys and students by city
+      const cityCounts = {};
+      const cityStudents = {};
+      TURKEY_CITIES.forEach(c => { cityCounts[c] = 0; cityStudents[c] = 0; });
+
+      surveyPool.forEach(r => {
+        if (r.city && cityCounts[r.city] !== undefined) {
+          cityCounts[r.city]++;
+          cityStudents[r.city] += (r.studentCount || 0);
+        }
+      });
+
+      let activeCityCount = 0;
+      let totalStudents = 0;
+      for (const [c, count] of Object.entries(cityCounts)) {
+        if (count > 0) activeCityCount++;
+        totalStudents += cityStudents[c];
+      }
+
+      const activeBadge = document.getElementById('mapActiveCityCount');
+      if (activeBadge) activeBadge.textContent = `${activeCityCount} / 81 İl Aktif`;
+
+      const studBadge = document.getElementById('mapTotalStudentsCount');
+      if (studBadge) studBadge.textContent = `${totalStudents.toLocaleString('tr-TR')} Öğrenciye Ulaşıldı`;
+
+      // Build Top Cities List
+      const sortedCities = Object.entries(cityCounts)
+        .filter(([c, count]) => count > 0)
+        .sort((a, b) => b[1] - a[1]);
+
+      const topListContainer = document.getElementById('topCitiesListContainer');
+      if (topListContainer) {
+        if (sortedCities.length === 0) {
+          topListContainer.innerHTML = `<div class="text-center py-8 text-xs text-slate-400">Henüz il katılımı bulunmuyor.</div>`;
+        } else {
+          let html = '';
+          sortedCities.forEach(([city, count], idx) => {
+            const studs = cityStudents[city];
+            html += `
+              <div class="flex items-center justify-between p-2.5 bg-white rounded-xl border border-slate-200/80 hover:border-indigo-300 transition-all">
+                <div class="flex items-center gap-2">
+                  <span class="w-5 h-5 rounded-md bg-indigo-50 text-indigo-700 font-black text-[10px] flex items-center justify-center">${idx + 1}</span>
+                  <div>
+                    <span class="text-xs font-bold text-slate-900 block">${city}</span>
+                    <span class="text-[10px] text-slate-400">${studs.toLocaleString('tr-TR')} Öğrenci</span>
+                  </div>
+                </div>
+                <span class="px-2 py-0.5 rounded-md bg-indigo-600 text-white font-black text-xs">${count} Anket</span>
+              </div>
+            `;
+          });
+          topListContainer.innerHTML = html;
+        }
+      }
+
+      // Build SVG Map of Turkey (viewBox 0 0 950 420)
+      let svgHtml = `
+        <svg viewBox="0 0 950 420" class="w-full h-auto max-h-[300px] select-none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background Outline Grid -->
+          <rect x="0" y="0" width="950" height="420" fill="transparent"/>
+      `;
+
+      // Draw Province Nodes & interactive Circles
+      for (const [city, coords] of Object.entries(CITY_COORDS)) {
+        const count = cityCounts[city] || 0;
+        const students = cityStudents[city] || 0;
+
+        let fillColor = "#1e293b";
+        let strokeColor = "#334155";
+        let r = 8;
+
+        if (count > 0) {
+          if (count >= 6) { fillColor = "#10b981"; strokeColor = "#34d399"; r = 16; }
+          else if (count >= 3) { fillColor = "#6366f1"; strokeColor = "#818cf8"; r = 13; }
+          else { fillColor = "#4338ca"; strokeColor = "#6366f1"; r = 10; }
+        }
+
+        const [x, y] = coords;
+
+        svgHtml += `
+          <g class="tr-map-province" onmouseover="handleMapCityHover('${city}', ${count}, ${students})" onmouseout="handleMapCityLeave()" onclick="filterByCityFromMap('${city}')">
+            <circle cx="${x}" cy="${y}" r="${r}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.5" class="transition-all duration-200">
+              <title>${city}: ${count} Anket | ${students} Öğrenci</title>
+            </circle>
+            ${count > 0 ? `<text x="${x}" y="${y + 3}" fill="#ffffff" font-size="8" font-weight="900" text-anchor="middle" pointer-events="none">${count}</text>` : ''}
+            <text x="${x}" y="${y + r + 9}" fill="${count > 0 ? '#e2e8f0' : '#64748b'}" font-size="7.5" font-weight="${count > 0 ? '800' : '500'}" text-anchor="middle" pointer-events="none">${city}</text>
+          </g>
+        `;
+      }
+
+      svgHtml += `</svg>`;
+      container.innerHTML = svgHtml;
+    }
+
+    function handleMapCityHover(city, count, students) {
+      const hoverElem = document.getElementById('mapHoverInfo');
+      if (hoverElem) {
+        if (count > 0) {
+          hoverElem.innerHTML = `📍 <strong>${city}</strong>: ${count} Öğretmen Anketi | <strong>${students} Öğrenci</strong>`;
+        } else {
+          hoverElem.innerHTML = `📍 <strong>${city}</strong>: Henüz anket girişi yok`;
+        }
+      }
+    }
+
+    function handleMapCityLeave() {
+      const hoverElem = document.getElementById('mapHoverInfo');
+      if (hoverElem) {
+        hoverElem.innerHTML = `İl detayını görmek için üzerine geliniz`;
+      }
+    }
+
+    function filterByCityFromMap(city) {
+      const cityFilter = document.getElementById('filterCity');
+      if (cityFilter) {
+        cityFilter.value = city;
+        switchAdminTab('pool');
+        renderSurveyTable();
+        showToast(`"${city}" ili verileri filtrelendi.`, 'info');
+      }
     }
 
     // =========================================================================
@@ -1333,17 +1709,17 @@
         });
       }
 
-      // 2. Q3 Bar Chart (Student Engagement)
-      const c3 = document.getElementById('groupQ3BarChart');
-      if (c3 && typeof c3.getContext === 'function' && window.Chart && !groupQ3Chart) {
-        groupQ3Chart = new Chart(c3.getContext('2d'), {
+      // 2. Q4 Bar Chart (4 ŞIKLI KAZANIM UYUMU)
+      const c4 = document.getElementById('groupQ4AlignmentBarChart');
+      if (c4 && typeof c4.getContext === 'function' && window.Chart && !groupQ4Chart) {
+        groupQ4Chart = new Chart(c4.getContext('2d'), {
           type: 'bar',
           data: {
-            labels: ['Çok İyi', 'İyi', 'Sınırlı', 'Olumsuz/Zor'],
+            labels: ['1. Çok Uyumlu', '2. Uyumlu', '3. Kısmen Uyumlu', '4. Uyumsuz/Zor'],
             datasets: [{
-              label: 'Öğrenci İlgisi',
+              label: 'Kazanım Uyumu',
               data: [0, 0, 0, 0],
-              backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#f43f5e'],
+              backgroundColor: ['#10b981', '#6366f1', '#f59e0b', '#f43f5e'],
               borderRadius: 6
             }]
           },
@@ -1352,24 +1728,24 @@
             maintainAspectRatio: false,
             scales: {
               y: { beginAtZero: true, ticks: { precision: 0, font: { size: 10 } } },
-              x: { ticks: { font: { size: 10 } } }
+              x: { ticks: { font: { size: 9 } } }
             },
             plugins: { legend: { display: false } }
           }
         });
       }
 
-      // 3. Q2 Duration Chart
-      const c2 = document.getElementById('groupQ2DurationChart');
-      if (c2 && typeof c2.getContext === 'function' && window.Chart && !groupQ2Chart) {
-        groupQ2Chart = new Chart(c2.getContext('2d'), {
+      // 3. Grade & Students Distribution Chart
+      const cg = document.getElementById('groupGradeBarChart');
+      if (cg && typeof cg.getContext === 'function' && window.Chart && !groupGradeChart) {
+        groupGradeChart = new Chart(cg.getContext('2d'), {
           type: 'bar',
           data: {
-            labels: ['1–5 dk', '5–10 dk', '10–20 dk', '20+ dk'],
+            labels: ['5. Sınıf', '6. Sınıf', '7. Sınıf', '8. Sınıf', '9. Sınıf', '10. Sınıf', '11. Sınıf', '12. Sınıf'],
             datasets: [{
-              label: 'Uygulama Süresi',
-              data: [0, 0, 0, 0],
-              backgroundColor: ['#8b5cf6', '#6366f1', '#ec4899', '#f97316'],
+              label: 'Öğrenci Sayısı',
+              data: [0, 0, 0, 0, 0, 0, 0, 0],
+              backgroundColor: '#8b5cf6',
               borderRadius: 6
             }]
           },
@@ -1378,7 +1754,7 @@
             maintainAspectRatio: false,
             scales: {
               y: { beginAtZero: true, ticks: { precision: 0, font: { size: 10 } } },
-              x: { ticks: { font: { size: 10 } } }
+              x: { ticks: { font: { size: 9 } } }
             },
             plugins: { legend: { display: false } }
           }
@@ -1435,12 +1811,14 @@
         const tbody = document.getElementById('surveyTableBody');
         if (tbody) tbody.innerHTML = '';
 
+        document.getElementById('statPoolStudentCount').textContent = "0";
+        document.getElementById('statPoolAvgStudentPerClass').textContent = "Ort: 0 / sınıf";
+        document.getElementById('statPoolCityCount').textContent = "0";
+        document.getElementById('statPoolDominantCity').textContent = "--";
         document.getElementById('statPoolApplicationRate').textContent = "--";
         document.getElementById('statPoolAppliedCountDesc').textContent = "Yeterli veri yok";
-        document.getElementById('statPoolDominantEngagement').textContent = "--";
-        document.getElementById('statPoolDominantEngagementDesc').textContent = "Yeterli veri yok";
-        document.getElementById('statPoolDominantDuration').textContent = "--";
-        document.getElementById('statPoolDominantDurationScore').textContent = "--";
+        document.getElementById('statPoolDominantAlignment').textContent = "--";
+        document.getElementById('statPoolDominantAlignmentDesc').textContent = "4 Şıklı Skala";
         return;
       }
 
@@ -1448,17 +1826,13 @@
 
       // Calculate Statistics
       let appliedFull = 0, appliedPart = 0, diffHard = 0, diffNone = 0;
-      const durationCounts = { '1–5 dakika': 0, '5–10 dakika': 0, '10–20 dakika': 0, '20 dakika veya daha fazla': 0 };
-      const engagementCounts = { 'Çok iyi': 0, 'İyi': 0, 'Sınırlı': 0, 'Olumsuz / zorlayıcı': 0 };
+      let totalStudents = 0;
+      const cityMap = {};
+      const gradeStudents = { '5. Sınıf': 0, '6. Sınıf': 0, '7. Sınıf': 0, '8. Sınıf': 0, '9. Sınıf': 0, '10. Sınıf': 0, '11. Sınıf': 0, '12. Sınıf': 0 };
+      const alignmentCounts = { 'Çok uyumlu': 0, 'Uyumlu': 0, 'Kısmen uyumlu': 0, 'Uyumsuz': 0 };
       const reasonCounts = {
-        'Kazanım': 0,
-        'Zaman': 0,
-        'Hazırbulunuşluk': 0,
-        'Seviye': 0,
-        'Yöntem': 0,
-        'Ortam': 0,
-        'Geliştirilmeli': 0,
-        'Diğer': 0
+        'Kazanım': 0, 'Zaman': 0, 'Hazırbulunuşluk': 0, 'Seviye': 0,
+        'Yöntem': 0, 'Ortam': 0, 'Geliştirilmeli': 0, 'Diğer': 0
       };
 
       surveyPool.forEach(r => {
@@ -1467,15 +1841,22 @@
         else if (r.q1_code === 'diff_hard') diffHard++;
         else if (r.q1_code === 'diff_none') diffNone++;
 
-        if (r.q2_duration && durationCounts[r.q2_duration] !== undefined) {
-          durationCounts[r.q2_duration]++;
+        const studs = (r.studentCount || 0);
+        totalStudents += studs;
+
+        if (r.city) {
+          cityMap[r.city] = (cityMap[r.city] || 0) + 1;
         }
 
-        if (r.q3_engagement) {
-          if (r.q3_engagement.startsWith('Çok iyi')) engagementCounts['Çok iyi']++;
-          else if (r.q3_engagement.startsWith('İyi')) engagementCounts['İyi']++;
-          else if (r.q3_engagement.startsWith('Sınırlı')) engagementCounts['Sınırlı']++;
-          else if (r.q3_engagement.startsWith('Olumsuz')) engagementCounts['Olumsuz / zorlayıcı']++;
+        if (r.grade && gradeStudents[r.grade] !== undefined) {
+          gradeStudents[r.grade] += studs;
+        }
+
+        if (r.q4_alignment) {
+          if (r.q4_alignment.startsWith('Çok uyumlu')) alignmentCounts['Çok uyumlu']++;
+          else if (r.q4_alignment.startsWith('Uyumlu')) alignmentCounts['Uyumlu']++;
+          else if (r.q4_alignment.startsWith('Kısmen uyumlu')) alignmentCounts['Kısmen uyumlu']++;
+          else alignmentCounts['Uyumsuz']++;
         }
 
         if (r.q1a_reason) {
@@ -1495,21 +1876,26 @@
       document.getElementById('statPoolApplicationRate').textContent = `%${appRate}`;
       document.getElementById('statPoolAppliedCountDesc').textContent = `${totalApplied} / ${count} Öğretmen Uyguladı`;
 
-      // Dominant Engagement
-      let maxEng = "--", maxEngCount = -1;
-      for (const [k, v] of Object.entries(engagementCounts)) {
-        if (v > maxEngCount && v > 0) { maxEngCount = v; maxEng = k; }
-      }
-      document.getElementById('statPoolDominantEngagement').textContent = maxEng;
-      document.getElementById('statPoolDominantEngagementDesc').textContent = maxEngCount > 0 ? `${maxEngCount} sınıfta hakim (${Math.round((maxEngCount/count)*100)}%)` : "Yeterli veri yok";
+      // Student metrics
+      document.getElementById('statPoolStudentCount').textContent = totalStudents.toLocaleString('tr-TR');
+      document.getElementById('statPoolAvgStudentPerClass').textContent = `Ort: ${Math.round(totalStudents / count)} / sınıf`;
 
-      // Dominant Duration
-      let maxDur = "--", maxDurCount = -1;
-      for (const [k, v] of Object.entries(durationCounts)) {
-        if (v > maxDurCount && v > 0) { maxDurCount = v; maxDur = k; }
+      // Cities count
+      const activeCitiesCount = Object.keys(cityMap).length;
+      document.getElementById('statPoolCityCount').textContent = activeCitiesCount;
+      let topCity = "--", maxCityCount = -1;
+      for (const [c, cnt] of Object.entries(cityMap)) {
+        if (cnt > maxCityCount) { maxCityCount = cnt; topCity = c; }
       }
-      document.getElementById('statPoolDominantDuration').textContent = maxDur;
-      document.getElementById('statPoolDominantDurationScore').textContent = maxDurCount > 0 ? `${maxDurCount} öğretmen bildirdi` : "--";
+      document.getElementById('statPoolDominantCity').textContent = topCity !== "--" ? `En çok: ${topCity} (${maxCityCount})` : "--";
+
+      // Dominant Alignment (4 şıklı)
+      let maxAlign = "--", maxAlignCount = -1;
+      for (const [k, v] of Object.entries(alignmentCounts)) {
+        if (v > maxAlignCount && v > 0) { maxAlignCount = v; maxAlign = k; }
+      }
+      document.getElementById('statPoolDominantAlignment').textContent = maxAlign;
+      document.getElementById('statPoolDominantAlignmentDesc').textContent = maxAlignCount > 0 ? `${maxAlignCount} sınıfta hakim (%${Math.round((maxAlignCount/count)*100)})` : "4 Şıklı Skala";
 
       // Update Charts
       if (groupQ1Chart) {
@@ -1517,24 +1903,28 @@
         groupQ1Chart.update();
       }
 
-      if (groupQ3Chart) {
-        groupQ3Chart.data.datasets[0].data = [
-          engagementCounts['Çok iyi'],
-          engagementCounts['İyi'],
-          engagementCounts['Sınırlı'],
-          engagementCounts['Olumsuz / zorlayıcı']
+      if (groupQ4Chart) {
+        groupQ4Chart.data.datasets[0].data = [
+          alignmentCounts['Çok uyumlu'],
+          alignmentCounts['Uyumlu'],
+          alignmentCounts['Kısmen uyumlu'],
+          alignmentCounts['Uyumsuz']
         ];
-        groupQ3Chart.update();
+        groupQ4Chart.update();
       }
 
-      if (groupQ2Chart) {
-        groupQ2Chart.data.datasets[0].data = [
-          durationCounts['1–5 dakika'],
-          durationCounts['5–10 dakika'],
-          durationCounts['10–20 dakika'],
-          durationCounts['20 dakika veya daha fazla']
+      if (groupGradeChart) {
+        groupGradeChart.data.datasets[0].data = [
+          gradeStudents['5. Sınıf'],
+          gradeStudents['6. Sınıf'],
+          gradeStudents['7. Sınıf'],
+          gradeStudents['8. Sınıf'],
+          gradeStudents['9. Sınıf'],
+          gradeStudents['10. Sınıf'],
+          gradeStudents['11. Sınıf'],
+          gradeStudents['12. Sınıf']
         ];
-        groupQ2Chart.update();
+        groupGradeChart.update();
       }
 
       if (groupQ1AChart) {
@@ -1552,6 +1942,7 @@
       }
 
       renderSurveyTable();
+      renderTurkeySvgMap();
     }
 
     function renderSurveyTable() {
@@ -1559,18 +1950,20 @@
       if (!tbody) return;
 
       const searchQuery = (document.getElementById('filterSearch')?.value || "").toLowerCase();
+      const cityFilter = document.getElementById('filterCity')?.value || "all";
       const weekFilter = document.getElementById('filterWeek')?.value || "all";
       const statusFilter = document.getElementById('filterStatus')?.value || "all";
 
       const filtered = surveyPool.filter(r => {
-        const matchText = (r.teacher + " " + r.branch + " " + (r.week || "") + " " + (r.contentTopic || "") + " " + (r.fieldNote || "")).toLowerCase().includes(searchQuery);
+        const matchText = (r.teacher + " " + r.branch + " " + (r.city || "") + " " + (r.grade || "") + " " + (r.week || "") + " " + (r.fieldNote || "")).toLowerCase().includes(searchQuery);
+        const matchCity = cityFilter === 'all' || r.city === cityFilter;
         const matchWeek = weekFilter === 'all' || r.week === weekFilter;
         const matchStatus = statusFilter === 'all' || r.q1_code === statusFilter;
-        return matchText && matchWeek && matchStatus;
+        return matchText && matchCity && matchWeek && matchStatus;
       });
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="11" class="text-center py-6 text-slate-400">Arama kriterlerine uygun saha kaydı bulunamadı.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="13" class="text-center py-6 text-slate-400">Arama kriterlerine uygun saha kaydı bulunamadı.</td></tr>`;
         return;
       }
 
@@ -1582,7 +1975,7 @@
         else if (r.q1_code === 'diff_hard') q1Badge = "bg-amber-100 text-amber-800 border border-amber-200 font-bold";
         else if (r.q1_code === 'diff_none') q1Badge = "bg-rose-100 text-rose-800 border border-rose-200 font-bold";
 
-        const shortEngagement = r.q3_engagement ? r.q3_engagement.split('–')[0].trim() : (r.q1a_reason ? `Gerekçe: ${r.q1a_reason.substring(0, 18)}...` : "--");
+        const shortEngagement = r.q3_engagement ? r.q3_engagement.split('–')[0].trim() : (r.q1a_reason ? `Gerekçe: ${r.q1a_reason.substring(0, 16)}...` : "--");
         const shortAlignment = r.q4_alignment ? r.q4_alignment.split('–')[0].trim() : "--";
 
         html += `
@@ -1590,8 +1983,10 @@
             <td class="p-3 font-semibold text-slate-400">${idx + 1}</td>
             <td class="p-3 font-bold text-slate-800">${r.teacher}</td>
             <td class="p-3 font-medium">${r.branch}</td>
+            <td class="p-3 font-bold text-indigo-900">${r.city || "--"}</td>
+            <td class="p-3 text-slate-600">${r.grade || "--"}</td>
+            <td class="p-3 text-center font-extrabold text-emerald-700">${r.studentCount || 0}</td>
             <td class="p-3"><span class="px-2 py-0.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-800 font-bold">${r.week || "1. Hafta"}</span></td>
-            <td class="p-3 text-slate-600">${r.contentTopic || r.contentWeek || "--"}</td>
             <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] ${q1Badge}">${r.q1_text}</span></td>
             <td class="p-3 text-center font-medium">${r.q2_duration || "--"}</td>
             <td class="p-3 text-center text-[11px]">${shortEngagement}</td>
@@ -1636,40 +2031,16 @@
       }
     }
 
-    // 50 Simulation Generator for Field Survey across 25 Weeks
+    // 50 Simulation Generator across 81 Cities and 25 Weeks
     function generate50FieldSurveySimulation() {
       const branches = [
         "Fen Bilimleri", "Din Kültürü ve Ahlak Bilgisi", "Matematik", "Türkçe", "Sosyal Bilgiler",
         "Biyoloji", "Fizik", "Kimya", "Tarih", "Coğrafya", "Felsefe", "İngilizce",
         "Görsel Sanatlar", "Bilişim Teknolojileri", "Rehberlik / PDR"
       ];
-      const weekTopics = [
-        "Varlık, Tefekkür ve Merak Duygusu",
-        "Doğadaki Kusursuz Ölçü ve Denge",
-        "Canlılarda Sanat ve Estetik Detaylar",
-        "İlim, Hikmet ve İnsani Sorumluluk",
-        "Ekolojik Denge ve İsraftan Kaçınma",
-        "İnsan Fıtratı ve Ahlaki İlkeler",
-        "Biyomimikri: Doğadan İlham Alan Tasarımlar",
-        "Evrendeki Hassas Ayarlar ve Fizik Kanunları",
-        "Hücrenin Mikro Dünyasındaki Muazzam Organizasyon",
-        "Su Döngüsü, Yaşam Kaynakları ve Şükür",
-        "Bitkilerde Fotosentez ve Karşılıksız Hizmet",
-        "Hayvanlar Aleminde Yardımlaşma ve Merhamet",
-        "Zamanın Kıymeti ve Planlı Yaşam",
-        "Adalet, Hakkaniyet ve Toplumsal Huzur",
-        "Doğruluk, Dürüstlük ve Bilimsel Etik",
-        "Evrende Dönüşüm ve Madde Döngüleri",
-        "Gökyüzü, Gezegenler ve Kozmik Düzen",
-        "İnsanın Bilişsel Kapasitesi ve Düşünme Becerisi",
-        "Sanatta ve Mimaride Geometrik Uyum",
-        "Dilin Zenginliği ve İfade Gücü",
-        "Tarihten Ders Çıkarma ve İbret Bakışı",
-        "Coğrafi Zenginlikler ve Biyoçeşitlilik",
-        "Teknoloji, Etik ve Faydalı İlim",
-        "Birlik, Beraberlik ve Empati Gelişimi",
-        "Yıl Sonu Genel Değerlendirme ve Kazanım Hasadı"
-      ];
+      const grades = ["5. Sınıf", "6. Sınıf", "7. Sınıf", "8. Sınıf", "9. Sınıf", "10. Sınıf", "11. Sınıf", "12. Sınıf"];
+      const majorCities = ["İstanbul", "Ankara", "İzmir", "Konya", "Bursa", "Gaziantep", "Diyarbakır", "Erzurum", "Trabzon", "Antalya", "Kayseri", "Samsun", "Adana", "Malatya", "Şanlıurfa", "Kocaeli", "Sakarya", "Van", "Denizli", "Eskişehir", "Balıkesir", "Kahramanmaraş", "Hatay", "Manisa", "Tekirdağ", "Sivas", "Çorum", "Elazığ", "Mardin", "Rize"];
+      
       const firstNames = ["Ahmet", "Mehmet", "Mustafa", "Ali", "Hüseyin", "Fatma", "Ayşe", "Emine", "Hatice", "Zeynep", "Elif", "Ömer", "Yusuf", "İbrahim", "Hasan", "Murat", "Osman", "Merve", "Büşra", "Esra"];
       const lastNames = ["Yılmaz", "Kaya", "Demir", "Çelik", "Şahin", "Yıldız", "Yıldırım", "Öztürk", "Aydın", "Özdemir", "Arslan", "Doğan", "Kılıç", "Aslan", "Çetin", "Kara", "Koç", "Kurt", "Özkan", "Şimşek"];
 
@@ -1680,10 +2051,11 @@
         "Sınırlı – Bazı öğrenciler katılım sağladı, bazıları ilgisiz kaldı.",
         "Olumsuz / zorlayıcı – Belirgin bir ilgi göstermediler veya uygulama sırasında zorlayıcı bir durum oluştu."
       ];
-      const alignments = [
+      const alignments4 = [
         "Çok uyumlu – İçerik, öğrenme çıktısıyla doğal biçimde bütünleşti.",
+        "Uyumlu – İçerik ile ders kazanımı arasında güçlü bir bağlantı kuruldu.",
         "Kısmen uyumlu – Bağlantı kurulabildi ancak bazı noktalarda zorlanıldı.",
-        "Uyumlu değildi / uygulamakta zorlandım."
+        "Uyumlu değildi / zorlayıcıydı – Kazanım ile içerik arasında bağ kurulamadı."
       ];
       const reasons = [
         "MMR içeriği ile ders kazanımı arasında yeterli bağlantı kuramadım.",
@@ -1695,11 +2067,10 @@
         "MMR içeriğinin geliştirilmesi gerektiğini düşündüm."
       ];
       const sampleNotes = [
-        "Öğrenciler doğadaki nizam ve sanat örneğini dinlerken çok etkilendiler, ders sonrasında kendi aralarında tartışmaya devam ettiler.",
-        "Ders kazanımıyla bağlantı kurmak başta zor gelse de soru-cevap tekniğiyle öğrenciler konuyu fıtratla bağdaştırdı.",
-        "5 dakikalık kısa sürede uygulandı ancak öğrencilerin farkındalık düzeyi oldukça yüksekti.",
-        "Öğrenciler hazır cevabı ezberlemek yerine kendi tefekkür ve gözlemleriyle sonuca ulaştılar.",
-        "Gelecek haftaki içerikte daha fazla görsel ve örnek olay bulunması katılımı daha da artıracaktır."
+        "Öğrenciler doğadaki nizam ve sanat örneğini dinlerken çok etkilendiler, ders sonrasında tefekkür odaklı sorular sordular.",
+        "Ders kazanımıyla bağlantı kurmak başta zor gelse de analoji tekniğiyle öğrenciler konuyu fıtratla bağdaştırdı.",
+        "Öğrenciler hazır cevabı ezberlemek yerine kendi gözlemleriyle sonuca ulaştılar.",
+        "5 dakikalık kompakt tefekkür kancası sınıfın derse motivasyonunu belirgin şekilde artırdı."
       ];
 
       const generated = [];
@@ -1709,9 +2080,11 @@
         const fn = firstNames[Math.floor(Math.random() * firstNames.length)];
         const ln = lastNames[Math.floor(Math.random() * lastNames.length)];
         const branch = branches[Math.floor(Math.random() * branches.length)];
+        const city = majorCities[Math.floor(Math.random() * majorCities.length)];
+        const grade = grades[Math.floor(Math.random() * grades.length)];
+        const studentCount = Math.floor(Math.random() * 20) + 16; // 16-35 students
         const weekNum = ((i - 1) % TOTAL_WEEKS) + 1;
         const weekStr = `${weekNum}. Hafta`;
-        const topicStr = weekTopics[weekNum - 1] || `${weekNum}. Hafta Teması`;
 
         const rand = Math.random();
         let q1Code = "applied_full";
@@ -1751,9 +2124,10 @@
           else q3Engagement = engagements[3];
 
           const alignRand = Math.random();
-          if (alignRand < 0.62) q4Alignment = alignments[0];
-          else if (alignRand < 0.92) q4Alignment = alignments[1];
-          else q4Alignment = alignments[2];
+          if (alignRand < 0.45) q4Alignment = alignments4[0];
+          else if (alignRand < 0.80) q4Alignment = alignments4[1];
+          else if (alignRand < 0.94) q4Alignment = alignments4[2];
+          else q4Alignment = alignments4[3];
         }
 
         const d = new Date(now.getTime() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000));
@@ -1763,9 +2137,10 @@
           id: 'sim_' + i + '_' + Date.now(),
           teacher: `${fn} ${ln}`,
           branch,
+          city,
+          grade,
+          studentCount,
           week: weekStr,
-          contentTopic: topicStr,
-          contentWeek: `${weekStr} - ${topicStr}`,
           date: dateStr,
           q1_code: q1Code,
           q1_text: q1Text,
@@ -1780,7 +2155,7 @@
 
       surveyPool = generated;
       saveSurveyPoolToStorage();
-      showToast("25 haftaya yayılmış 50 adet gerçekçi saha anketi verisi başarıyla oluşturuldu!", 'success');
+      showToast("81 il ve 25 haftaya yayılmış 50 adet gerçekçi saha anketi üretildi!", 'success');
     }
 
     // Export to CSV
@@ -1791,17 +2166,17 @@
       }
 
       let csv = "\uFEFF";
-      csv += "ID,Ogretmen_Adi,Brans,Uygulanan_Hafta,MMR_Konusu,Uygulama_Durumu_S1,Uygulamama_Gerekcesi_S1A,Uygulama_Suresi_S2,Ogrenci_Ilgisi_S3,Kazanim_Uyumu_S4,Saha_Notu_S5,Uygulama_Tarihi\n";
+      csv += "ID,Ogretmen_Adi,Brans,Il,Sinif_Duzeyi,Ogrenci_Sayisi,Uygulanan_Hafta,Uygulama_Durumu_S1,Uygulamama_Gerekcesi_S1A,Uygulama_Suresi_S2,Ogrenci_Ilgisi_S3,Kazanim_Uyumu_S4_4Sikli,Saha_Notu_S5,Uygulama_Tarihi\n";
 
       surveyPool.forEach(r => {
-        csv += `"${r.id}","${r.teacher}","${r.branch}","${r.week || ""}","${(r.contentTopic || "").replace(/"/g, '""')}","${r.q1_text}","${(r.q1a_reason || "").replace(/"/g, '""')}","${r.q2_duration || ""}","${(r.q3_engagement || "").replace(/"/g, '""')}","${(r.q4_alignment || "").replace(/"/g, '""')}","${(r.fieldNote || "").replace(/"/g, '""')}","${r.date}"\n`;
+        csv += `"${r.id}","${r.teacher}","${r.branch}","${r.city || ""}","${r.grade || ""}","${r.studentCount || 0}","${r.week || ""}","${r.q1_text}","${(r.q1a_reason || "").replace(/"/g, '""')}","${r.q2_duration || ""}","${(r.q3_engagement || "").replace(/"/g, '""')}","${(r.q4_alignment || "").replace(/"/g, '""')}","${(r.fieldNote || "").replace(/"/g, '""')}","${r.date}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `MMR_25_Haftalik_Saha_Calismasi_${new Date().toISOString().split('T')[0]}.csv`);
+      link.setAttribute("download", `MMR_Saha_Calismasi_81_Il_${new Date().toISOString().split('T')[0]}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1815,7 +2190,7 @@
         return;
       }
       const data = {
-        title: "MMR 25 Haftalık Saha Çalışması Uygulama Anketi Veri Havuzu",
+        title: "MMR 81 İl Saha Çalışması Uygulama Anketi Veri Havuzu",
         exportedAt: new Date().toISOString(),
         totalSurveys: surveyPool.length,
         surveys: surveyPool
@@ -1824,7 +2199,7 @@
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `MMR_25_Haftalik_Saha_Yedek_${Date.now()}.json`);
+      link.setAttribute("download", `MMR_81_Il_Saha_Yedek_${Date.now()}.json`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1844,7 +2219,7 @@
           else if (Array.isArray(parsed)) surveyPool = parsed;
           else { showToast("Geçersiz JSON formatı.", 'warning'); return; }
           saveSurveyPoolToStorage();
-          showToast(`${surveyPool.length} adet saha anketi kaydı başarıyla yüklendi!`, 'success');
+          showToast(`${surveyPool.length} adet saha anketi kaydı yüklendi!`, 'success');
         } catch(err) {
           showToast("Dosya okunurken bir hata oluştu: " + err.message, 'warning');
         }
@@ -1853,7 +2228,7 @@
     }
 
     // =========================================================================
-    // PEDAGOGICAL FIELD REPORT ENGINE (ALL WEEKS & WEEKLY BREAKDOWNS)
+    // PEDAGOGICAL FIELD REPORT ENGINE
     // =========================================================================
 
     function populateReportTargetSelect() {
@@ -1886,7 +2261,7 @@
       if (totalCount > 0) {
         html += `<optgroup label="👤 Tekil Öğretmen Saha Karneleri (${totalCount})">`;
         surveyPool.forEach(r => {
-          html += `<option value="${r.id}">👤 ${r.teacher} - ${r.branch} (${r.week || 'Hafta Belirtilmedi'}) [${r.q1_text}]</option>`;
+          html += `<option value="${r.id}">👤 ${r.teacher} - ${r.city || ""} (${r.branch}) [${r.week || '1. Hafta'}]</option>`;
         });
         html += `</optgroup>`;
       }
@@ -1911,7 +2286,7 @@
       if (targetVal === 'group_all') {
         dataset = [...surveyPool];
         reportTitle = "Tüm Haftaların Genel Saha Uygulama ve Yansıma Raporu";
-        reportSubtitle = `Kapsam: 1–25. Haftalar Toplamı | Toplam ${dataset.length} Saha Bildirimi`;
+        reportSubtitle = `Kapsam: 1–25. Haftalar Toplamı | 81 İl Geneli ${dataset.length} Saha Bildirimi`;
         reportScopeBadge = "1–25. Haftalar Genel Raporu";
       } else if (targetVal.startsWith('week_')) {
         const selectedWeek = targetVal.replace('week_', '');
@@ -1926,8 +2301,9 @@
 
         document.getElementById('reportBadgeScope').textContent = "Öğretmen Karnesi";
         document.getElementById('reportHeaderTitle').textContent = `${r.teacher} - Saha Uygulama Karnesi`;
-        document.getElementById('reportHeaderSubtitle').textContent = `Branş: ${r.branch} | Hafta: ${r.week || "1. Hafta"} | Konu: ${r.contentTopic || r.contentWeek} | Tarih: ${r.date}`;
+        document.getElementById('reportHeaderSubtitle').textContent = `İl: ${r.city || "--"} | Branş: ${r.branch} | Sınıf: ${r.grade || "--"} (${r.studentCount || 0} Öğrenci) | Hafta: ${r.week || "1. Hafta"} | Tarih: ${r.date}`;
         document.getElementById('reportHeaderSuccessRate').textContent = r.q1_code.startsWith('applied') ? "%100" : "%0";
+        document.getElementById('reportHeaderStudentReach').textContent = `${r.studentCount || 0} Öğrenci`;
 
         const badgeElem = document.getElementById('reportHeaderBadge');
         badgeElem.textContent = r.q1_text;
@@ -1937,8 +2313,8 @@
         else badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-rose-500 text-white shadow-sm";
 
         let diagHtml = `
-          <p><strong>Öğretmen:</strong> ${r.teacher} | <strong>Branş:</strong> ${r.branch}</p>
-          <p><strong>Uygulanan Hafta / Konu:</strong> ${r.week || ""} - ${r.contentTopic || r.contentWeek}</p>
+          <p><strong>Öğretmen:</strong> ${r.teacher} | <strong>İl:</strong> ${r.city || "--"} | <strong>Branş:</strong> ${r.branch}</p>
+          <p><strong>Sınıf Düzeyi:</strong> ${r.grade || "--"} | <strong>Katılan Öğrenci:</strong> ${r.studentCount || 0} | <strong>Hafta:</strong> ${r.week || "1. Hafta"}</p>
           <p><strong>Saha Durumu (S1):</strong> ${r.q1_text}</p>
         `;
         if (r.q1a_reason) {
@@ -1952,14 +2328,14 @@
         `;
 
         document.getElementById('reportCurriculumFitInsight').innerHTML = `
-          <p><strong>Ders Öğrenme Çıktısı Uyumu (S4):</strong> ${r.q4_alignment || "Uygulanmadı"}</p>
+          <p><strong>Ders Öğrenme Çıktısı Uyumu (S4 - 4 Şıklı):</strong> ${r.q4_alignment || "Uygulanmadı"}</p>
           <p class="text-xs text-slate-600 mt-2">Bu içerik için ders planlama aşamasında öğrenci seviyesine göre analoji kancaları kullanılması tavsiye edilir.</p>
         `;
 
         renderFieldActionCards(r.q1a_reason ? [r.q1a_reason] : [], r.q1_code.startsWith('applied') ? 100 : 0);
 
         if (r.fieldNote) {
-          renderFieldNotesList([{ teacher: r.teacher, branch: r.branch, note: r.fieldNote, week: r.week }]);
+          renderFieldNotesList([{ teacher: r.teacher, city: r.city, branch: r.branch, note: r.fieldNote, week: r.week }]);
         } else {
           document.getElementById('reportFieldNotesContainer').innerHTML = "<p class='text-slate-400 italic'>Bu öğretmen için ek saha notu girilmemiştir.</p>";
         }
@@ -1976,6 +2352,7 @@
 
       if (count === 0) {
         document.getElementById('reportHeaderSuccessRate').textContent = "%0";
+        document.getElementById('reportHeaderStudentReach').textContent = "0 Öğrenci";
         document.getElementById('reportHeaderBadge').textContent = "Veri Yok";
         document.getElementById('reportHeaderBadge').className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-slate-400 text-white";
         document.getElementById('reportDiagnosticParagraph').innerHTML = "<p>Bu hafta / kapsam için henüz kayıtlı saha anketi bulunmamaktadır.</p>";
@@ -1987,16 +2364,21 @@
       }
 
       let appliedFull = 0, appliedPart = 0, diffHard = 0, diffNone = 0;
+      let totalStudents = 0;
       let engHigh = 0, engMed = 0, engLow = 0, engNeg = 0;
-      let alignHigh = 0, alignMed = 0, alignLow = 0;
+      let align4VeryHigh = 0, align4High = 0, align4Med = 0, align4Low = 0;
       let reasonsList = [];
       let notesList = [];
+      const distinctCities = new Set();
 
       dataset.forEach(r => {
         if (r.q1_code === 'applied_full') appliedFull++;
         else if (r.q1_code === 'applied_part') appliedPart++;
         else if (r.q1_code === 'diff_hard') diffHard++;
         else if (r.q1_code === 'diff_none') diffNone++;
+
+        totalStudents += (r.studentCount || 0);
+        if (r.city) distinctCities.add(r.city);
 
         if (r.q3_engagement) {
           if (r.q3_engagement.startsWith('Çok iyi')) engHigh++;
@@ -2006,19 +2388,21 @@
         }
 
         if (r.q4_alignment) {
-          if (r.q4_alignment.startsWith('Çok uyumlu')) alignHigh++;
-          else if (r.q4_alignment.startsWith('Kısmen uyumlu')) alignMed++;
-          else alignLow++;
+          if (r.q4_alignment.startsWith('Çok uyumlu')) align4VeryHigh++;
+          else if (r.q4_alignment.startsWith('Uyumlu')) align4High++;
+          else if (r.q4_alignment.startsWith('Kısmen uyumlu')) align4Med++;
+          else align4Low++;
         }
 
         if (r.q1a_reason) reasonsList.push(r.q1a_reason);
-        if (r.fieldNote) notesList.push({ teacher: r.teacher, branch: r.branch, note: r.fieldNote, week: r.week });
+        if (r.fieldNote) notesList.push({ teacher: r.teacher, city: r.city, branch: r.branch, note: r.fieldNote, week: r.week });
       });
 
       const totalApplied = appliedFull + appliedPart;
       const appRate = Math.round((totalApplied / count) * 100);
 
       document.getElementById('reportHeaderSuccessRate').textContent = `%${appRate}`;
+      document.getElementById('reportHeaderStudentReach').textContent = `${totalStudents.toLocaleString('tr-TR')} Öğrenci`;
 
       const badgeElem = document.getElementById('reportHeaderBadge');
       if (appRate >= 80) {
@@ -2037,20 +2421,20 @@
 
       // 1. Diagnostic Summary
       document.getElementById('reportDiagnosticParagraph').innerHTML = `
-        <p>Seçilen kapsam dahilinde toplanan <strong>${count}</strong> öğretmen bildirimine göre, Muallimin Manevî Rehberi içeriklerinin <strong>%${appRate}</strong> oranında (<strong>${totalApplied} öğretmen</strong>) ders akışı içerisinde başarıyla veya kısmen uygulandığı görülmektedir.</p>
+        <p>Seçilen kapsam dahilinde <strong>${distinctCities.size} farklı ilden</strong> toplanan <strong>${count}</strong> öğretmen bildirimine göre, toplam <strong>${totalStudents.toLocaleString('tr-TR')} öğrenciye</strong> ulaşılmıştır. İçeriklerin <strong>%${appRate}</strong> oranında (<strong>${totalApplied} öğretmen</strong>) ders akışı içerisinde başarıyla uygulandığı tespit edilmiştir.</p>
         <p>Öğretmenlerin <strong>%${Math.round((appliedFull/count)*100)}</strong>'i (<strong>${appliedFull}</strong> kişi) içeriği <em>rahatlıkla uyguladığını</em>, <strong>%${Math.round((appliedPart/count)*100)}</strong>'i (<strong>${appliedPart}</strong> kişi) <em>kısmen uyguladığını</em>, <strong>%${Math.round((diffHard/count)*100)}</strong>'i ise uygulamakta <em>zorlandığını</em> bildirmiştir.</p>
       `;
 
       // 2. Student Engagement
       document.getElementById('reportStudentEngagementInsight').innerHTML = `
         <p>Uygulama yapılan sınıflarda öğrencilerin <strong>%${totalApplied > 0 ? Math.round(((engHigh + engMed)/totalApplied)*100) : 0}</strong>'inde (<strong>${engHigh + engMed}</strong> sınıf) ilgi ve katılımın <strong>"Çok İyi" veya "İyi"</strong> seviyede gerçekleştiği gözlemlenmiştir.</p>
-        <p class="text-xs text-emerald-800 leading-snug">Öğrencilerin salt ezbere dayalı bir bilgi yerine; kainattaki düzen, amaç ve tefekkür unsurları üzerinden kendi çıkarımlarını ifade etmeye hevesli oldukları saha notlarına yansımıştır.</p>
+        <p class="text-xs text-emerald-800 leading-snug">Sınıf içi katılım ortalaması <strong>${Math.round(totalStudents/count)} öğrenci</strong> olup, öğrencilerin varlık ve nizam odaklı tefekkür konularına aktif ilgi gösterdikleri gözlemlenmiştir.</p>
       `;
 
-      // 3. Curriculum Fit
+      // 3. Curriculum Fit (4 Şıklı)
       document.getElementById('reportCurriculumFitInsight').innerHTML = `
-        <p>İçeriğin ders kazanımıyla uyum düzeyi değerlendirildiğinde, öğretmenlerin <strong>%${totalApplied > 0 ? Math.round(((alignHigh + alignMed)/totalApplied)*100) : 0}</strong>'i (<strong>${alignHigh + alignMed}</strong> kişi) MMR temasının mevcut müfredat öğrenme çıktısıyla <strong>doğal veya kısmi uyum</strong> sağladığını belirtmiştir.</p>
-        <p class="text-xs text-indigo-800 leading-snug">Zorlanma yaşanan sınırlı konularda ise temel etkenin süre kısıtı ve kazanım köprüsünü kurma pratiği olduğu anlaşılmaktadır.</p>
+        <p>4 şıklı kazanım uyum sklasına göre; öğretmenlerin <strong>%${totalApplied > 0 ? Math.round(((align4VeryHigh + align4High)/totalApplied)*100) : 0}</strong>'i (<strong>${align4VeryHigh + align4High}</strong> kişi) içeriğin ders öğrenme çıktısıyla <strong>"Çok Uyumlu" veya "Uyumlu"</strong> olduğunu belirtmiştir.</p>
+        <p class="text-xs text-indigo-800 leading-snug">Kısmen uyumlu (${align4Med}) ve uyumsuz (${align4Low}) sınıflarda ise temel etkenin süre kısıtı ve sınıf seviyesi uyarlaması olduğu görülmektedir.</p>
       `;
 
       // 4. Action Plan Cards
@@ -2090,10 +2474,10 @@
         },
         {
           num: "4",
-          title: "Haftalık Zümre İçi Paylaşım",
+          title: "İl & Zümre İçi Tecrübe Paylaşımı",
           icon: "share-2",
           color: "border-amber-200 bg-amber-50/40 text-amber-900",
-          text: "25 haftalık plan dahilinde zorlanılan haftalık temaları zümre toplantılarında ele alarak sınıf seviyesine uygun alternatif etkinlik şablonları geliştiriniz."
+          text: "Farklı il ve zümrelerdeki iyi uygulama örneklerini paylaşarak sınıf seviyesine uygun alternatif etkinlik şablonları geliştiriniz."
         }
       ];
 
@@ -2126,8 +2510,8 @@
         html += `
           <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
             <div class="flex items-center justify-between text-xs">
-              <span class="font-bold text-indigo-900">👤 ${item.teacher} <span class="text-slate-500 font-normal">(${item.branch})</span></span>
-              <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 text-[10px] font-semibold">${item.week || "Hafta Belirtilmedi"}</span>
+              <span class="font-bold text-indigo-900">👤 ${item.teacher} <span class="text-slate-500 font-normal">(${item.city || "İl Belirtilmedi"} - ${item.branch})</span></span>
+              <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 text-[10px] font-semibold">${item.week || "1. Hafta"}</span>
             </div>
             <p class="text-xs sm:text-sm text-slate-700 italic">"${item.note}"</p>
           </div>
@@ -2183,6 +2567,10 @@
     window.viewTeacherPedagogicalReport = viewTeacherPedagogicalReport;
     window.renderFieldPedagogicalReport = renderFieldPedagogicalReport;
     window.renderSurveyTable = renderSurveyTable;
+    window.renderTurkeySvgMap = renderTurkeySvgMap;
+    window.handleMapCityHover = handleMapCityHover;
+    window.handleMapCityLeave = handleMapCityLeave;
+    window.filterByCityFromMap = filterByCityFromMap;
   </script>
 </body>
 </html>

@@ -5,7 +5,13 @@
 
 **Branş:** ............................................................................................
 
-**Uygulanan MMR İçeriği / Hafta:** ....................................................................
+**Bulunduğunuz İl (81 İl):** ............................................................................
+
+**Sınıf Düzeyi:** ....................................................................................
+
+**Katılan Öğrenci Sayısı:** ..........................................................................
+
+**Uygulanan Hafta (1–25. Hafta):** ....................................................................
 
 ---
 
@@ -54,11 +60,12 @@
 
 ---
 
-### 4. MMR'nin bu haftaki içeriği ile mevcut ders öğrenme çıktısı arasındaki uyum nasıldı?
+### 4. MMR'nin bu haftaki içeriği ile mevcut ders öğrenme çıktısı arasındaki uyum nasıldı? (4 Şıklı)
 
-- ☐ **Çok uyumlu** – İçerik, öğrenme çıktısıyla doğal biçimde bütünleşti.
-- ☐ **Kısmen uyumlu** – Bağlantı kurulabildi ancak bazı noktalarda zorlanıldı.
-- ☐ **Uyumlu değildi / uygulamakta zorlandım.**
+- ☐ **1. Çok uyumlu** – İçerik, öğrenme çıktısıyla doğal biçimde bütünleşti.
+- ☐ **2. Uyumlu** – İçerik ile ders kazanımı arasında güçlü bir bağlantı kuruldu.
+- ☐ **3. Kısmen uyumlu** – Bağlantı kurulabildi ancak bazı noktalarda zorlanıldı.
+- ☐ **4. Uyumlu değildi / zorlayıcıydı** – Kazanım ile içerik arasında bağ kurulamadı.
 
 ---
 
@@ -68,10 +75,8 @@ Bu hafta dikkat çekici bir öğrenci tepkisi, yaşadığınız bir olay veya MM
 
 ....................................................................................................................
 
-....................................................................................................................
-
 ---
 
 **Teşekkür ederiz.**
 
-*Bu çalışma, Muallimin Manevî Rehberi uygulamalarının sınıf içindeki gerçek kullanımını, öğrenci tepkilerini ve uygulama sürecinde karşılaşılan güçlükleri belirlemek amacıyla yürütülmektedir.*
+*Bu çalışma, Muallimin Manevî Rehberi uygulamalarının sınıf içindeki gerçek kullanımını, illere göre dağılımını, öğrenci tepkilerini ve uygulama sürecinde karşılaşılan güçlükleri belirlemek amacıyla yürütülmektedir.*
