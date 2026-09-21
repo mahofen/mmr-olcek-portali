@@ -760,42 +760,56 @@
 
         <!-- Action & Toolbar for Survey Pool -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div class="flex flex-1 flex-wrap items-center gap-2 max-w-2xl">
-              <div class="relative flex-1 min-w-[180px]">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+            <div class="flex flex-1 flex-wrap items-center gap-2.5">
+              <!-- Arama -->
+              <div class="relative min-w-[200px] flex-1">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                <input type="text" id="filterSearch" placeholder="Öğretmen, branş veya il ara..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+                <input type="text" id="filterSearch" placeholder="Öğretmen, branş veya not ara..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
               </div>
+              
+              <!-- 1. İl Filtresi -->
               <select id="filterCity" class="py-2 px-3 text-xs sm:text-sm font-medium bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 <option value="all">Tüm İller (81 İl)</option>
                 <!-- Populated dynamically -->
               </select>
+
+              <!-- 2. Branş Filtresi -->
+              <select id="filterBranch" class="py-2 px-3 text-xs sm:text-sm font-medium bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <option value="all">Tüm Branşlar</option>
+                <!-- Populated dynamically -->
+              </select>
+
+              <!-- 3. Sınıf Filtresi -->
+              <select id="filterGrade" class="py-2 px-3 text-xs sm:text-sm font-medium bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <option value="all">Tüm Sınıflar</option>
+                <option value="Okul Öncesi">Okul Öncesi</option>
+                <option value="1. Sınıf">1. Sınıf</option>
+                <option value="2. Sınıf">2. Sınıf</option>
+                <option value="3. Sınıf">3. Sınıf</option>
+                <option value="4. Sınıf">4. Sınıf</option>
+                <option value="5. Sınıf">5. Sınıf</option>
+                <option value="6. Sınıf">6. Sınıf</option>
+                <option value="7. Sınıf">7. Sınıf</option>
+                <option value="8. Sınıf">8. Sınıf</option>
+                <option value="9. Sınıf">9. Sınıf</option>
+                <option value="10. Sınıf">10. Sınıf</option>
+                <option value="11. Sınıf">11. Sınıf</option>
+                <option value="12. Sınıf">12. Sınıf</option>
+              </select>
+
+              <!-- 4. Hafta Filtresi -->
               <select id="filterWeek" class="py-2 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 <option value="all">Tüm Haftalar (1–25)</option>
                 <!-- Populated dynamically 1 to 25 -->
               </select>
-              <select id="filterStatus" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                <option value="all">Tüm Durumlar</option>
-                <option value="applied_full">Evet, rahatlıkla</option>
-                <option value="applied_part">Kısmen uyguladım</option>
-                <option value="diff_hard">Uygulamakta zorlandım</option>
-                <option value="diff_none">Uygulayamadım</option>
-              </select>
             </div>
 
-            <div class="flex flex-wrap items-center gap-2">
-              <button id="btnExportPoolJSON" onclick="exportFieldSurveyToJSON()" type="button" class="inline-flex items-center px-3 py-2 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-colors">
-                <i data-lucide="download" class="w-3.5 h-3.5 mr-1 text-slate-500"></i>
-                Yedekle
-              </button>
-              <label for="importPoolJSONFile" class="inline-flex items-center px-3 py-2 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 cursor-pointer transition-colors">
-                <i data-lucide="upload" class="w-3.5 h-3.5 mr-1 text-slate-500"></i>
-                Geri Yükle
-                <input type="file" id="importPoolJSONFile" accept=".json" class="hidden">
-              </label>
-              <button id="btnClearPool" onclick="clearEntireSurveyPool()" type="button" class="inline-flex items-center px-3 py-2 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 rounded-xl border border-rose-200 transition-colors">
-                <i data-lucide="trash-2" class="w-3.5 h-3.5 mr-1 text-rose-600"></i>
-                Havuzu Temizle
+            <!-- Filtrelenmiş Excel İndir Butonu -->
+            <div class="flex items-center gap-2">
+              <button id="btnExportFilteredTableExcel" onclick="exportFilteredTableToExcel()" type="button" class="inline-flex items-center px-4 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-xl shadow-sm shadow-emerald-200 transition-all cursor-pointer whitespace-nowrap">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4 mr-1.5"></i>
+                Excel İndir (.xls)
               </button>
             </div>
           </div>
@@ -832,6 +846,41 @@
             <p class="text-xs text-slate-400 max-w-sm mx-auto mt-1">
               Öğretmenler haftalık saha anketini doldurdukça kayıtlar otomatik olarak bu havuzda toplanacak ve analiz edilecektir.
             </p>
+          </div>
+        </div>
+
+        <!-- AYARLAR & SİSTEM VERİ YÖNETİMİ BÖLÜMÜ -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold">
+                <i data-lucide="settings-2" class="w-5 h-5 text-slate-700"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  Veri Yedekleme & Sistem Yönetimi Ayarları
+                </h4>
+                <p class="text-xs text-slate-500">
+                  Tüm saha anket verilerini JSON formatında yedekleyin, dışarıdan geri yükleyin veya havuzu temizleyin.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button id="btnExportPoolJSON" onclick="exportFieldSurveyToJSON()" type="button" title="Tüm anket havuzunu JSON dosyası olarak indirir" class="inline-flex items-center px-3.5 py-2.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-95 rounded-xl border border-slate-200 transition-all cursor-pointer">
+                <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5 text-slate-600"></i>
+                Yedekle (JSON)
+              </button>
+              <label for="importPoolJSONFile" title="Önceden indirilmiş JSON yedeğini yükler" class="inline-flex items-center px-3.5 py-2.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-95 rounded-xl border border-slate-200 cursor-pointer transition-all">
+                <i data-lucide="upload" class="w-3.5 h-3.5 mr-1.5 text-slate-600"></i>
+                Geri Yükle (JSON)
+                <input type="file" id="importPoolJSONFile" accept=".json" class="hidden">
+              </label>
+              <button id="btnClearPool" onclick="clearEntireSurveyPool()" type="button" title="Havuzdaki tüm kayıtları kalıcı olarak temizler" class="inline-flex items-center px-3.5 py-2.5 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 active:scale-95 rounded-xl border border-rose-200 transition-all cursor-pointer">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5 mr-1.5 text-rose-600"></i>
+                Havuzu Temizle
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1230,11 +1279,35 @@
 ];
 
 
+    // Standard Branches List
+    const STANDARD_BRANCHES = [
+      "Bilişim Teknolojileri / Yazılım",
+      "Biyoloji",
+      "Coğrafya",
+      "Din Kültürü ve Ahlak Bilgisi (DKAB)",
+      "Felsefe / Mantık",
+      "Fen Bilimleri",
+      "Fizik",
+      "Görsel Sanatlar",
+      "İmam Hatip Meslek Dersleri",
+      "İngilizce / Yabancı Dil",
+      "Kimya",
+      "Matematik",
+      "Müzik",
+      "Okul Öncesi Öğretmenliği",
+      "Rehberlik ve Psikolojik Danışmanlık",
+      "Sınıf Öğretmenliği",
+      "Sosyal Bilgiler",
+      "Tarih",
+      "Türk Dili ve Edebiyatı",
+      "Türkçe"
+    ];
+
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
       try {
-        populateDropdowns();
         loadSurveyPoolFromStorage();
+        populateDropdowns();
         renderTurkeySvgMap();
 
         const metaDateElem = document.getElementById('metaDate');
@@ -1247,11 +1320,14 @@
         const cityFilter = document.getElementById('filterCity');
         if (cityFilter) cityFilter.addEventListener('change', renderSurveyTable);
 
+        const branchFilter = document.getElementById('filterBranch');
+        if (branchFilter) branchFilter.addEventListener('change', renderSurveyTable);
+
+        const gradeFilter = document.getElementById('filterGrade');
+        if (gradeFilter) gradeFilter.addEventListener('change', renderSurveyTable);
+
         const weekFilter = document.getElementById('filterWeek');
         if (weekFilter) weekFilter.addEventListener('change', renderSurveyTable);
-
-        const statusFilter = document.getElementById('filterStatus');
-        if (statusFilter) statusFilter.addEventListener('change', renderSurveyTable);
 
         const jsonInput = document.getElementById('importPoolJSONFile');
         if (jsonInput) jsonInput.addEventListener('change', importSurveyPoolFromJSON);
@@ -1266,7 +1342,7 @@
       }
     });
 
-    // Populate 81 Cities & 25 Weeks
+    // Populate 81 Cities, Branches & 25 Weeks
     function populateDropdowns() {
       // 1. Cities
       const metaCitySelect = document.getElementById('metaCity');
@@ -1280,14 +1356,38 @@
 
       const filterCitySelect = document.getElementById('filterCity');
       if (filterCitySelect) {
+        const currentVal = filterCitySelect.value || "all";
         let opts = '<option value="all">Tüm İller (81 İl)</option>';
         TURKEY_CITIES.forEach(c => {
           opts += `<option value="${c}">${c}</option>`;
         });
         filterCitySelect.innerHTML = opts;
+        filterCitySelect.value = currentVal;
       }
 
-      // 2. Weeks
+      // 2. Branches
+      const filterBranchSelect = document.getElementById('filterBranch');
+      if (filterBranchSelect) {
+        const currentVal = filterBranchSelect.value || "all";
+        const branchSet = new Set(STANDARD_BRANCHES);
+        surveyPool.forEach(r => {
+          if (r.branch && r.branch.trim()) branchSet.add(r.branch.trim());
+        });
+        const sortedBranches = Array.from(branchSet).sort((a, b) => a.localeCompare(b, 'tr'));
+
+        let opts = '<option value="all">Tüm Branşlar</option>';
+        sortedBranches.forEach(b => {
+          opts += `<option value="${b}">${b}</option>`;
+        });
+        filterBranchSelect.innerHTML = opts;
+        if (sortedBranches.includes(currentVal) || currentVal === 'all') {
+          filterBranchSelect.value = currentVal;
+        } else {
+          filterBranchSelect.value = 'all';
+        }
+      }
+
+      // 3. Weeks
       const metaWeekSelect = document.getElementById('metaWeek');
       if (metaWeekSelect) {
         let opts = '<option value="">Hafta Seçiniz...</option>';
@@ -1299,11 +1399,13 @@
 
       const filterWeekSelect = document.getElementById('filterWeek');
       if (filterWeekSelect) {
+        const currentVal = filterWeekSelect.value || "all";
         let opts = '<option value="all">Tüm Haftalar (1–25)</option>';
         for (let i = 1; i <= TOTAL_WEEKS; i++) {
           opts += `<option value="${i}. Hafta">${i}. Hafta</option>`;
         }
         filterWeekSelect.innerHTML = opts;
+        filterWeekSelect.value = currentVal;
       }
     }
 
@@ -1317,6 +1419,7 @@
 
     function saveSurveyPoolToStorage() {
       localStorage.setItem('MMR_FIELD_SURVEY_POOL_V2', JSON.stringify(surveyPool));
+      populateDropdowns();
       refreshSurveyPoolUI();
       populateReportTargetSelect();
       renderFieldPedagogicalReport();
@@ -2083,25 +2186,31 @@
       renderTurkeySvgMap();
     }
 
+    function getFilteredSurveyPool() {
+      const searchQuery = (document.getElementById('filterSearch')?.value || "").toLowerCase().trim();
+      const cityFilter = document.getElementById('filterCity')?.value || "all";
+      const branchFilter = document.getElementById('filterBranch')?.value || "all";
+      const gradeFilter = document.getElementById('filterGrade')?.value || "all";
+      const weekFilter = document.getElementById('filterWeek')?.value || "all";
+
+      return surveyPool.filter(r => {
+        const matchText = ((r.teacher || "") + " " + (r.branch || "") + " " + (r.city || "") + " " + (r.grade || "") + " " + (r.week || "") + " " + (r.fieldNote || "")).toLowerCase().includes(searchQuery);
+        const matchCity = cityFilter === 'all' || r.city === cityFilter;
+        const matchBranch = branchFilter === 'all' || r.branch === branchFilter;
+        const matchGrade = gradeFilter === 'all' || r.grade === gradeFilter;
+        const matchWeek = weekFilter === 'all' || r.week === weekFilter;
+        return matchText && matchCity && matchBranch && matchGrade && matchWeek;
+      });
+    }
+
     function renderSurveyTable() {
       const tbody = document.getElementById('surveyTableBody');
       if (!tbody) return;
 
-      const searchQuery = (document.getElementById('filterSearch')?.value || "").toLowerCase();
-      const cityFilter = document.getElementById('filterCity')?.value || "all";
-      const weekFilter = document.getElementById('filterWeek')?.value || "all";
-      const statusFilter = document.getElementById('filterStatus')?.value || "all";
-
-      const filtered = surveyPool.filter(r => {
-        const matchText = (r.teacher + " " + r.branch + " " + (r.city || "") + " " + (r.grade || "") + " " + (r.week || "") + " " + (r.fieldNote || "")).toLowerCase().includes(searchQuery);
-        const matchCity = cityFilter === 'all' || r.city === cityFilter;
-        const matchWeek = weekFilter === 'all' || r.week === weekFilter;
-        const matchStatus = statusFilter === 'all' || r.q1_code === statusFilter;
-        return matchText && matchCity && matchWeek && matchStatus;
-      });
+      const filtered = getFilteredSurveyPool();
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="13" class="text-center py-6 text-slate-400">Arama kriterlerine uygun saha kaydı bulunamadı.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="13" class="text-center py-6 text-slate-400">Arama kriterlerine ve filtre seçimlerine uygun saha kaydı bulunamadı.</td></tr>`;
         return;
       }
 
@@ -2119,17 +2228,17 @@
         html += `
           <tr class="hover:bg-slate-50 transition-colors">
             <td class="p-3 font-semibold text-slate-400">${idx + 1}</td>
-            <td class="p-3 font-bold text-slate-800">${r.teacher}</td>
-            <td class="p-3 font-medium">${r.branch}</td>
-            <td class="p-3 font-bold text-indigo-900">${r.city || "--"}</td>
-            <td class="p-3 text-slate-600">${r.grade || "--"}</td>
+            <td class="p-3 font-bold text-slate-800">${escapeXml(r.teacher)}</td>
+            <td class="p-3 font-medium">${escapeXml(r.branch)}</td>
+            <td class="p-3 font-bold text-indigo-900">${escapeXml(r.city || "--")}</td>
+            <td class="p-3 text-slate-600">${escapeXml(r.grade || "--")}</td>
             <td class="p-3 text-center font-extrabold text-emerald-700">${r.studentCount || 0}</td>
-            <td class="p-3"><span class="px-2 py-0.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-800 font-bold">${r.week || "1. Hafta"}</span></td>
-            <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] ${q1Badge}">${r.q1_text}</span></td>
-            <td class="p-3 text-center font-medium">${r.q2_duration || "--"}</td>
-            <td class="p-3 text-center text-[11px]">${shortEngagement}</td>
-            <td class="p-3 text-center text-[11px]">${shortAlignment}</td>
-            <td class="p-3 text-center text-slate-400 text-[11px]">${r.date}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-800 font-bold">${escapeXml(r.week || "1. Hafta")}</span></td>
+            <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] ${q1Badge}">${escapeXml(r.q1_text)}</span></td>
+            <td class="p-3 text-center font-medium">${escapeXml(r.q2_duration || "--")}</td>
+            <td class="p-3 text-center text-[11px]">${escapeXml(shortEngagement)}</td>
+            <td class="p-3 text-center text-[11px]">${escapeXml(shortAlignment)}</td>
+            <td class="p-3 text-center text-slate-400 text-[11px]">${escapeXml(r.date)}</td>
             <td class="p-3 text-right space-x-1 whitespace-nowrap">
               <button onclick="viewTeacherPedagogicalReport('${r.id}')" title="Saha Raporunu Gör" class="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors">
                 <i data-lucide="sparkles" class="w-3.5 h-3.5 inline"></i>
@@ -2143,6 +2252,142 @@
       });
       tbody.innerHTML = html;
       if (window.lucide) window.lucide.createIcons();
+    }
+
+    // Export Filtered Table Records to Excel (.xls)
+    function exportFilteredTableToExcel() {
+      const filtered = getFilteredSurveyPool();
+      if (!filtered || filtered.length === 0) {
+        showToast("Filtre kriterlerine uygun dışa aktarılacak kayıt bulunmuyor.", 'warning');
+        return;
+      }
+
+      const searchQuery = (document.getElementById('filterSearch')?.value || "").trim();
+      const cityFilter = document.getElementById('filterCity')?.value || "all";
+      const branchFilter = document.getElementById('filterBranch')?.value || "all";
+      const gradeFilter = document.getElementById('filterGrade')?.value || "all";
+      const weekFilter = document.getElementById('filterWeek')?.value || "all";
+
+      let filterDesc = [];
+      if (cityFilter !== 'all') filterDesc.push(`İl: ${cityFilter}`);
+      if (branchFilter !== 'all') filterDesc.push(`Branş: ${branchFilter}`);
+      if (gradeFilter !== 'all') filterDesc.push(`Sınıf: ${gradeFilter}`);
+      if (weekFilter !== 'all') filterDesc.push(`Hafta: ${weekFilter}`);
+      if (searchQuery) filterDesc.push(`Arama: "${searchQuery}"`);
+      const filterSummaryText = filterDesc.length > 0 ? filterDesc.join(' | ') : 'Tüm Kayıtlar (Filtresiz)';
+
+      let totalStudents = filtered.reduce((acc, curr) => acc + (parseInt(curr.studentCount, 10) || 0), 0);
+      let distinctCities = new Set(filtered.map(r => r.city).filter(Boolean));
+
+      let rowsHtml = '';
+      filtered.forEach((r, idx) => {
+        const isEven = idx % 2 === 1;
+        const rowBg = isEven ? 'background-color: #f8fafc;' : 'background-color: #ffffff;';
+        
+        let q1Color = '#1e293b';
+        let q1Bg = '#f1f5f9';
+        if (r.q1_code === 'applied_full') { q1Bg = '#dcfce7'; q1Color = '#166534'; }
+        else if (r.q1_code === 'applied_part') { q1Bg = '#e0e7ff'; q1Color = '#3730a3'; }
+        else if (r.q1_code === 'diff_hard') { q1Bg = '#fef3c7'; q1Color = '#92400e'; }
+        else if (r.q1_code === 'diff_none') { q1Bg = '#fee2e2'; q1Color = '#991b1b'; }
+
+        rowsHtml += `
+          <tr style="${rowBg}">
+            <td style="text-align: center; border: 1px solid #cbd5e1; padding: 6px 8px; font-weight: bold;">${idx + 1}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; font-weight: bold; color: #1e1b4b;">${escapeXml(r.teacher)}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.branch)}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.city || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.grade || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-weight: bold;">${r.studentCount || 0}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-weight: bold; color: #4338ca;">${escapeXml(r.week || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; background-color: ${q1Bg}; color: ${q1Color}; font-weight: bold;">${escapeXml(r.q1_text || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; color: #9a3412;">${escapeXml(r.q1a_reason || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.q2_duration || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.q3_engagement || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.q4_alignment || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; font-style: italic;">${escapeXml(r.fieldNote || "-")}</td>
+            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.date || "-")}</td>
+          </tr>
+        `;
+      });
+
+      const excelTemplate = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+          <!--[if gte mso 9]>
+          <xml>
+            <x:ExcelWorkbook>
+              <x:ExcelWorksheets>
+                <x:ExcelWorksheet>
+                  <x:Name>Filtreli Saha Verileri</x:Name>
+                  <x:WorksheetOptions>
+                    <x:DisplayGridlines/>
+                  </x:WorksheetOptions>
+                </x:ExcelWorksheet>
+              </x:ExcelWorksheets>
+            </x:ExcelWorkbook>
+          </xml>
+          <![endif]-->
+          <meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"/>
+          <style>
+            table { border-collapse: collapse; width: 100%; }
+            th { background-color: #059669; color: #ffffff; font-weight: bold; border: 1px solid #047857; padding: 8px; text-align: center; font-size: 11pt; }
+            td { font-size: 10pt; font-family: Calibri, Arial, sans-serif; vertical-align: middle; }
+            .header-title { font-size: 14pt; font-weight: bold; color: #1e1b4b; text-align: left; padding: 10px 0 4px 0; }
+            .header-meta { font-size: 10pt; color: #475569; padding-bottom: 12px; }
+          </style>
+        </head>
+        <body>
+          <table>
+            <tr>
+              <td colspan="14" class="header-title">MUALLİMİN MANEVÎ REHBERİ (MMR) - FİLTRELENMİŞ SAHA ANKETİ VERİLERİ</td>
+            </tr>
+            <tr>
+              <td colspan="14" class="header-meta">
+                <strong>Uygulanan Filtreler:</strong> ${escapeXml(filterSummaryText)} &nbsp;|&nbsp; 
+                <strong>Listelenen Kayıt Sayısı:</strong> ${filtered.length} &nbsp;|&nbsp; 
+                <strong>Ulaşılan Öğrenci:</strong> ${totalStudents.toLocaleString('tr-TR')} &nbsp;|&nbsp; 
+                <strong>Farklı İl Sayısı:</strong> ${distinctCities.size} &nbsp;|&nbsp; 
+                <strong>İndirilme Tarihi:</strong> ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'})}
+              </td>
+            </tr>
+            <tr><td colspan="14"></td></tr>
+            <thead>
+              <tr>
+                <th style="width: 45px;">#</th>
+                <th style="width: 170px;">Öğretmen Adı Soyadı</th>
+                <th style="width: 140px;">Branş</th>
+                <th style="width: 100px;">İl</th>
+                <th style="width: 110px;">Sınıf Düzeyi</th>
+                <th style="width: 90px;">Katılan Öğrenci</th>
+                <th style="width: 95px;">Uygulanan Hafta</th>
+                <th style="width: 170px;">1. Soru: Uygulama Durumu</th>
+                <th style="width: 240px;">1A. Soru: Zorlanma / Uygulayamama Gerekçesi</th>
+                <th style="width: 130px;">2. Soru: Uygulama Süresi</th>
+                <th style="width: 150px;">3. Soru: Öğrenci İlgisi ve Katılımı</th>
+                <th style="width: 180px;">4. Soru: Ders Öğrenme Çıktısı Uyumu</th>
+                <th style="width: 250px;">5. Soru: Saha Notu / Görüşler</th>
+                <th style="width: 100px;">Uygulama Tarihi</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob([excelTemplate], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      const fileName = `MMR_Filtreli_Saha_Verileri_${new Date().toISOString().split('T')[0]}.xls`;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast(`${filtered.length} adet filtrelenmiş saha kaydı Excel formatında indirildi!`, 'success');
     }
 
     function viewTeacherPedagogicalReport(id) {
@@ -2734,6 +2979,7 @@
     window.viewTeacherPedagogicalReport = viewTeacherPedagogicalReport;
     window.renderFieldPedagogicalReport = renderFieldPedagogicalReport;
     window.exportReportToExcel = exportReportToExcel;
+    window.exportFilteredTableToExcel = exportFilteredTableToExcel;
     window.renderSurveyTable = renderSurveyTable;
     window.renderTurkeySvgMap = renderTurkeySvgMap;
     window.handleMapCityHover = handleMapCityHover;

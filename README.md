@@ -34,6 +34,15 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
 * **Giriş Bilgileri:**
   - **Kullanıcı Adı:** `muallim`
   - **Şifre:** `mmr.2026`
+* **🔍 Gelişmiş Filtreleme & Tablo Yönetimi:**
+  - **Arama Çubuğu:** Öğretmen adı, branş veya saha notu içinde anlık canlı arama.
+  - **İl Filtresi:** 81 il arasından seçilen ile göre filtreleme (Haritadan tıklanarak da tetiklenir).
+  - **Branş Filtresi:** Dinamik ve standart branş listesine göre filtreleme.
+  - **Sınıf Filtresi:** Okul Öncesi, 1. Sınıf – 12. Sınıf düzeylerine göre filtreleme.
+  - **Hafta Filtresi:** 1. Hafta – 25. Hafta aralığında haftaya özel filtreleme.
+  - **📊 Filtreli Excel İndir (.xls):** Filtreler ve arama kriterleri sonucunda ekranda listelenen verileri, tüm saha parametreleri ve renkli durum göstergeleriyle birlikte Excel tablosu olarak indirme.
+* **⚙️ Ayrı Veri Yedekleme & Sistem Yönetimi Alanı:**
+  - Tablonun altındaki özel ayarlar kartında yer alan **JSON Yedekle**, **JSON Geri Yükle** ve **Havuzu Temizle** araçları.
 * **🗺️ 81 İlin Fiziki Sınırlarıyla Çizili Vektörel Türkiye Haritası (Açık Kum/Bej & Rakamlı Gösterim):**
   - 81 ilin gerçek coğrafi/fiziki sınır çizgileri (SVG path vektörleri).
   - Sıcak bej, sarımsı kum beyazı ve krem tonlarında şık zemin tasarımı.
