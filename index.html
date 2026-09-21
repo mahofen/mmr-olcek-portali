@@ -784,10 +784,6 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2">
-              <button id="btnGenerate50Sample" onclick="generate50FieldSurveySimulation()" type="button" class="inline-flex items-center px-3 py-2 text-xs font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 transition-colors">
-                <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5 text-purple-600"></i>
-                50 Saha Anketi Simülasyonu Üret
-              </button>
               <button id="btnExportBulkCSV" onclick="exportFieldSurveyToCSV()" type="button" class="inline-flex items-center px-3.5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition-all shadow-emerald-200">
                 <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 mr-1.5"></i>
                 SPSS / Excel CSV İndir
@@ -837,13 +833,9 @@
               <i data-lucide="inbox" class="w-6 h-6"></i>
             </div>
             <h5 class="text-sm font-bold text-slate-700">Henüz Saha Anketi Kaydı Bulunmuyor</h5>
-            <p class="text-xs text-slate-400 max-w-sm mx-auto mt-1 mb-4">
-              Öğretmenler haftalık saha anketini doldurdukça kayıtlar buraya eklenecektir veya "50 Saha Anketi Simülasyonu Üret" butonuna basarak 81 il ve 25 haftaya yayılmış örnek veri oluşturabilirsiniz.
+            <p class="text-xs text-slate-400 max-w-sm mx-auto mt-1">
+              Öğretmenler haftalık saha anketini doldurdukça kayıtlar otomatik olarak bu havuzda toplanacak ve analiz edilecektir.
             </p>
-            <button onclick="generate50FieldSurveySimulation()" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all">
-              <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5"></i>
-              50 Örnek Anket Verisi Oluştur
-            </button>
           </div>
         </div>
 
@@ -2142,133 +2134,6 @@
       }
     }
 
-    // 50 Simulation Generator across 81 Cities and 25 Weeks
-    function generate50FieldSurveySimulation() {
-      const branches = [
-        "Fen Bilimleri", "Din Kültürü ve Ahlak Bilgisi", "Matematik", "Türkçe", "Sosyal Bilgiler",
-        "Biyoloji", "Fizik", "Kimya", "Tarih", "Coğrafya", "Felsefe", "İngilizce",
-        "Görsel Sanatlar", "Bilişim Teknolojileri", "Rehberlik / PDR"
-      ];
-      const grades = ["5. Sınıf", "6. Sınıf", "7. Sınıf", "8. Sınıf", "9. Sınıf", "10. Sınıf", "11. Sınıf", "12. Sınıf"];
-      const majorCities = ["İstanbul", "Ankara", "İzmir", "Konya", "Bursa", "Gaziantep", "Diyarbakır", "Erzurum", "Trabzon", "Antalya", "Kayseri", "Samsun", "Adana", "Malatya", "Şanlıurfa", "Kocaeli", "Sakarya", "Van", "Denizli", "Eskişehir", "Balıkesir", "Kahramanmaraş", "Hatay", "Manisa", "Tekirdağ", "Sivas", "Çorum", "Elazığ", "Mardin", "Rize"];
-      
-      const firstNames = ["Ahmet", "Mehmet", "Mustafa", "Ali", "Hüseyin", "Fatma", "Ayşe", "Emine", "Hatice", "Zeynep", "Elif", "Ömer", "Yusuf", "İbrahim", "Hasan", "Murat", "Osman", "Merve", "Büşra", "Esra"];
-      const lastNames = ["Yılmaz", "Kaya", "Demir", "Çelik", "Şahin", "Yıldız", "Yıldırım", "Öztürk", "Aydın", "Özdemir", "Arslan", "Doğan", "Kılıç", "Aslan", "Çetin", "Kara", "Koç", "Kurt", "Özkan", "Şimşek"];
-
-      const durations = ["1–5 dakika", "5–10 dakika", "10–20 dakika", "20 dakika veya daha fazla"];
-      const engagements = [
-        "Çok iyi – Öğrenciler ilgi gösterdi, aktif katılım sağladı.",
-        "İyi – Öğrencilerin çoğu katılım sağladı.",
-        "Sınırlı – Bazı öğrenciler katılım sağladı, bazıları ilgisiz kaldı.",
-        "Olumsuz / zorlayıcı – Belirgin bir ilgi göstermediler veya uygulama sırasında zorlayıcı bir durum oluştu."
-      ];
-      const alignments4 = [
-        "Çok uyumlu – İçerik, öğrenme çıktısıyla doğal biçimde bütünleşti.",
-        "Uyumlu – İçerik ile ders kazanımı arasında güçlü bir bağlantı kuruldu.",
-        "Kısmen uyumlu – Bağlantı kurulabildi ancak bazı noktalarda zorlanıldı.",
-        "Uyumlu değildi / zorlayıcıydı – Kazanım ile içerik arasında bağ kurulamadı."
-      ];
-      const reasons = [
-        "MMR içeriği ile ders kazanımı arasında yeterli bağlantı kuramadım.",
-        "Ders süresi içinde uygulamaya yeterli zaman ayıramadım.",
-        "Öğrencilerin hazırbulunuşluğu / ilgisi uygun değildi.",
-        "İçeriği sınıf seviyesine uyarlamakta zorlandım.",
-        "Uygulama yöntemini nasıl gerçekleştireceğim konusunda zorlandım.",
-        "Dersin işlenişi / sınıf ortamı uygulamaya uygun değildi.",
-        "MMR içeriğinin geliştirilmesi gerektiğini düşündüm."
-      ];
-      const sampleNotes = [
-        "Öğrenciler doğadaki nizam ve sanat örneğini dinlerken çok etkilendiler, ders sonrasında tefekkür odaklı sorular sordular.",
-        "Ders kazanımıyla bağlantı kurmak başta zor gelse de analoji tekniğiyle öğrenciler konuyu fıtratla bağdaştırdı.",
-        "Öğrenciler hazır cevabı ezberlemek yerine kendi gözlemleriyle sonuca ulaştılar.",
-        "5 dakikalık kompakt tefekkür kancası sınıfın derse motivasyonunu belirgin şekilde artırdı."
-      ];
-
-      const generated = [];
-      const now = new Date();
-
-      for (let i = 1; i <= 50; i++) {
-        const fn = firstNames[Math.floor(Math.random() * firstNames.length)];
-        const ln = lastNames[Math.floor(Math.random() * lastNames.length)];
-        const branch = branches[Math.floor(Math.random() * branches.length)];
-        const city = majorCities[Math.floor(Math.random() * majorCities.length)];
-        const grade = grades[Math.floor(Math.random() * grades.length)];
-        const studentCount = Math.floor(Math.random() * 20) + 16; // 16-35 students
-        const weekNum = ((i - 1) % TOTAL_WEEKS) + 1;
-        const weekStr = `${weekNum}. Hafta`;
-
-        const rand = Math.random();
-        let q1Code = "applied_full";
-        let q1Text = "Evet, rahatlıkla uyguladım.";
-        let q1aReason = "";
-        let q2Duration = "";
-        let q3Engagement = "";
-        let q4Alignment = "";
-
-        if (rand < 0.58) {
-          q1Code = "applied_full";
-          q1Text = "Evet, rahatlıkla uyguladım.";
-        } else if (rand < 0.82) {
-          q1Code = "applied_part";
-          q1Text = "Kısmen uyguladım.";
-        } else if (rand < 0.92) {
-          q1Code = "diff_hard";
-          q1Text = "Uygulamakta zorlandım.";
-        } else {
-          q1Code = "diff_none";
-          q1Text = "Uygulayamadım.";
-        }
-
-        if (q1Code === 'diff_hard' || q1Code === 'diff_none') {
-          q1aReason = reasons[Math.floor(Math.random() * reasons.length)];
-        } else {
-          const durRand = Math.random();
-          if (durRand < 0.25) q2Duration = durations[0];
-          else if (durRand < 0.72) q2Duration = durations[1];
-          else if (durRand < 0.92) q2Duration = durations[2];
-          else q2Duration = durations[3];
-
-          const engRand = Math.random();
-          if (engRand < 0.48) q3Engagement = engagements[0];
-          else if (engRand < 0.86) q3Engagement = engagements[1];
-          else if (engRand < 0.96) q3Engagement = engagements[2];
-          else q3Engagement = engagements[3];
-
-          const alignRand = Math.random();
-          if (alignRand < 0.45) q4Alignment = alignments4[0];
-          else if (alignRand < 0.80) q4Alignment = alignments4[1];
-          else if (alignRand < 0.94) q4Alignment = alignments4[2];
-          else q4Alignment = alignments4[3];
-        }
-
-        const d = new Date(now.getTime() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000));
-        const dateStr = d.toISOString().split('T')[0];
-
-        generated.push({
-          id: 'sim_' + i + '_' + Date.now(),
-          teacher: `${fn} ${ln}`,
-          branch,
-          city,
-          grade,
-          studentCount,
-          week: weekStr,
-          date: dateStr,
-          q1_code: q1Code,
-          q1_text: q1Text,
-          q1a_reason: q1aReason,
-          q2_duration: q2Duration,
-          q3_engagement: q3Engagement,
-          q4_alignment: q4Alignment,
-          fieldNote: i % 3 === 0 ? sampleNotes[Math.floor(Math.random() * sampleNotes.length)] : "",
-          createdAt: new Date().toISOString()
-        });
-      }
-
-      surveyPool = generated;
-      saveSurveyPoolToStorage();
-      showToast("81 il ve 25 haftaya yayılmış 50 adet gerçekçi saha anketi üretildi!", 'success');
-    }
-
     // Helper XML escaper
     function escapeXml(unsafe) {
       if (unsafe === undefined || unsafe === null) return "";
@@ -2827,7 +2692,6 @@
     window.switchToTeacherMode = switchToTeacherMode;
     window.logoutAdmin = logoutAdmin;
     window.switchAdminTab = switchAdminTab;
-    window.generate50FieldSurveySimulation = generate50FieldSurveySimulation;
     window.exportFieldSurveyToCSV = exportFieldSurveyToCSV;
     window.exportFieldSurveyToJSON = exportFieldSurveyToJSON;
     window.clearEntireSurveyPool = clearEntireSurveyPool;
