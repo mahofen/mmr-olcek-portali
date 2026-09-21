@@ -11,10 +11,10 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
   1. **Ad Soyad** (Metin kutusu, zorunlu)
   2. **Bulunduğunuz İl (81 İl Açılır Liste):** 81 il plaka kodlarıyla birlikte doğrudan seçilebilir.
   3. **Sınıf Düzeyi (Açılır Liste):** Sınıf düzeyi seçildiğinde branş listesi otomatik filtrelenir.
-  4. **Branş (Sınıfa Göre Dinamik Açılan 9 Branş Listesi):**
+  4. **Branş (Sınıfa Göre Dinamik Açılan 10 Branş Listesi):**
      - **1. Sınıf seçildiğinde sadece:** `Hayat Bilgisi`, `Türkçe`
      - **5. Sınıf seçildiğinde sadece:** `Fen Bilimleri`, `Sosyal Bilgiler`
-     - **9. Sınıf seçildiğinde sadece:** `Fizik`, `Kimya`, `Biyoloji`, `Tarih`, `Coğrafya`
+     - **9. Sınıf seçildiğinde sadece:** `Matematik`, `Fizik`, `Kimya`, `Biyoloji`, `Tarih`, `Coğrafya`
   5. **Uygulanan Hafta (1–35. Hafta Açılır Liste):** 1'den 35'e kadar hafta seçimi.
   6. **Katılan Öğrenci Sayısı:** Sayısal veri girişi.
 * **Saha Çalışması Soruları:**
@@ -80,14 +80,14 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
   6. **1A En Sık Karşılaşılan Güçlük Rozeti**
   7. **1B En Sık Karşılaşılan Engel Rozeti**
 * **📋 Karşılaştırmalı ve Boylamsal Analitik Matrisler:**
-  - **1. Branşlara Göre Uygulanabilirlik & Güçlük Dağılım Matrisi:** Belirlenen 9 temel branş dersi için tek tek Kayıt Sayısı, Öğrenci Sayısı, Rahat %, Kısmen %, Zorlandı %, Uygulayamadı %, Renkli Görsel Yığın Barı ve o branştaki Hakim Zorlanma/Engel Nedeni.
+  - **1. Branşlara Göre Uygulanabilirlik & Güçlük Dağılım Matrisi:** Belirlenen 10 temel branş dersi için tek tek Kayıt Sayısı, Öğrenci Sayısı, Rahat %, Kısmen %, Zorlandı %, Uygulayamadı %, Renkli Görsel Yığın Barı ve o branştaki Hakim Zorlanma/Engel Nedeni.
   - **2. Zaman İçerisindeki Değişim & Boylamsal Trend Analizi (1–35. Haftalar):** 1. Haftadan 35. Haftaya kadar öğretmenlerin haftalık uygulama deneyimlerindeki gelişimi, öğrenci erişimini ve pedagojik kabul trendini izleyen boylamsal tablo.
   - **3. Sınıf Seviyesine Göre Uygulanabilirlik Matrisi:** 1. Sınıf, 5. Sınıf ve 9. Sınıf seviyelerine göre Rahat / Kısmi / Güçlük / Engel dağılımı.
   - **4. Kök Neden Ayrışması (1A Süreç Güçlükleri vs 1B Uygulama Bariyerleri):** Öğretmenlerin bildirdiği gerekçeleri sıklık sırasına göre yüzdeli ve renkli ilerleme çubuklarıyla analiz eden çift panelli alan.
   - **5. Öğrenci İlgisi (S3) & 4 Şıklı Kazanım Uyumu (S4) Saha Çıkarımları.**
   - **6. Saha Bulgularına Dayalı Pedagojik Eylem Planı:** Süre yönetimi, kazanım köprüsü, öğrenci geri bildirimi ve zümre dayanışması önerileri.
   - **7. Niteliksel Öğretmen Saha Notları (S5).**
-* **📥 Kapsamlı Excel İndirme (.xls):** Raporlama alanından indirilen Excel dosyasına MMR Uygulanabilirlik Profili özet kartları, 9 Branş Dağılım Matrisi, 35 Haftalık Boylamsal Trend Tablosu ve Detaylı Anket Satırları biçimlendirilmiş ve renkli olarak dahil edilir.
+* **📥 Kapsamlı Excel İndirme (.xls):** Raporlama alanından indirilen Excel dosyasına MMR Uygulanabilirlik Profili özet kartları, 10 Branş Dağılım Matrisi, 35 Haftalık Boylamsal Trend Tablosu ve Detaylı Anket Satırları biçimlendirilmiş ve renkli olarak dahil edilir.
 * **🖨️ Yazdır / PDF Çıktısı Alma.**
 
 ---

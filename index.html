@@ -1609,12 +1609,13 @@
 ];
 
 
-    // Standard Branches List (9 Branş)
+    // Standard Branches List (10 Branş)
     const STANDARD_BRANCHES = [
       "Hayat Bilgisi",
       "Türkçe",
       "Fen Bilimleri",
       "Sosyal Bilgiler",
+      "Matematik",
       "Fizik",
       "Kimya",
       "Biyoloji",
@@ -1626,7 +1627,7 @@
     const GRADE_BRANCH_MAP = {
       "1. Sınıf": ["Hayat Bilgisi", "Türkçe"],
       "5. Sınıf": ["Fen Bilimleri", "Sosyal Bilgiler"],
-      "9. Sınıf": ["Fizik", "Kimya", "Biyoloji", "Tarih", "Coğrafya"]
+      "9. Sınıf": ["Matematik", "Fizik", "Kimya", "Biyoloji", "Tarih", "Coğrafya"]
     };
 
     // Sınıf Düzeyi değiştiğinde sadece o sınıfa ait branşları getirme fonksiyonu
@@ -1735,7 +1736,7 @@
         });
         const branchList = Array.from(branchSet);
 
-        let opts = '<option value="all">Tüm Branşlar (9 Branş)</option>';
+        let opts = '<option value="all">Tüm Branşlar (10 Branş)</option>';
         branchList.forEach(b => {
           opts += `<option value="${b}">${b}</option>`;
         });
