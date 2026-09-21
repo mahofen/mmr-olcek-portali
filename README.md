@@ -1,12 +1,18 @@
-# Muallimin Manevî Rehberi (MMR) Saha Çalışması Uygulama Anketi & Analiz Portalı
+# Muallimin Manevî Rehberi (MMR) 25 Haftalık Saha Çalışması Portalı
 
-Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin derslerdeki gerçek kullanımını, sınıf içi uygulanabilirliğini, öğrenci tepkilerini ve öğretmenlerin karşılaştığı güçlükleri belirlemek amacıyla geliştirilen **İnteraktif Saha Çalışması Anketi ve Yönetici Analiz Portalı**dır.
+Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin 25 haftalık eğitim dönemi boyunca derslerdeki gerçek kullanımını, haftalık uygulanabilirliğini, öğrenci tepkilerini ve öğretmenlerin karşılaştığı güçlükleri belirlemek amacıyla geliştirilen **İnteraktif Saha Çalışması Anketi ve Haftalık/Genel Yönetici Analiz Portalı**dır.
 
 ---
 
 ## 🌟 Öne Çıkan Özellikler
 
-### 1. 👩‍🏫 Öğretmen Saha Anketi Giriş Portalı
+### 1. 👩‍🏫 Öğretmen Saha Anketi Giriş Portalı (25 Hafta Seçimli)
+* **Öğretmen Bilgileri & Açılır Hafta Seçimi:**
+  - **Ad Soyad** (Zorunlu)
+  - **Branş** (Zorunlu)
+  - **Uygulanan Hafta (1–25. Hafta Açılır Liste):** 1. Hafta'dan 25. Hafta'ya kadar doğrudan açılır menüden seçim imkanı.
+  - **MMR İçeriği / Konu Başlığı:** İsteğe bağlı / konu açıklaması.
+  - **Uygulama Tarihi:** Tarih seçimi.
 * **Saha Çalışmasına Özel Sorular:**
   - **1. Soru:** *Bu hafta MMR içeriğini dersinizde uyguladınız mı?*
     - Evet, rahatlıkla uyguladım.
@@ -26,26 +32,31 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin derslerdeki gerçek
 
 ### 2. 🔐 Yönetici Portalı (Şifre Korumalı Analiz & Havuz)
 * **Giriş Şifresi:** `mmr2026`
+* **Haftalık Filtreleme & Tablo:**
+  - Havuzdaki tüm öğretmen kayıtlarını **Hafta bazında (1–25)**, duruma göre veya metin aramasıyla anında filtreleme.
 * **Saha İstatistikleri & Grafikler:**
   - Toplam Saha Bildirimi ve Başarılı Uygulama Oranı (%).
   - **S1 Uygulama Durumu Dağılımı:** Doughnut grafiği.
   - **S3 Öğrenci İlgisi ve Katılımı:** Çubuk grafiği.
   - **S2 Uygulama Süresi Dağılımı:** Çubuk grafiği.
   - **S1A Zorlanma / Güçlük Nedenleri Analizi:** Yatay çubuk grafiği.
-* **50 Saha Anketi Simülasyon Üreteci:** Tek tıkla farklı branş, hafta ve kazanımlara ait 50 gerçekçi saha anketi verisi üretme.
-* **SPSS / Excel Uyumlu CSV Dışa Aktarma:** Saha analizleri ve akademik raporlama için tek tıkla CSV formatında indirme.
+* **50 Saha Anketi Simülasyon Üreteci:** 25 haftaya yayılmış gerçekçi 50 saha anketi verisi üretme.
+* **SPSS / Excel Uyumlu CSV Dışa Aktarma:** Hafta, branş, sorular ve notları içeren CSV dosyası indirme.
 * **JSON Yedekleme ve Geri Yükleme.**
 
 ---
 
-### 3. 📊 Kapsamlı Saha Değerlendirme ve Pedagojik Rapor
-* **Kapsam:** İster **Genel Saha Raporu**, ister havuzdan seçilen **Tekil Öğretmen Saha Karnesi**.
+### 3. 📊 Kapsamlı Haftalık & Genel Saha Değerlendirme Raporu
+* **Rapor Kapsamı Seçimi:**
+  - 🏫 **Tüm Haftaların Genel Saha Raporu (1–25 Hafta Toplamı)**
+  - 📅 **Haftalık Özel Raporlar (Örn: 1. Hafta Özel Raporu, 2. Hafta Özel Raporu vb.)**
+  - 👤 **Tekil Öğretmen Saha Karnesi**
 * **Öğrenci Katılımı ve Müfredat Uyumu Analizi.**
 * **Güçlüklerin Tespiti ve Çözüm Odaklı Pedagojik Eylem Planı (4 Adım):**
   1. Süre Yönetimi & 5-10 Dk Kuralı
   2. Kazanım ile Organik Köprü Kurma
   3. Öğrenci Çıkış Görüşmeleri ve Geri Bildirim
-  4. Zümre İçi İçerik Paylaşımı ve Destek
+  4. Haftalık Zümre İçi Paylaşım ve Destek
 * **Niteliksel Saha Notları Listesi.**
 * **Yazdır / PDF Rapor Çıktısı.**
 

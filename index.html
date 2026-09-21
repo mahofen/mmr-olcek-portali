@@ -98,12 +98,12 @@
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-tight">MMR Saha Çalışması Anketi</h1>
+            <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-tight">MMR Saha Çalışması Portalı</h1>
             <span id="roleBadge" class="px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
               Öğretmen Formu
             </span>
           </div>
-          <p class="text-xs text-slate-500">Muallimin Manevî Rehberi Saha Çalışması Uygulama & Analiz Portalı</p>
+          <p class="text-xs text-slate-500">25 Haftalık Saha Uygulama & Haftalık Analiz Portalı</p>
         </div>
       </div>
 
@@ -135,13 +135,13 @@
           </button>
           <button id="adminTabReport" onclick="switchAdminTab('report')" class="admin-tab-btn py-2.5 text-slate-400 hover:text-white font-medium flex items-center gap-1.5">
             <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
-            Saha Değerlendirme & Raporlama
+            Haftalık & Genel Saha Raporları
           </button>
         </div>
 
         <div class="flex items-center gap-2">
           <span class="text-[11px] text-slate-400 hidden md:inline">Yönetici Oturumu Açık</span>
-          <button onclick="logoutAdmin()" class="text-xs font-semibold px-2 py-1 text-rose-300 hover:text-white hover:bg-rose-900/50 rounded transition-colors">
+          <button onclick="logoutAdmin()" class="text-xs font-semibold px-2 py-1 text-rose-300 hover:text-white hover:bg-rose-900/50 rounded-transition-colors">
             Çıkış Yap
           </button>
         </div>
@@ -164,14 +164,14 @@
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div class="max-w-3xl">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 mb-2">
-              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-              MUALLİMİN MANEVÎ REHBERİ
+              <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+              MUALLİMİN MANEVÎ REHBERİ (25 HAFTALIK UYGULAMA)
             </div>
             <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white mb-2">
               SAHA ÇALIŞMASI UYGULAMA ANKETİ
             </h2>
             <p class="text-xs sm:text-sm text-indigo-100/90 leading-relaxed">
-              Bu çalışma, <strong>Muallimin Manevî Rehberi</strong> uygulamalarının sınıf içindeki gerçek kullanımını, öğrenci tepkilerini ve uygulama sürecinde karşılaşılan güçlükleri belirlemek amacıyla yürütülmektedir. Katkılarınız için teşekkür ederiz.
+              Bu çalışma, <strong>Muallimin Manevî Rehberi</strong> uygulamalarının sınıf içindeki gerçek kullanımını, haftalık uygulama sıklığını, öğrenci tepkilerini ve uygulama sürecinde karşılaşılan güçlükleri belirlemek amacıyla yürütülmektedir. Katkılarınız için teşekkür ederiz.
             </p>
           </div>
 
@@ -190,7 +190,7 @@
           <i data-lucide="user-check" class="w-4 h-4 text-indigo-600"></i>
           Öğretmen ve Uygulama Bilgileri
         </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           <div>
             <label for="metaTeacher" class="block text-xs font-semibold text-slate-700 mb-1">Ad Soyad <span class="text-rose-500">*</span></label>
             <input type="text" id="metaTeacher" placeholder="Adınız ve Soyadınız" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
@@ -200,8 +200,15 @@
             <input type="text" id="metaBranch" placeholder="Örn: Fen Bilimleri, DKAB, Matematik..." class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
           </div>
           <div>
-            <label for="metaContentWeek" class="block text-xs font-semibold text-slate-700 mb-1">Uygulanan MMR İçeriği / Hafta <span class="text-rose-500">*</span></label>
-            <input type="text" id="metaContentWeek" placeholder="Örn: 3. Hafta / Canlılarda Nizam & Sanat" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+            <label for="metaWeek" class="block text-xs font-semibold text-slate-700 mb-1">Uygulanan Hafta (1–25) <span class="text-rose-500">*</span></label>
+            <select id="metaWeek" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-bold text-indigo-900 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+              <option value="">Hafta Seçiniz...</option>
+              <!-- Populated dynamically 1 to 25 -->
+            </select>
+          </div>
+          <div>
+            <label for="metaContentTopic" class="block text-xs font-semibold text-slate-700 mb-1">MMR İçeriği / Konu Başlığı</label>
+            <input type="text" id="metaContentTopic" placeholder="Örn: Canlılarda Nizam & Sanat" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
           </div>
           <div>
             <label for="metaDate" class="block text-xs font-semibold text-slate-700 mb-1">Uygulama Tarihi</label>
@@ -221,7 +228,7 @@
               <h4 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">
                 Bu hafta MMR içeriğini dersinizde uyguladınız mı? <span class="text-rose-500">*</span>
               </h4>
-              <p class="text-xs text-slate-500 mt-0.5">Lütfen bu haftaki ders sürecinize en uygun seçeneği işaretleyiniz.</p>
+              <p class="text-xs text-slate-500 mt-0.5">Lütfen seçilen haftadaki ders sürecinize en uygun seçeneği işaretleyiniz.</p>
             </div>
           </div>
 
@@ -674,11 +681,15 @@
         <!-- Action & Toolbar for Survey Pool -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div class="flex flex-1 items-center gap-2 max-w-md">
-              <div class="relative w-full">
+            <div class="flex flex-1 flex-wrap items-center gap-2 max-w-xl">
+              <div class="relative flex-1 min-w-[200px]">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                <input type="text" id="filterSearch" placeholder="Öğretmen adı, branş veya hafta ara..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+                <input type="text" id="filterSearch" placeholder="Öğretmen adı, branş veya konu ara..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
               </div>
+              <select id="filterWeek" class="py-2 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <option value="all">Tüm Haftalar (1–25)</option>
+                <!-- Dynamically populated 1 to 25 -->
+              </select>
               <select id="filterStatus" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 <option value="all">Tüm Durumlar</option>
                 <option value="applied_full">Evet, rahatlıkla</option>
@@ -721,7 +732,8 @@
                   <th class="p-3">#</th>
                   <th class="p-3">Öğretmen Adı Soyadı</th>
                   <th class="p-3">Branş</th>
-                  <th class="p-3">MMR İçeriği / Hafta</th>
+                  <th class="p-3">Hafta</th>
+                  <th class="p-3">MMR Konusu / İçerik</th>
                   <th class="p-3 text-center">Uygulama Durumu (S1)</th>
                   <th class="p-3 text-center">Süre (S2)</th>
                   <th class="p-3 text-center">Öğrenci İlgisi (S3)</th>
@@ -740,7 +752,7 @@
             </div>
             <h5 class="text-sm font-bold text-slate-700">Henüz Saha Anketi Kaydı Bulunmuyor</h5>
             <p class="text-xs text-slate-400 max-w-sm mx-auto mt-1 mb-4">
-              Öğretmenler saha anketini doldurdukça kayıtlar buraya eklenecektir veya "50 Saha Anketi Simülasyonu Üret" butonuna basarak örnek veri oluşturabilirsiniz.
+              Öğretmenler haftalık saha anketini doldurdukça kayıtlar buraya eklenecektir veya "50 Saha Anketi Simülasyonu Üret" butonuna basarak 25 haftaya yayılmış örnek veri oluşturabilirsiniz.
             </p>
             <button onclick="generate50FieldSurveySimulation()" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all">
               <i data-lucide="wand-2" class="w-3.5 h-3.5 mr-1.5"></i>
@@ -752,19 +764,19 @@
       </div>
 
       <!-- ========================================================= -->
-      <!-- ADMIN SUB-TAB 2: PEDAGOGICAL FIELD REPORT                 -->
+      <!-- ADMIN SUB-TAB 2: PEDAGOGICAL FIELD REPORT (WEEKLY & ALL)  -->
       <!-- ========================================================= -->
       <div id="adminContentReport" class="hidden space-y-6">
 
         <!-- Report Control Bar -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
-          <div class="flex flex-1 items-center gap-3">
+          <div class="flex flex-1 flex-wrap items-center gap-3">
             <label for="reportTargetSelect" class="text-xs font-bold uppercase tracking-wider text-slate-600 whitespace-nowrap flex items-center gap-1.5">
               <i data-lucide="filter" class="w-4 h-4 text-indigo-600"></i>
-              Rapor Kapsamı:
+              Rapor Kapsamı & Hafta Seçimi:
             </label>
-            <select id="reportTargetSelect" onchange="renderFieldPedagogicalReport()" class="w-full max-w-md py-2 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-              <option value="group">🏫 Genel Saha Çalışması Raporu (Tüm Öğretmenler)</option>
+            <select id="reportTargetSelect" onchange="renderFieldPedagogicalReport()" class="w-full max-w-lg py-2.5 px-3.5 text-xs sm:text-sm font-bold bg-indigo-50/50 border border-indigo-200 text-indigo-950 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <option value="group_all">🏫 Tüm Haftaların Genel Saha Raporu (1–25 Hafta Toplamı)</option>
             </select>
           </div>
 
@@ -785,13 +797,13 @@
               <div class="space-y-2">
                 <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
                   <i data-lucide="award" class="w-3.5 h-3.5 text-amber-300"></i>
-                  Saha Çalışması Pedagojik Tanı Raporu
+                  <span id="reportBadgeScope">Saha Çalışması Tanı Raporu</span>
                 </div>
                 <h2 id="reportHeaderTitle" class="text-xl sm:text-2xl font-black tracking-tight text-white">
-                  Genel MMR Saha Çalışması Uygulama ve Yansıma Raporu
+                  Tüm Haftaların Genel Saha Uygulama ve Yansıma Raporu
                 </h2>
                 <p id="reportHeaderSubtitle" class="text-xs sm:text-sm text-indigo-200/80">
-                  Kapsam: Toplam 0 Saha Anketi | Sınıf İçi Uygulama ve Öğrenci Tepkileri
+                  Kapsam: 1–25. Haftalar Toplamı | Sınıf İçi Uygulama ve Öğrenci Tepkileri
                 </p>
               </div>
 
@@ -938,12 +950,15 @@
   <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 no-print mt-12">
     <div class="max-w-7xl mx-auto px-4">
       <p class="font-semibold text-slate-700">Muallimin Manevî Rehberi (MMR) Saha Çalışması Uygulama & Analiz Portalı</p>
-      <p class="mt-1 text-slate-400">Sınıf İçi Uygulama, Öğrenci Tepkileri ve Güçlükleri Belirleme Anketi</p>
+      <p class="mt-1 text-slate-400">25 Haftalık Sınıf İçi Uygulama, Öğrenci Tepkileri ve Güçlükleri Belirleme Sistemi</p>
     </div>
   </footer>
 
   <!-- Application Logic -->
   <script>
+    // Constants
+    const TOTAL_WEEKS = 25;
+
     // State Variables
     let surveyPool = [];
     let isAdminLoggedIn = false;
@@ -955,6 +970,7 @@
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
       try {
+        populateWeekDropdowns();
         loadSurveyPoolFromStorage();
 
         const metaDateElem = document.getElementById('metaDate');
@@ -963,6 +979,9 @@
         // Search & Filter listeners
         const searchInput = document.getElementById('filterSearch');
         if (searchInput) searchInput.addEventListener('input', renderSurveyTable);
+
+        const weekFilter = document.getElementById('filterWeek');
+        if (weekFilter) weekFilter.addEventListener('change', renderSurveyTable);
 
         const statusFilter = document.getElementById('filterStatus');
         if (statusFilter) statusFilter.addEventListener('change', renderSurveyTable);
@@ -979,6 +998,27 @@
         console.error("Initialization error:", err);
       }
     });
+
+    // Populate 25 Weeks into Select Elements
+    function populateWeekDropdowns() {
+      const metaWeekSelect = document.getElementById('metaWeek');
+      if (metaWeekSelect) {
+        let options = '<option value="">Hafta Seçiniz...</option>';
+        for (let i = 1; i <= TOTAL_WEEKS; i++) {
+          options += `<option value="${i}. Hafta">${i}. Hafta</option>`;
+        }
+        metaWeekSelect.innerHTML = options;
+      }
+
+      const filterWeekSelect = document.getElementById('filterWeek');
+      if (filterWeekSelect) {
+        let options = '<option value="all">Tüm Haftalar (1–25)</option>';
+        for (let i = 1; i <= TOTAL_WEEKS; i++) {
+          options += `<option value="${i}. Hafta">${i}. Hafta</option>`;
+        }
+        filterWeekSelect.innerHTML = options;
+      }
+    }
 
     // LocalStorage
     function loadSurveyPoolFromStorage() {
@@ -1027,7 +1067,8 @@
       try {
         const teacher = (document.getElementById('metaTeacher')?.value || "").trim();
         const branch = (document.getElementById('metaBranch')?.value || "").trim();
-        const contentWeek = (document.getElementById('metaContentWeek')?.value || "").trim();
+        const week = (document.getElementById('metaWeek')?.value || "").trim();
+        const contentTopic = (document.getElementById('metaContentTopic')?.value || "").trim();
         const date = document.getElementById('metaDate')?.value || new Date().toISOString().split('T')[0];
         const fieldNote = (document.getElementById('metaFieldNote')?.value || "").trim();
 
@@ -1041,9 +1082,9 @@
           document.getElementById('metaBranch')?.focus();
           return;
         }
-        if (!contentWeek) {
-          showToast("Lütfen Uygulanan MMR İçeriği / Hafta alanını doldurunuz.", 'warning');
-          document.getElementById('metaContentWeek')?.focus();
+        if (!week) {
+          showToast("Lütfen Uygulanan Hafta seçimini yapınız (1–25 Hafta).", 'warning');
+          document.getElementById('metaWeek')?.focus();
           return;
         }
 
@@ -1104,7 +1145,9 @@
           id: 's_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
           teacher,
           branch,
-          contentWeek,
+          week,
+          contentTopic: contentTopic || `${week} Teması`,
+          contentWeek: `${week} - ${contentTopic || 'MMR İçeriği'}`,
           date,
           q1_code: q1Val,
           q1_text: q1Text,
@@ -1119,7 +1162,7 @@
         surveyPool.push(record);
         saveSurveyPoolToStorage();
 
-        showToast(`🎉 "${teacher}" saha anketi başarıyla kaydedildi! Sayfa sıradaki öğretmen için sıfırlandı.`, 'success');
+        showToast(`🎉 "${teacher}" - ${week} saha anketi başarıyla kaydedildi! Sayfa sıfırlandı.`, 'success');
 
         resetSurveyForm(false);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1144,8 +1187,11 @@
       const metaBranch = document.getElementById('metaBranch');
       if (metaBranch) metaBranch.value = "";
 
-      const metaContentWeek = document.getElementById('metaContentWeek');
-      if (metaContentWeek) metaContentWeek.value = "";
+      const metaWeek = document.getElementById('metaWeek');
+      if (metaWeek) metaWeek.value = "";
+
+      const metaContentTopic = document.getElementById('metaContentTopic');
+      if (metaContentTopic) metaContentTopic.value = "";
 
       const metaFieldNote = document.getElementById('metaFieldNote');
       if (metaFieldNote) metaFieldNote.value = "";
@@ -1513,16 +1559,18 @@
       if (!tbody) return;
 
       const searchQuery = (document.getElementById('filterSearch')?.value || "").toLowerCase();
+      const weekFilter = document.getElementById('filterWeek')?.value || "all";
       const statusFilter = document.getElementById('filterStatus')?.value || "all";
 
       const filtered = surveyPool.filter(r => {
-        const matchText = (r.teacher + " " + r.branch + " " + r.contentWeek + " " + (r.fieldNote || "")).toLowerCase().includes(searchQuery);
+        const matchText = (r.teacher + " " + r.branch + " " + (r.week || "") + " " + (r.contentTopic || "") + " " + (r.fieldNote || "")).toLowerCase().includes(searchQuery);
+        const matchWeek = weekFilter === 'all' || r.week === weekFilter;
         const matchStatus = statusFilter === 'all' || r.q1_code === statusFilter;
-        return matchText && matchStatus;
+        return matchText && matchWeek && matchStatus;
       });
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" class="text-center py-6 text-slate-400">Arama kriterlerine uygun saha kaydı bulunamadı.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" class="text-center py-6 text-slate-400">Arama kriterlerine uygun saha kaydı bulunamadı.</td></tr>`;
         return;
       }
 
@@ -1542,7 +1590,8 @@
             <td class="p-3 font-semibold text-slate-400">${idx + 1}</td>
             <td class="p-3 font-bold text-slate-800">${r.teacher}</td>
             <td class="p-3 font-medium">${r.branch}</td>
-            <td class="p-3 text-slate-600">${r.contentWeek}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-800 font-bold">${r.week || "1. Hafta"}</span></td>
+            <td class="p-3 text-slate-600">${r.contentTopic || r.contentWeek || "--"}</td>
             <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] ${q1Badge}">${r.q1_text}</span></td>
             <td class="p-3 text-center font-medium">${r.q2_duration || "--"}</td>
             <td class="p-3 text-center text-[11px]">${shortEngagement}</td>
@@ -1587,22 +1636,39 @@
       }
     }
 
-    // 50 Simulation Generator for Field Survey
+    // 50 Simulation Generator for Field Survey across 25 Weeks
     function generate50FieldSurveySimulation() {
       const branches = [
         "Fen Bilimleri", "Din Kültürü ve Ahlak Bilgisi", "Matematik", "Türkçe", "Sosyal Bilgiler",
         "Biyoloji", "Fizik", "Kimya", "Tarih", "Coğrafya", "Felsefe", "İngilizce",
         "Görsel Sanatlar", "Bilişim Teknolojileri", "Rehberlik / PDR"
       ];
-      const contents = [
-        "1. Hafta / Varlık ve Tefekkür",
-        "2. Hafta / Doğadaki Ölçü ve Denge",
-        "3. Hafta / Canlılarda Sanat ve Estetik",
-        "4. Hafta / İlim, Hikmet ve Merhamet",
-        "5. Hafta / Ekolojik Sorumluluk ve İsraf",
-        "6. Hafta / İnsan Fıtratı ve Ahlaki Değerler",
-        "7. Hafta / Biyomimikri ve Yaratılış Modelleri",
-        "8. Hafta / Evrenin Kusursuz İşleyişi"
+      const weekTopics = [
+        "Varlık, Tefekkür ve Merak Duygusu",
+        "Doğadaki Kusursuz Ölçü ve Denge",
+        "Canlılarda Sanat ve Estetik Detaylar",
+        "İlim, Hikmet ve İnsani Sorumluluk",
+        "Ekolojik Denge ve İsraftan Kaçınma",
+        "İnsan Fıtratı ve Ahlaki İlkeler",
+        "Biyomimikri: Doğadan İlham Alan Tasarımlar",
+        "Evrendeki Hassas Ayarlar ve Fizik Kanunları",
+        "Hücrenin Mikro Dünyasındaki Muazzam Organizasyon",
+        "Su Döngüsü, Yaşam Kaynakları ve Şükür",
+        "Bitkilerde Fotosentez ve Karşılıksız Hizmet",
+        "Hayvanlar Aleminde Yardımlaşma ve Merhamet",
+        "Zamanın Kıymeti ve Planlı Yaşam",
+        "Adalet, Hakkaniyet ve Toplumsal Huzur",
+        "Doğruluk, Dürüstlük ve Bilimsel Etik",
+        "Evrende Dönüşüm ve Madde Döngüleri",
+        "Gökyüzü, Gezegenler ve Kozmik Düzen",
+        "İnsanın Bilişsel Kapasitesi ve Düşünme Becerisi",
+        "Sanatta ve Mimaride Geometrik Uyum",
+        "Dilin Zenginliği ve İfade Gücü",
+        "Tarihten Ders Çıkarma ve İbret Bakışı",
+        "Coğrafi Zenginlikler ve Biyoçeşitlilik",
+        "Teknoloji, Etik ve Faydalı İlim",
+        "Birlik, Beraberlik ve Empati Gelişimi",
+        "Yıl Sonu Genel Değerlendirme ve Kazanım Hasadı"
       ];
       const firstNames = ["Ahmet", "Mehmet", "Mustafa", "Ali", "Hüseyin", "Fatma", "Ayşe", "Emine", "Hatice", "Zeynep", "Elif", "Ömer", "Yusuf", "İbrahim", "Hasan", "Murat", "Osman", "Merve", "Büşra", "Esra"];
       const lastNames = ["Yılmaz", "Kaya", "Demir", "Çelik", "Şahin", "Yıldız", "Yıldırım", "Öztürk", "Aydın", "Özdemir", "Arslan", "Doğan", "Kılıç", "Aslan", "Çetin", "Kara", "Koç", "Kurt", "Özkan", "Şimşek"];
@@ -1631,7 +1697,7 @@
       const sampleNotes = [
         "Öğrenciler doğadaki nizam ve sanat örneğini dinlerken çok etkilendiler, ders sonrasında kendi aralarında tartışmaya devam ettiler.",
         "Ders kazanımıyla bağlantı kurmak başta zor gelse de soru-cevap tekniğiyle öğrenciler konuyu fıtratla bağdaştırdı.",
-        "Kısa sürede uygulandı ancak öğrencilerin farkındalık düzeyi oldukça yüksekti.",
+        "5 dakikalık kısa sürede uygulandı ancak öğrencilerin farkındalık düzeyi oldukça yüksekti.",
         "Öğrenciler hazır cevabı ezberlemek yerine kendi tefekkür ve gözlemleriyle sonuca ulaştılar.",
         "Gelecek haftaki içerikte daha fazla görsel ve örnek olay bulunması katılımı daha da artıracaktır."
       ];
@@ -1643,7 +1709,9 @@
         const fn = firstNames[Math.floor(Math.random() * firstNames.length)];
         const ln = lastNames[Math.floor(Math.random() * lastNames.length)];
         const branch = branches[Math.floor(Math.random() * branches.length)];
-        const contentWeek = contents[Math.floor(Math.random() * contents.length)];
+        const weekNum = ((i - 1) % TOTAL_WEEKS) + 1;
+        const weekStr = `${weekNum}. Hafta`;
+        const topicStr = weekTopics[weekNum - 1] || `${weekNum}. Hafta Teması`;
 
         const rand = Math.random();
         let q1Code = "applied_full";
@@ -1653,10 +1721,10 @@
         let q3Engagement = "";
         let q4Alignment = "";
 
-        if (rand < 0.55) {
+        if (rand < 0.58) {
           q1Code = "applied_full";
           q1Text = "Evet, rahatlıkla uyguladım.";
-        } else if (rand < 0.80) {
+        } else if (rand < 0.82) {
           q1Code = "applied_part";
           q1Text = "Kısmen uyguladım.";
         } else if (rand < 0.92) {
@@ -1672,18 +1740,18 @@
         } else {
           const durRand = Math.random();
           if (durRand < 0.25) q2Duration = durations[0];
-          else if (durRand < 0.70) q2Duration = durations[1];
+          else if (durRand < 0.72) q2Duration = durations[1];
           else if (durRand < 0.92) q2Duration = durations[2];
           else q2Duration = durations[3];
 
           const engRand = Math.random();
-          if (engRand < 0.45) q3Engagement = engagements[0];
-          else if (engRand < 0.85) q3Engagement = engagements[1];
+          if (engRand < 0.48) q3Engagement = engagements[0];
+          else if (engRand < 0.86) q3Engagement = engagements[1];
           else if (engRand < 0.96) q3Engagement = engagements[2];
           else q3Engagement = engagements[3];
 
           const alignRand = Math.random();
-          if (alignRand < 0.60) q4Alignment = alignments[0];
+          if (alignRand < 0.62) q4Alignment = alignments[0];
           else if (alignRand < 0.92) q4Alignment = alignments[1];
           else q4Alignment = alignments[2];
         }
@@ -1695,7 +1763,9 @@
           id: 'sim_' + i + '_' + Date.now(),
           teacher: `${fn} ${ln}`,
           branch,
-          contentWeek,
+          week: weekStr,
+          contentTopic: topicStr,
+          contentWeek: `${weekStr} - ${topicStr}`,
           date: dateStr,
           q1_code: q1Code,
           q1_text: q1Text,
@@ -1710,7 +1780,7 @@
 
       surveyPool = generated;
       saveSurveyPoolToStorage();
-      showToast("50 adet gerçekçi saha anketi verisi başarıyla oluşturuldu!", 'success');
+      showToast("25 haftaya yayılmış 50 adet gerçekçi saha anketi verisi başarıyla oluşturuldu!", 'success');
     }
 
     // Export to CSV
@@ -1721,17 +1791,17 @@
       }
 
       let csv = "\uFEFF";
-      csv += "ID,Ogretmen_Adi,Brans,MMR_Icerigi_Hafta,Uygulama_Durumu_S1,Uygulamama_Gerekcesi_S1A,Uygulama_Suresi_S2,Ogrenci_Ilgisi_S3,Kazanim_Uyumu_S4,Saha_Notu_S5,Uygulama_Tarihi\n";
+      csv += "ID,Ogretmen_Adi,Brans,Uygulanan_Hafta,MMR_Konusu,Uygulama_Durumu_S1,Uygulamama_Gerekcesi_S1A,Uygulama_Suresi_S2,Ogrenci_Ilgisi_S3,Kazanim_Uyumu_S4,Saha_Notu_S5,Uygulama_Tarihi\n";
 
       surveyPool.forEach(r => {
-        csv += `"${r.id}","${r.teacher}","${r.branch}","${r.contentWeek}","${r.q1_text}","${(r.q1a_reason || "").replace(/"/g, '""')}","${r.q2_duration || ""}","${(r.q3_engagement || "").replace(/"/g, '""')}","${(r.q4_alignment || "").replace(/"/g, '""')}","${(r.fieldNote || "").replace(/"/g, '""')}","${r.date}"\n`;
+        csv += `"${r.id}","${r.teacher}","${r.branch}","${r.week || ""}","${(r.contentTopic || "").replace(/"/g, '""')}","${r.q1_text}","${(r.q1a_reason || "").replace(/"/g, '""')}","${r.q2_duration || ""}","${(r.q3_engagement || "").replace(/"/g, '""')}","${(r.q4_alignment || "").replace(/"/g, '""')}","${(r.fieldNote || "").replace(/"/g, '""')}","${r.date}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `MMR_Saha_Calismasi_Anketleri_${new Date().toISOString().split('T')[0]}.csv`);
+      link.setAttribute("download", `MMR_25_Haftalik_Saha_Calismasi_${new Date().toISOString().split('T')[0]}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1745,7 +1815,7 @@
         return;
       }
       const data = {
-        title: "MMR Saha Çalışması Uygulama Anketi Veri Havuzu",
+        title: "MMR 25 Haftalık Saha Çalışması Uygulama Anketi Veri Havuzu",
         exportedAt: new Date().toISOString(),
         totalSurveys: surveyPool.length,
         surveys: surveyPool
@@ -1754,7 +1824,7 @@
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `MMR_Saha_Anketleri_Yedek_${Date.now()}.json`);
+      link.setAttribute("download", `MMR_25_Haftalik_Saha_Yedek_${Date.now()}.json`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1783,135 +1853,80 @@
     }
 
     // =========================================================================
-    // PEDAGOGICAL FIELD REPORT ENGINE
+    // PEDAGOGICAL FIELD REPORT ENGINE (ALL WEEKS & WEEKLY BREAKDOWNS)
     // =========================================================================
 
     function populateReportTargetSelect() {
       const select = document.getElementById('reportTargetSelect');
       if (!select) return;
       const currentVal = select.value;
-      const count = surveyPool.length;
+      const totalCount = surveyPool.length;
 
-      let html = `<option value="group">🏫 Genel Saha Çalışması Raporu (${count} Anket)</option>`;
-      if (count > 0) {
-        html += `<optgroup label="Tekil Öğretmen Saha Karneleri (${count})">`;
+      let html = `<option value="group_all">🏫 Tüm Haftaların Genel Saha Raporu (1–25. Haftalar - ${totalCount} Anket)</option>`;
+
+      // Group by weeks
+      const weekGroups = {};
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        const wStr = `${w}. Hafta`;
+        const count = surveyPool.filter(r => r.week === wStr).length;
+        if (count > 0) {
+          weekGroups[wStr] = count;
+        }
+      }
+
+      if (Object.keys(weekGroups).length > 0) {
+        html += `<optgroup label="📅 Haftalık Özel Saha Raporları">`;
+        for (const [wStr, count] of Object.entries(weekGroups)) {
+          html += `<option value="week_${wStr}">📅 ${wStr} Özel Raporu (${count} Öğretmen Girişi)</option>`;
+        }
+        html += `</optgroup>`;
+      }
+
+      // Individual teachers
+      if (totalCount > 0) {
+        html += `<optgroup label="👤 Tekil Öğretmen Saha Karneleri (${totalCount})">`;
         surveyPool.forEach(r => {
-          html += `<option value="${r.id}">👤 ${r.teacher} - ${r.branch} (${r.contentWeek}) [${r.q1_text}]</option>`;
+          html += `<option value="${r.id}">👤 ${r.teacher} - ${r.branch} (${r.week || 'Hafta Belirtilmedi'}) [${r.q1_text}]</option>`;
         });
         html += `</optgroup>`;
       }
+
       select.innerHTML = html;
-      if (currentVal && (currentVal === 'group' || surveyPool.some(r => r.id === currentVal))) {
+      if (currentVal && (currentVal === 'group_all' || currentVal.startsWith('week_') || surveyPool.some(r => r.id === currentVal))) {
         select.value = currentVal;
       } else {
-        select.value = 'group';
+        select.value = 'group_all';
       }
     }
 
     function renderFieldPedagogicalReport() {
       const selectElem = document.getElementById('reportTargetSelect');
-      const targetId = selectElem ? selectElem.value : 'group';
+      const targetVal = selectElem ? selectElem.value : 'group_all';
 
-      let isGroup = (targetId === 'group');
+      let dataset = [];
+      let reportTitle = "";
+      let reportSubtitle = "";
+      let reportScopeBadge = "";
 
-      if (isGroup) {
-        const count = surveyPool.length;
-        if (count === 0) {
-          document.getElementById('reportHeaderTitle').textContent = "Genel MMR Saha Çalışması Uygulama ve Yansıma Raporu";
-          document.getElementById('reportHeaderSubtitle').textContent = "Henüz havuzda kayıtlı saha anketi bulunmamaktadır.";
-          document.getElementById('reportHeaderSuccessRate').textContent = "%0";
-          document.getElementById('reportHeaderBadge').textContent = "Veri Yok";
-          document.getElementById('reportHeaderBadge').className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-slate-400 text-white";
-          document.getElementById('reportDiagnosticParagraph').innerHTML = "<p>Değerlendirme için henüz saha anketi girişi yapılmamıştır.</p>";
-          document.getElementById('reportStudentEngagementInsight').innerHTML = "<p>Veri yok.</p>";
-          document.getElementById('reportCurriculumFitInsight').innerHTML = "<p>Veri yok.</p>";
-          document.getElementById('reportActionRecommendationsGrid').innerHTML = "";
-          document.getElementById('reportFieldNotesContainer').innerHTML = "<p class='text-slate-400 italic'>Henüz eklenmiş saha notu bulunmuyor.</p>";
-          return;
-        }
-
-        let appliedFull = 0, appliedPart = 0, diffHard = 0, diffNone = 0;
-        let engHigh = 0, engMed = 0, engLow = 0, engNeg = 0;
-        let alignHigh = 0, alignMed = 0, alignLow = 0;
-        let reasonsList = [];
-        let notesList = [];
-
-        surveyPool.forEach(r => {
-          if (r.q1_code === 'applied_full') appliedFull++;
-          else if (r.q1_code === 'applied_part') appliedPart++;
-          else if (r.q1_code === 'diff_hard') diffHard++;
-          else if (r.q1_code === 'diff_none') diffNone++;
-
-          if (r.q3_engagement) {
-            if (r.q3_engagement.startsWith('Çok iyi')) engHigh++;
-            else if (r.q3_engagement.startsWith('İyi')) engMed++;
-            else if (r.q3_engagement.startsWith('Sınırlı')) engLow++;
-            else if (r.q3_engagement.startsWith('Olumsuz')) engNeg++;
-          }
-
-          if (r.q4_alignment) {
-            if (r.q4_alignment.startsWith('Çok uyumlu')) alignHigh++;
-            else if (r.q4_alignment.startsWith('Kısmen uyumlu')) alignMed++;
-            else alignLow++;
-          }
-
-          if (r.q1a_reason) reasonsList.push(r.q1a_reason);
-          if (r.fieldNote) notesList.push({ teacher: r.teacher, branch: r.branch, note: r.fieldNote, week: r.contentWeek });
-        });
-
-        const totalApplied = appliedFull + appliedPart;
-        const appRate = Math.round((totalApplied / count) * 100);
-
-        document.getElementById('reportHeaderTitle').textContent = "Genel MMR Saha Çalışması Uygulama ve Yansıma Raporu";
-        document.getElementById('reportHeaderSubtitle').textContent = `Kapsam: Toplam ${count} Saha Anketi | Çoklu Branş ve Sınıf İçi Deneyimler`;
-        document.getElementById('reportHeaderSuccessRate').textContent = `%${appRate}`;
-
-        const badgeElem = document.getElementById('reportHeaderBadge');
-        if (appRate >= 80) {
-          badgeElem.textContent = "Çok Yüksek Uygunluk";
-          badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-emerald-500 text-white shadow-sm";
-        } else if (appRate >= 60) {
-          badgeElem.textContent = "İyi / Geliştirilebilir";
-          badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-indigo-600 text-white shadow-sm";
-        } else if (appRate >= 40) {
-          badgeElem.textContent = "Kısmi Zorlanma";
-          badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-amber-500 text-slate-900 shadow-sm";
-        } else {
-          badgeElem.textContent = "Yüksek Destek İhtiyacı";
-          badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-rose-500 text-white shadow-sm";
-        }
-
-        // 1. Diagnostic Summary
-        document.getElementById('reportDiagnosticParagraph').innerHTML = `
-          <p>Saha çalışması kapsamında toplanan <strong>${count}</strong> öğretmen bildirimine göre, Muallimin Manevî Rehberi içeriklerinin <strong>%${appRate}</strong> oranında (<strong>${totalApplied} öğretmen</strong>) ders akışı içerisinde başarıyla veya kısmen uygulandığı görülmektedir.</p>
-          <p>Öğretmenlerin <strong>%${Math.round((appliedFull/count)*100)}</strong>'i (<strong>${appliedFull}</strong> kişi) içeriği <em>rahatlıkla uyguladığını</em>, <strong>%${Math.round((appliedPart/count)*100)}</strong>'i (<strong>${appliedPart}</strong> kişi) <em>kısmen uyguladığını</em>, <strong>%${Math.round((diffHard/count)*100)}</strong>'i ise uygulamakta <em>zorlandığını</em> bildirmiştir.</p>
-        `;
-
-        // 2. Student Engagement
-        document.getElementById('reportStudentEngagementInsight').innerHTML = `
-          <p>Uygulama yapılan sınıflarda öğrencilerin <strong>%${totalApplied > 0 ? Math.round(((engHigh + engMed)/totalApplied)*100) : 0}</strong>'inde (<strong>${engHigh + engMed}</strong> sınıf) ilgi ve katılımın <strong>"Çok İyi" veya "İyi"</strong> seviyede gerçekleştiği gözlemlenmiştir.</p>
-          <p class="text-xs text-emerald-800 leading-snug">Öğrencilerin salt ezbere dayalı bir bilgi yerine; kainattaki düzen, amaç ve tefekkür unsurları üzerinden kendi çıkarımlarını ifade etmeye hevesli oldukları saha notlarına yansımıştır.</p>
-        `;
-
-        // 3. Curriculum Fit
-        document.getElementById('reportCurriculumFitInsight').innerHTML = `
-          <p>İçeriğin ders kazanımıyla uyum düzeyi değerlendirildiğinde, öğretmenlerin <strong>%${totalApplied > 0 ? Math.round(((alignHigh + alignMed)/totalApplied)*100) : 0}</strong>'i (<strong>${alignHigh + alignMed}</strong> kişi) MMR temasının mevcut müfredat öğrenme çıktısıyla <strong>doğal veya kısmi uyum</strong> sağladığını belirtmiştir.</p>
-          <p class="text-xs text-indigo-800 leading-snug">Zorlanma yaşanan sınırlı konularda ise temel etkenin süre kısıtı ve kazanım köprüsünü kurma pratiği olduğu anlaşılmaktadır.</p>
-        `;
-
-        // 4. Action Plan Cards
-        renderFieldActionCards(reasonsList, appRate);
-
-        // 5. Field Notes
-        renderFieldNotesList(notesList);
-
+      if (targetVal === 'group_all') {
+        dataset = [...surveyPool];
+        reportTitle = "Tüm Haftaların Genel Saha Uygulama ve Yansıma Raporu";
+        reportSubtitle = `Kapsam: 1–25. Haftalar Toplamı | Toplam ${dataset.length} Saha Bildirimi`;
+        reportScopeBadge = "1–25. Haftalar Genel Raporu";
+      } else if (targetVal.startsWith('week_')) {
+        const selectedWeek = targetVal.replace('week_', '');
+        dataset = surveyPool.filter(r => r.week === selectedWeek);
+        reportTitle = `${selectedWeek} Saha Uygulama ve Pedagojik Değerlendirme Raporu`;
+        reportSubtitle = `Kapsam: Sadece ${selectedWeek} Verileri | Toplam ${dataset.length} Öğretmen Geri Bildirimi`;
+        reportScopeBadge = `${selectedWeek} Özel Raporu`;
       } else {
-        // Individual Teacher Report
-        const r = surveyPool.find(item => item.id === targetId);
+        // Individual Teacher
+        const r = surveyPool.find(item => item.id === targetVal);
         if (!r) return;
 
+        document.getElementById('reportBadgeScope').textContent = "Öğretmen Karnesi";
         document.getElementById('reportHeaderTitle').textContent = `${r.teacher} - Saha Uygulama Karnesi`;
-        document.getElementById('reportHeaderSubtitle').textContent = `Branş: ${r.branch} | İçerik: ${r.contentWeek} | Tarih: ${r.date}`;
+        document.getElementById('reportHeaderSubtitle').textContent = `Branş: ${r.branch} | Hafta: ${r.week || "1. Hafta"} | Konu: ${r.contentTopic || r.contentWeek} | Tarih: ${r.date}`;
         document.getElementById('reportHeaderSuccessRate').textContent = r.q1_code.startsWith('applied') ? "%100" : "%0";
 
         const badgeElem = document.getElementById('reportHeaderBadge');
@@ -1923,7 +1938,7 @@
 
         let diagHtml = `
           <p><strong>Öğretmen:</strong> ${r.teacher} | <strong>Branş:</strong> ${r.branch}</p>
-          <p><strong>Uygulanan Hafta / İçerik:</strong> ${r.contentWeek}</p>
+          <p><strong>Uygulanan Hafta / Konu:</strong> ${r.week || ""} - ${r.contentTopic || r.contentWeek}</p>
           <p><strong>Saha Durumu (S1):</strong> ${r.q1_text}</p>
         `;
         if (r.q1a_reason) {
@@ -1944,11 +1959,105 @@
         renderFieldActionCards(r.q1a_reason ? [r.q1a_reason] : [], r.q1_code.startsWith('applied') ? 100 : 0);
 
         if (r.fieldNote) {
-          renderFieldNotesList([{ teacher: r.teacher, branch: r.branch, note: r.fieldNote, week: r.contentWeek }]);
+          renderFieldNotesList([{ teacher: r.teacher, branch: r.branch, note: r.fieldNote, week: r.week }]);
         } else {
           document.getElementById('reportFieldNotesContainer').innerHTML = "<p class='text-slate-400 italic'>Bu öğretmen için ek saha notu girilmemiştir.</p>";
         }
+
+        if (window.lucide) window.lucide.createIcons();
+        return;
       }
+
+      // Group or Weekly Aggregate
+      const count = dataset.length;
+      document.getElementById('reportBadgeScope').textContent = reportScopeBadge;
+      document.getElementById('reportHeaderTitle').textContent = reportTitle;
+      document.getElementById('reportHeaderSubtitle').textContent = reportSubtitle;
+
+      if (count === 0) {
+        document.getElementById('reportHeaderSuccessRate').textContent = "%0";
+        document.getElementById('reportHeaderBadge').textContent = "Veri Yok";
+        document.getElementById('reportHeaderBadge').className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-slate-400 text-white";
+        document.getElementById('reportDiagnosticParagraph').innerHTML = "<p>Bu hafta / kapsam için henüz kayıtlı saha anketi bulunmamaktadır.</p>";
+        document.getElementById('reportStudentEngagementInsight').innerHTML = "<p>Veri yok.</p>";
+        document.getElementById('reportCurriculumFitInsight').innerHTML = "<p>Veri yok.</p>";
+        document.getElementById('reportActionRecommendationsGrid').innerHTML = "";
+        document.getElementById('reportFieldNotesContainer').innerHTML = "<p class='text-slate-400 italic'>Henüz eklenmiş saha notu bulunmuyor.</p>";
+        return;
+      }
+
+      let appliedFull = 0, appliedPart = 0, diffHard = 0, diffNone = 0;
+      let engHigh = 0, engMed = 0, engLow = 0, engNeg = 0;
+      let alignHigh = 0, alignMed = 0, alignLow = 0;
+      let reasonsList = [];
+      let notesList = [];
+
+      dataset.forEach(r => {
+        if (r.q1_code === 'applied_full') appliedFull++;
+        else if (r.q1_code === 'applied_part') appliedPart++;
+        else if (r.q1_code === 'diff_hard') diffHard++;
+        else if (r.q1_code === 'diff_none') diffNone++;
+
+        if (r.q3_engagement) {
+          if (r.q3_engagement.startsWith('Çok iyi')) engHigh++;
+          else if (r.q3_engagement.startsWith('İyi')) engMed++;
+          else if (r.q3_engagement.startsWith('Sınırlı')) engLow++;
+          else if (r.q3_engagement.startsWith('Olumsuz')) engNeg++;
+        }
+
+        if (r.q4_alignment) {
+          if (r.q4_alignment.startsWith('Çok uyumlu')) alignHigh++;
+          else if (r.q4_alignment.startsWith('Kısmen uyumlu')) alignMed++;
+          else alignLow++;
+        }
+
+        if (r.q1a_reason) reasonsList.push(r.q1a_reason);
+        if (r.fieldNote) notesList.push({ teacher: r.teacher, branch: r.branch, note: r.fieldNote, week: r.week });
+      });
+
+      const totalApplied = appliedFull + appliedPart;
+      const appRate = Math.round((totalApplied / count) * 100);
+
+      document.getElementById('reportHeaderSuccessRate').textContent = `%${appRate}`;
+
+      const badgeElem = document.getElementById('reportHeaderBadge');
+      if (appRate >= 80) {
+        badgeElem.textContent = "Çok Yüksek Uygunluk";
+        badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-emerald-500 text-white shadow-sm";
+      } else if (appRate >= 60) {
+        badgeElem.textContent = "İyi / Geliştirilebilir";
+        badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-indigo-600 text-white shadow-sm";
+      } else if (appRate >= 40) {
+        badgeElem.textContent = "Kısmi Zorlanma";
+        badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-amber-500 text-slate-900 shadow-sm";
+      } else {
+        badgeElem.textContent = "Yüksek Destek İhtiyacı";
+        badgeElem.className = "inline-block px-2.5 py-1 text-xs font-black rounded-lg bg-rose-500 text-white shadow-sm";
+      }
+
+      // 1. Diagnostic Summary
+      document.getElementById('reportDiagnosticParagraph').innerHTML = `
+        <p>Seçilen kapsam dahilinde toplanan <strong>${count}</strong> öğretmen bildirimine göre, Muallimin Manevî Rehberi içeriklerinin <strong>%${appRate}</strong> oranında (<strong>${totalApplied} öğretmen</strong>) ders akışı içerisinde başarıyla veya kısmen uygulandığı görülmektedir.</p>
+        <p>Öğretmenlerin <strong>%${Math.round((appliedFull/count)*100)}</strong>'i (<strong>${appliedFull}</strong> kişi) içeriği <em>rahatlıkla uyguladığını</em>, <strong>%${Math.round((appliedPart/count)*100)}</strong>'i (<strong>${appliedPart}</strong> kişi) <em>kısmen uyguladığını</em>, <strong>%${Math.round((diffHard/count)*100)}</strong>'i ise uygulamakta <em>zorlandığını</em> bildirmiştir.</p>
+      `;
+
+      // 2. Student Engagement
+      document.getElementById('reportStudentEngagementInsight').innerHTML = `
+        <p>Uygulama yapılan sınıflarda öğrencilerin <strong>%${totalApplied > 0 ? Math.round(((engHigh + engMed)/totalApplied)*100) : 0}</strong>'inde (<strong>${engHigh + engMed}</strong> sınıf) ilgi ve katılımın <strong>"Çok İyi" veya "İyi"</strong> seviyede gerçekleştiği gözlemlenmiştir.</p>
+        <p class="text-xs text-emerald-800 leading-snug">Öğrencilerin salt ezbere dayalı bir bilgi yerine; kainattaki düzen, amaç ve tefekkür unsurları üzerinden kendi çıkarımlarını ifade etmeye hevesli oldukları saha notlarına yansımıştır.</p>
+      `;
+
+      // 3. Curriculum Fit
+      document.getElementById('reportCurriculumFitInsight').innerHTML = `
+        <p>İçeriğin ders kazanımıyla uyum düzeyi değerlendirildiğinde, öğretmenlerin <strong>%${totalApplied > 0 ? Math.round(((alignHigh + alignMed)/totalApplied)*100) : 0}</strong>'i (<strong>${alignHigh + alignMed}</strong> kişi) MMR temasının mevcut müfredat öğrenme çıktısıyla <strong>doğal veya kısmi uyum</strong> sağladığını belirtmiştir.</p>
+        <p class="text-xs text-indigo-800 leading-snug">Zorlanma yaşanan sınırlı konularda ise temel etkenin süre kısıtı ve kazanım köprüsünü kurma pratiği olduğu anlaşılmaktadır.</p>
+      `;
+
+      // 4. Action Plan Cards
+      renderFieldActionCards(reasonsList, appRate);
+
+      // 5. Field Notes
+      renderFieldNotesList(notesList);
 
       if (window.lucide) window.lucide.createIcons();
     }
@@ -1981,10 +2090,10 @@
         },
         {
           num: "4",
-          title: "Zümre İçi İçerik Paylaşımı",
+          title: "Haftalık Zümre İçi Paylaşım",
           icon: "share-2",
           color: "border-amber-200 bg-amber-50/40 text-amber-900",
-          text: "Uygulamakta zorlanılan içerikleri haftalık zümre toplantılarında ele alarak sınıf seviyesine uygun alternatif etkinlik şablonları geliştiriniz."
+          text: "25 haftalık plan dahilinde zorlanılan haftalık temaları zümre toplantılarında ele alarak sınıf seviyesine uygun alternatif etkinlik şablonları geliştiriniz."
         }
       ];
 
@@ -2018,7 +2127,7 @@
           <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
             <div class="flex items-center justify-between text-xs">
               <span class="font-bold text-indigo-900">👤 ${item.teacher} <span class="text-slate-500 font-normal">(${item.branch})</span></span>
-              <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 text-[10px] font-semibold">${item.week}</span>
+              <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 text-[10px] font-semibold">${item.week || "Hafta Belirtilmedi"}</span>
             </div>
             <p class="text-xs sm:text-sm text-slate-700 italic">"${item.note}"</p>
           </div>
@@ -2073,6 +2182,7 @@
     window.deleteSurveyRecord = deleteSurveyRecord;
     window.viewTeacherPedagogicalReport = viewTeacherPedagogicalReport;
     window.renderFieldPedagogicalReport = renderFieldPedagogicalReport;
+    window.renderSurveyTable = renderSurveyTable;
   </script>
 </body>
 </html>
