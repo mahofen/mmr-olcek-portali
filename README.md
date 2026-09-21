@@ -48,7 +48,6 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
   - Toplam ulaşılan öğrenci sayısı sayacı ve sınıf başına ortalama öğrenci sayısı.
   - Sınıf düzeylerine göre öğrenci dağılım grafiği.
 * **4 Şıklı Kazanım Uyumu Analizi (Çubuk Grafiği).**
-* **SPSS / Excel Uyumlu CSV Dışa Aktarma (İl, Sınıf ve Öğrenci Sayısı Dahil).**
 
 ---
 
