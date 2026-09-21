@@ -32,13 +32,14 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
 
 ### 2. 🔐 Yönetici Portalı & 🗺️ İnteraktif Türkiye Fiziki Sınırlar Haritası
 * **Giriş Şifresi:** `mmr2026`
-* **🗺️ 81 İlin Fiziki Sınırlarıyla Çizili Vektörel Türkiye Haritası:**
+* **🗺️ 81 İlin Fiziki Sınırlarıyla Çizili Vektörel Türkiye Haritası (Açık Kum/Bej Tasarım):**
   - 81 ilin gerçek coğrafi/fiziki sınır çizgileri (SVG path vektörleri).
-  - Katılım durumuna göre illerin dinamik renk değişimi:
-    - **0 Katılım:** Belirgin koyu sınır çizgileri ve koyu zemin (tüm 81 il net görünür).
-    - **1–2 Anket:** İndigo / Mavi parlama.
-    - **3–5 Anket:** Gökyüzü Mavisi / Camgöbeği (Orta katılım).
-    - **6+ Anket:** Zümrüt Yeşili ve parlama efekti (Yüksek katılım).
+  - Sıcak bej, sarımsı kum beyazı ve krem tonlarında şık zemin tasarımı.
+  - Katılım durumuna göre illerin dinamik renk skalası:
+    - **0 Katılım:** Sıcak Kum Beji (`#f5efe6`) ve belirgin sınır çizgileri ile 81 ilin tümü net görünür.
+    - **1–2 Anket:** Sıcak Bal/Altın Sarısı (`#f59e0b`).
+    - **3–5 Anket:** Okyanus / Gökyüzü Mavisi (`#0284c7`).
+    - **6+ Anket:** Zümrüt Yeşili (`#16a34a`) ve hafif gölge efekti (Yüksek katılım).
   - İllerin üzerine gelindiğinde (Hover) il adı, plaka kodu, anket sayısı ve ulaşılan öğrenci sayısını anlık gösterme.
   - Harita üzerinden herhangi bir ile tıklayarak o ilin saha kayıtlarını tek tıkla listeleme ve filtreleme.
   - En çok katılım sağlanan iller sıralaması ve ulaşılan toplam öğrenci sayacı.
