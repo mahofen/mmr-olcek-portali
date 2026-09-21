@@ -113,7 +113,7 @@
               Öğretmen Formu
             </span>
           </div>
-          <p class="text-xs text-slate-500">81 İl & 25 Hafta Saha Uygulama & Analiz Sistemi</p>
+          <p class="text-xs text-slate-500">81 İl & 35 Hafta Saha Uygulama & Analiz Sistemi</p>
         </div>
       </div>
 
@@ -175,7 +175,7 @@
           <div class="max-w-3xl">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 mb-2">
               <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-              MUALLİMİN MANEVÎ REHBERİ (81 İL / 25 HAFTALIK UYGULAMA)
+              MUALLİMİN MANEVÎ REHBERİ (81 İL / 35 HAFTALIK UYGULAMA)
             </div>
             <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white mb-2">
               SAHA ÇALIŞMASI UYGULAMA ANKETİ
@@ -800,8 +800,8 @@
 
               <!-- 4. Hafta Filtresi -->
               <select id="filterWeek" class="py-2 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                <option value="all">Tüm Haftalar (1–25)</option>
-                <!-- Populated dynamically 1 to 25 -->
+                <option value="all">Tüm Haftalar (1–35)</option>
+                <!-- Populated dynamically 1 to 35 -->
               </select>
             </div>
 
@@ -899,7 +899,7 @@
               Rapor Kapsamı & Hafta Seçimi:
             </label>
             <select id="reportTargetSelect" onchange="renderFieldPedagogicalReport()" class="w-full max-w-lg py-2.5 px-3.5 text-xs sm:text-sm font-bold bg-indigo-50/50 border border-indigo-200 text-indigo-950 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-              <option value="group_all">🏫 Tüm Haftaların Genel Saha Raporu (1–25 Hafta Toplamı)</option>
+              <option value="group_all">🏫 Tüm Haftaların Genel Saha Raporu (1–35 Hafta Toplamı)</option>
             </select>
           </div>
 
@@ -1182,7 +1182,7 @@
       "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
     ];
 
-    const TOTAL_WEEKS = 25;
+    const TOTAL_WEEKS = 35;
 
     // State Variables
     let surveyPool = [];
@@ -1400,7 +1400,7 @@
       const filterWeekSelect = document.getElementById('filterWeek');
       if (filterWeekSelect) {
         const currentVal = filterWeekSelect.value || "all";
-        let opts = '<option value="all">Tüm Haftalar (1–25)</option>';
+        let opts = '<option value="all">Tüm Haftalar (1–35)</option>';
         for (let i = 1; i <= TOTAL_WEEKS; i++) {
           opts += `<option value="${i}. Hafta">${i}. Hafta</option>`;
         }
@@ -1491,7 +1491,7 @@
           return;
         }
         if (!week) {
-          showToast("Lütfen Uygulanan Hafta seçimini yapınız (1–25 Hafta).", 'warning');
+          showToast("Lütfen Uygulanan Hafta seçimini yapınız (1–35 Hafta).", 'warning');
           document.getElementById('metaWeek')?.focus();
           return;
         }
@@ -2436,7 +2436,7 @@
 
       if (targetVal === 'group_all') {
         dataset = [...surveyPool];
-        scopeTitle = "Tüm Haftalar Genel Saha Raporu (1–25. Haftalar)";
+        scopeTitle = "Tüm Haftalar Genel Saha Raporu (1–35. Haftalar)";
         fileSuffix = "Tum_Haftalar";
       } else if (targetVal && targetVal.startsWith('week_')) {
         const selectedWeek = targetVal.replace('week_', '');
@@ -2650,7 +2650,7 @@
       const currentVal = select.value;
       const totalCount = surveyPool.length;
 
-      let html = `<option value="group_all">🏫 Tüm Haftaların Genel Saha Raporu (1–25. Haftalar - ${totalCount} Anket)</option>`;
+      let html = `<option value="group_all">🏫 Tüm Haftaların Genel Saha Raporu (1–35. Haftalar - ${totalCount} Anket)</option>`;
 
       // Group by weeks
       const weekGroups = {};
@@ -2699,8 +2699,8 @@
       if (targetVal === 'group_all') {
         dataset = [...surveyPool];
         reportTitle = "Tüm Haftaların Genel Saha Uygulama ve Yansıma Raporu";
-        reportSubtitle = `Kapsam: 1–25. Haftalar Toplamı | 81 İl Geneli ${dataset.length} Saha Bildirimi`;
-        reportScopeBadge = "1–25. Haftalar Genel Raporu";
+        reportSubtitle = `Kapsam: 1–35. Haftalar Toplamı | 81 İl Geneli ${dataset.length} Saha Bildirimi`;
+        reportScopeBadge = "1–35. Haftalar Genel Raporu";
       } else if (targetVal.startsWith('week_')) {
         const selectedWeek = targetVal.replace('week_', '');
         dataset = surveyPool.filter(r => r.week === selectedWeek);

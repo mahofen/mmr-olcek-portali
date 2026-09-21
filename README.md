@@ -1,6 +1,6 @@
-# Muallimin Manevî Rehberi (MMR) 81 İl & 25 Hafta Saha Çalışması Portalı
+# Muallimin Manevî Rehberi (MMR) 81 İl & 35 Hafta Saha Çalışması Portalı
 
-Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 81 ilde, 25 haftalık eğitim dönemi boyunca derslerdeki gerçek kullanımını, illere göre dağılımını, ulaşılan öğrenci sayılarını, öğrenci tepkilerini ve öğretmenlerin karşılaştığı güçlükleri belirlemek amacıyla geliştirilen **İnteraktif Saha Çalışması Anketi, Türkiye Haritası Analizi ve Yönetici Analiz Portalı**dır.
+Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 81 ilde, 35 haftalık eğitim-öğretim dönemi boyunca derslerdeki gerçek kullanımını, illere göre dağılımını, ulaşılan öğrenci sayılarını, öğrenci tepkilerini ve öğretmenlerin karşılaştığı güçlükleri belirlemek amacıyla geliştirilen **İnteraktif Saha Çalışması Anketi, Türkiye Haritası Analizi ve Yönetici Analiz Portalı**dır.
 
 ---
 
@@ -13,7 +13,7 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
   - **Bulunduğunuz İl (81 İl Açılır Liste):** 81 il plaka kodlarıyla birlikte doğrudan seçilebilir.
   - **Sınıf Düzeyi (Açılır Liste):** Okul Öncesi, 1. Sınıf - 12. Sınıf arası seçim.
   - **Katılan Öğrenci Sayısı:** Sayısal veri girişi.
-  - **Uygulanan Hafta (1–25. Hafta Açılır Liste):** 1'den 25'e kadar hafta seçimi.
+  - **Uygulanan Hafta (1–35. Hafta Açılır Liste):** 1'den 35'e kadar hafta seçimi.
   - **Uygulama Tarihi:** Tarih seçimi.
 * **Saha Çalışması Soruları:**
   - **1. Soru:** *Bu hafta MMR içeriğini dersinizde uyguladınız mı?* (Evet / Kısmen / Zorlandım / Uygulayamadım)
@@ -39,7 +39,7 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
   - **İl Filtresi:** 81 il arasından seçilen ile göre filtreleme (Haritadan tıklanarak da tetiklenir).
   - **Branş Filtresi:** Dinamik ve standart branş listesine göre filtreleme.
   - **Sınıf Filtresi:** Okul Öncesi, 1. Sınıf – 12. Sınıf düzeylerine göre filtreleme.
-  - **Hafta Filtresi:** 1. Hafta – 25. Hafta aralığında haftaya özel filtreleme.
+  - **Hafta Filtresi:** 1. Hafta – 35. Hafta aralığında haftaya özel filtreleme.
   - **📊 Filtreli Excel İndir (.xls):** Filtreler ve arama kriterleri sonucunda ekranda listelenen verileri, tüm saha parametreleri ve renkli durum göstergeleriyle birlikte Excel tablosu olarak indirme.
 * **⚙️ Ayrı Veri Yedekleme & Sistem Yönetimi Alanı:**
   - Tablonun altındaki özel ayarlar kartında yer alan **JSON Yedekle**, **JSON Geri Yükle** ve **Havuzu Temizle** araçları.
@@ -64,8 +64,8 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
 
 ### 3. 📊 Kapsamlı Haftalık & Genel Saha Değerlendirme Raporu
 * **Rapor Kapsamı Seçimi:**
-  - 🏫 **Tüm Haftaların Genel Saha Raporu (1–25 Hafta Toplamı)**
-  - 📅 **Haftalık Özel Raporlar (1. Hafta Özel Raporu ... 25. Hafta)**
+  - 🏫 **Tüm Haftaların Genel Saha Raporu (1–35 Hafta Toplamı)**
+  - 📅 **Haftalık Özel Raporlar (1. Hafta Özel Raporu ... 35. Hafta)**
   - 👤 **Tekil Öğretmen Saha Karnesi**
 * **İl Dağılımı, Ulaşılan Toplam Öğrenci ve Pedagojik Çıkarımlar.**
 * **Güçlüklerin Tespiti ve Çözüm Odaklı Pedagojik Eylem Planı.**
