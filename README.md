@@ -7,11 +7,14 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
 ## 🌟 Öne Çıkan Özellikler
 
 ### 1. 👩‍🏫 Öğretmen Saha Anketi Giriş Portalı
-* **Öğretmen & Sınıf Bilgileri (Özel Sıralama):**
+* **Öğretmen & Sınıf Bilgileri:**
   1. **Ad Soyad** (Metin kutusu, zorunlu)
   2. **Bulunduğunuz İl (81 İl Açılır Liste):** 81 il plaka kodlarıyla birlikte doğrudan seçilebilir.
-  3. **Branş (13 Branş Açılır Liste):** Sadece belirlenen 13 temel branş dersi seçilebilir (*Fen Bilimleri, Ortaokul Matematik, Lise Matematik, Türkçe, Sosyal Bilgiler, Fizik, Kimya, Biyoloji, Coğrafya, İngilizce, Din Kültürü ve Ahlak Bilgisi, Tarih, Hayat Bilgisi*).
-  4. **Sınıf Düzeyi (Açılır Liste):** Okul Öncesi, 1. Sınıf - 12. Sınıf arası seçim.
+  3. **Sınıf Düzeyi (Açılır Liste):** Sınıf düzeyi seçildiğinde branş listesi otomatik filtrelenir.
+  4. **Branş (Sınıfa Göre Dinamik Açılan 9 Branş Listesi):**
+     - **1. Sınıf seçildiğinde sadece:** `Hayat Bilgisi`, `Türkçe`
+     - **5. Sınıf seçildiğinde sadece:** `Fen Bilimleri`, `Sosyal Bilgiler`
+     - **9. Sınıf seçildiğinde sadece:** `Fizik`, `Kimya`, `Biyoloji`, `Tarih`, `Coğrafya`
   5. **Uygulanan Hafta (1–35. Hafta Açılır Liste):** 1'den 35'e kadar hafta seçimi.
   6. **Katılan Öğrenci Sayısı:** Sayısal veri girişi.
 * **Saha Çalışması Soruları:**

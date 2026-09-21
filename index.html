@@ -216,33 +216,33 @@
             </select>
           </div>
 
-          <!-- 3. Branş (Açılır Pencere) -->
-          <div>
-            <label for="metaBranch" class="block text-xs font-semibold text-slate-700 mb-1">Branş <span class="text-rose-500">*</span></label>
-            <select id="metaBranch" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
-              <option value="">Branş Seçiniz...</option>
-              <!-- Populated dynamically with specific branches -->
-            </select>
-          </div>
-
-          <!-- 4. Sınıf Düzeyi (Açılır Pencere) -->
+          <!-- 3. Sınıf Düzeyi (Açılır Pencere) -->
           <div>
             <label for="metaGrade" class="block text-xs font-semibold text-slate-700 mb-1">Sınıf Düzeyi <span class="text-rose-500">*</span></label>
-            <select id="metaGrade" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+            <select id="metaGrade" onchange="handleGradeChange(this.value)" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
               <option value="">Sınıf Seçiniz...</option>
-              <option value="Okul Öncesi">Okul Öncesi</option>
-              <option value="1. Sınıf">1. Sınıf</option>
+              <option value="1. Sınıf">1. Sınıf (İlkokul)</option>
+              <option value="5. Sınıf">5. Sınıf (Ortaokul)</option>
+              <option value="9. Sınıf">9. Sınıf (Lise)</option>
               <option value="2. Sınıf">2. Sınıf</option>
               <option value="3. Sınıf">3. Sınıf</option>
               <option value="4. Sınıf">4. Sınıf</option>
-              <option value="5. Sınıf">5. Sınıf</option>
               <option value="6. Sınıf">6. Sınıf</option>
               <option value="7. Sınıf">7. Sınıf</option>
               <option value="8. Sınıf">8. Sınıf</option>
-              <option value="9. Sınıf">9. Sınıf</option>
               <option value="10. Sınıf">10. Sınıf</option>
               <option value="11. Sınıf">11. Sınıf</option>
               <option value="12. Sınıf">12. Sınıf</option>
+              <option value="Okul Öncesi">Okul Öncesi</option>
+            </select>
+          </div>
+
+          <!-- 4. Branş (Sınıfa Göre Dinamik Açılır Pencere) -->
+          <div>
+            <label for="metaBranch" class="block text-xs font-semibold text-slate-700 mb-1">Branş <span class="text-rose-500">*</span></label>
+            <select id="metaBranch" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+              <option value="">Önce Sınıf Seçiniz...</option>
+              <!-- Dynamically populated based on chosen grade -->
             </select>
           </div>
 
@@ -1204,7 +1204,7 @@
                   <p class="text-xs text-slate-400">Her branş dersi için Rahat, Kısmen, Güçlükle ve Uygulayamama dağılımı</p>
                 </div>
               </div>
-              <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200" id="reportBranchMatrixBadge">13 Branş Analizi</span>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200" id="reportBranchMatrixBadge">9 Branş Analizi</span>
             </div>
             
             <div class="overflow-x-auto border border-slate-200 rounded-xl">
@@ -1629,22 +1629,69 @@
 ];
 
 
-    // Standard Branches List (13 Branş)
+    // Standard Branches List (9 Branş)
     const STANDARD_BRANCHES = [
+      "Hayat Bilgisi",
       "Fen Bilimleri",
-      "Ortaokul Matematik",
-      "Lise Matematik",
       "Türkçe",
       "Sosyal Bilgiler",
       "Fizik",
       "Kimya",
       "Biyoloji",
-      "Coğrafya",
-      "İngilizce",
-      "Din Kültürü ve Ahlak Bilgisi",
       "Tarih",
-      "Hayat Bilgisi"
+      "Coğrafya"
     ];
+
+    // Sınıf Düzeyine Göre Branş Eşleşmesi
+    // 1. Sınıf -> Hayat Bilgisi, Türkçe
+    // 5. Sınıf -> Fen Bilimleri, Sosyal Bilgiler
+    // 9. Sınıf -> Fizik, Kimya, Biyoloji, Tarih, Coğrafya
+    const GRADE_BRANCH_MAP = {
+      "1. Sınıf": ["Hayat Bilgisi", "Türkçe"],
+      "5. Sınıf": ["Fen Bilimleri", "Sosyal Bilgiler"],
+      "9. Sınıf": ["Fizik", "Kimya", "Biyoloji", "Tarih", "Coğrafya"],
+      "2. Sınıf": ["Hayat Bilgisi", "Türkçe"],
+      "3. Sınıf": ["Hayat Bilgisi", "Türkçe"],
+      "4. Sınıf": ["Hayat Bilgisi", "Türkçe", "Fen Bilimleri", "Sosyal Bilgiler"],
+      "6. Sınıf": ["Fen Bilimleri", "Sosyal Bilgiler"],
+      "7. Sınıf": ["Fen Bilimleri", "Sosyal Bilgiler"],
+      "8. Sınıf": ["Fen Bilimleri", "Sosyal Bilgiler"],
+      "10. Sınıf": ["Fizik", "Kimya", "Biyoloji", "Tarih", "Coğrafya"],
+      "11. Sınıf": ["Fizik", "Kimya", "Biyoloji", "Tarih", "Coğrafya"],
+      "12. Sınıf": ["Fizik", "Kimya", "Biyoloji", "Tarih", "Coğrafya"],
+      "Okul Öncesi": ["Hayat Bilgisi", "Türkçe"]
+    };
+
+    // Sınıf Düzeyi değiştiğinde sadece o sınıfa ait branşları getirme fonksiyonu
+    function handleGradeChange(selectedGrade) {
+      const metaBranchSelect = document.getElementById('metaBranch');
+      if (!metaBranchSelect) return;
+
+      const currentVal = metaBranchSelect.value;
+      let allowed = [];
+
+      if (selectedGrade && GRADE_BRANCH_MAP[selectedGrade]) {
+        allowed = GRADE_BRANCH_MAP[selectedGrade];
+      }
+
+      if (!selectedGrade || allowed.length === 0) {
+        metaBranchSelect.innerHTML = '<option value="">Önce Sınıf Seçiniz...</option>';
+        metaBranchSelect.value = "";
+        return;
+      }
+
+      let opts = '<option value="">Branş Seçiniz...</option>';
+      allowed.forEach(b => {
+        opts += `<option value="${b}">${b}</option>`;
+      });
+      metaBranchSelect.innerHTML = opts;
+
+      if (allowed.includes(currentVal)) {
+        metaBranchSelect.value = currentVal;
+      } else {
+        metaBranchSelect.value = "";
+      }
+    }
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
@@ -1708,17 +1755,9 @@
         filterCitySelect.value = currentVal;
       }
 
-      // 2. Branches
-      const metaBranchSelect = document.getElementById('metaBranch');
-      if (metaBranchSelect) {
-        const currentVal = metaBranchSelect.value || "";
-        let opts = '<option value="">Branş Seçiniz...</option>';
-        STANDARD_BRANCHES.forEach(b => {
-          opts += `<option value="${b}">${b}</option>`;
-        });
-        metaBranchSelect.innerHTML = opts;
-        if (currentVal) metaBranchSelect.value = currentVal;
-      }
+      // 2. Branches (Dinamik Sınıf Filtreli)
+      const currentMetaGrade = document.getElementById('metaGrade')?.value || "";
+      handleGradeChange(currentMetaGrade);
 
       const filterBranchSelect = document.getElementById('filterBranch');
       if (filterBranchSelect) {
@@ -1729,7 +1768,7 @@
         });
         const sortedBranches = Array.from(branchSet).sort((a, b) => a.localeCompare(b, 'tr'));
 
-        let opts = '<option value="all">Tüm Branşlar</option>';
+        let opts = '<option value="all">Tüm Branşlar (9 Branş)</option>';
         sortedBranches.forEach(b => {
           opts += `<option value="${b}">${b}</option>`;
         });
@@ -1978,6 +2017,8 @@
 
       const metaGrade = document.getElementById('metaGrade');
       if (metaGrade) metaGrade.value = "";
+
+      handleGradeChange("");
 
       const metaWeek = document.getElementById('metaWeek');
       if (metaWeek) metaWeek.value = "";
@@ -3882,6 +3923,7 @@
     }
 
     // Global exports
+    window.handleGradeChange = handleGradeChange;
     window.handleQ1Change = handleQ1Change;
     window.saveSurveyResponseAndReset = saveSurveyResponseAndReset;
     window.resetSurveyForm = resetSurveyForm;
