@@ -16,7 +16,8 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
   6. **Katılan Öğrenci Sayısı:** Sayısal veri girişi.
 * **Saha Çalışması Soruları:**
   - **1. Soru:** *Bu hafta MMR içeriğini dersinizde uyguladınız mı?* (Evet / Kısmen / Zorlandım / Uygulayamadım)
-  - **1A. Soru (Dinamik Yönlendirme):** Zorlanma / uygulayamama temel gerekçesi (Kazanım bağı, süre kısıtı, öğrenci ilgisi/seviyesi, yöntem, sınıf ortamı, içerik geliştirme, Diğer).
+  - **1A. Soru (“Uygulamakta zorlandım” seçildiğinde):** *MMR içeriğini uygularken en çok hangi konuda zorlandınız?* (Kazanım ilişkisi, seviye uyarlama, öğrenci katılımı, hazırbulunuşluk, süre yönetimi, yöntem süreci, bilimsel/manevi denge, sınıf ortamı, ilgi düzeyi, içerik unsuru, Diğer).
+  - **1B. Soru (“Uygulayamadım” seçildiğinde):** *MMR içeriğini bu hafta dersinizde uygulayamamanızın temel nedeni nedir?* (Kazanım bağlantısı, süre ayıramama, ders planı uygunsuzluğu, sınıf seviyesi, yöntem/örnek eksikliği, hazırbulunuşluk/ilgi, sınıf/koşul uygunsuzluğu, konu örtüşmemesi, plana dahil etmeme, materyal/etkinlik hazır olmaması, içerik geliştirme ihtiyacı, Diğer).
   - **2. Soru:** *MMR'yi uygulamak ders içerisinde yaklaşık kaç dakikanızı aldı?* (1–5 dk / 5–10 dk / 10–20 dk / 20+ dk)
   - **3. Soru:** *Öğrencilerin MMR içeriğine karşı ilgisi ve katılımı nasıldı?* (Çok iyi / İyi / Sınırlı / Olumsuz - zorlayıcı)
   - **4. Soru (4 Şıklı Tasarım):** *MMR'nin bu haftaki içeriği ile mevcut ders öğrenme çıktısı arasındaki uyum nasıldı?*

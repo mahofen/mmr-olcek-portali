@@ -321,12 +321,12 @@
           </div>
         </div>
 
-        <!-- SORU 1A: ŞARTLI ZORLANMA / UYGULAYAMAMA NEDENİ -->
+        <!-- SORU 1A: ŞARTLI ZORLANMA NEDENİ (Uygulamakta zorlandım seçildiğinde) -->
         <div id="containerQuestion1A" class="hidden bg-amber-50/60 rounded-2xl border-2 border-amber-300 p-5 sm:p-6 card-shadow space-y-4 transition-all">
           <div class="bg-amber-100/80 border border-amber-200 rounded-xl p-3 text-xs text-amber-900 flex items-center gap-2">
             <i data-lucide="alert-circle" class="w-4 h-4 text-amber-700 shrink-0"></i>
             <div>
-              <strong>Yönlendirme:</strong> “Uygulamakta zorlandım” veya “Uygulayamadım” seçeneklerinden birini işaretlediğiniz için lütfen aşağıdaki temel nedeni belirtiniz. <strong>Bu sorudan sonra anket tamamlanır.</strong>
+              <strong>Yönlendirme:</strong> “Uygulamakta zorlandım” seçeneğini işaretlediğiniz için lütfen aşağıdaki temel nedeni belirtiniz. <strong>Bu sorudan sonra anket tamamlanır.</strong>
             </div>
           </div>
 
@@ -334,82 +334,233 @@
             <span class="w-7 h-7 rounded-xl bg-amber-600 text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">1A</span>
             <div>
               <h4 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">
-                MMR içeriğini uygulamakta zorlanmanızın / uygulayamamanızın temel nedeni nedir? <span class="text-rose-500">*</span>
+                MMR içeriğini uygularken en çok hangi konuda zorlandınız? <span class="text-rose-500">*</span>
               </h4>
+              <p class="text-xs text-slate-500 mt-0.5">Lütfen sizin için en belirleyici olan nedeni seçiniz.</p>
             </div>
           </div>
 
           <div class="space-y-2.5 pt-1">
             <div>
-              <input type="radio" name="q1a_reason" id="q1a_opt1" value="Kazanım ile MMR arasında yeterli bağlantı kuramadım." class="sr-only custom-radio">
+              <input type="radio" name="q1a_reason" id="q1a_opt1" value="Dersin öğrenme çıktısı/kazanımı ile MMR içeriğini ilişkilendirmekte zorlandım." class="sr-only custom-radio">
               <label for="q1a_opt1" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
                 <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
-                <span class="text-xs sm:text-sm text-slate-800">MMR içeriği ile ders kazanımı arasında yeterli bağlantı kuramadım.</span>
+                <span class="text-xs sm:text-sm text-slate-800">Dersin öğrenme çıktısı/kazanımı ile MMR içeriğini ilişkilendirmekte zorlandım.</span>
               </label>
             </div>
 
             <div>
-              <input type="radio" name="q1a_reason" id="q1a_opt2" value="Ders süresi içinde uygulamaya yeterli zaman ayıramadım." class="sr-only custom-radio">
+              <input type="radio" name="q1a_reason" id="q1a_opt2" value="MMR içeriğini öğrencilerin seviyesine uyarlamakta zorlandım." class="sr-only custom-radio">
               <label for="q1a_opt2" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
                 <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
-                <span class="text-xs sm:text-sm text-slate-800">Ders süresi içinde uygulamaya yeterli zaman ayıramadım.</span>
+                <span class="text-xs sm:text-sm text-slate-800">MMR içeriğini öğrencilerin seviyesine uyarlamakta zorlandım.</span>
               </label>
             </div>
 
             <div>
-              <input type="radio" name="q1a_reason" id="q1a_opt3" value="Öğrencilerin hazırbulunuşluğu / ilgisi uygun değildi." class="sr-only custom-radio">
+              <input type="radio" name="q1a_reason" id="q1a_opt3" value="Öğrencilerin MMR sürecine katılımını sağlamakta zorlandım." class="sr-only custom-radio">
               <label for="q1a_opt3" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
                 <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
-                <span class="text-xs sm:text-sm text-slate-800">Öğrencilerin hazırbulunuşluğu / ilgisi uygun değildi.</span>
+                <span class="text-xs sm:text-sm text-slate-800">Öğrencilerin MMR sürecine katılımını sağlamakta zorlandım.</span>
               </label>
             </div>
 
             <div>
-              <input type="radio" name="q1a_reason" id="q1a_opt4" value="İçeriği sınıf seviyesine uyarlamakta zorlandım." class="sr-only custom-radio">
+              <input type="radio" name="q1a_reason" id="q1a_opt4" value="Öğrencilerin hazırbulunuşluk düzeyinin yetersiz olduğunu gördüm." class="sr-only custom-radio">
               <label for="q1a_opt4" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
                 <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
-                <span class="text-xs sm:text-sm text-slate-800">İçeriği sınıf seviyesine uyarlamakta zorlandım.</span>
+                <span class="text-xs sm:text-sm text-slate-800">Öğrencilerin hazırbulunuşluk düzeyinin yetersiz olduğunu gördüm.</span>
               </label>
             </div>
 
             <div>
-              <input type="radio" name="q1a_reason" id="q1a_opt5" value="Uygulama yöntemini nasıl gerçekleştireceğim konusunda zorlandım." class="sr-only custom-radio">
+              <input type="radio" name="q1a_reason" id="q1a_opt5" value="Ders süresi içinde MMR uygulamasını yönetmekte zorlandım." class="sr-only custom-radio">
               <label for="q1a_opt5" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
                 <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
-                <span class="text-xs sm:text-sm text-slate-800">Uygulama yöntemini nasıl gerçekleştireceğim konusunda zorlandım.</span>
+                <span class="text-xs sm:text-sm text-slate-800">Ders süresi içinde MMR uygulamasını yönetmekte zorlandım.</span>
               </label>
             </div>
 
             <div>
-              <input type="radio" name="q1a_reason" id="q1a_opt6" value="Dersin işlenişi / sınıf ortamı uygulamaya uygun değildi." class="sr-only custom-radio">
+              <input type="radio" name="q1a_reason" id="q1a_opt6" value="Uygulama yöntemini/sürecini yürütmekte zorlandım." class="sr-only custom-radio">
               <label for="q1a_opt6" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
                 <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
-                <span class="text-xs sm:text-sm text-slate-800">Dersin işlenişi / sınıf ortamı uygulamaya uygun değildi.</span>
+                <span class="text-xs sm:text-sm text-slate-800">Uygulama yöntemini/sürecini yürütmekte zorlandım.</span>
               </label>
             </div>
 
             <div>
-              <input type="radio" name="q1a_reason" id="q1a_opt7" value="MMR içeriğinin geliştirilmesi gerektiğini düşündüm." class="sr-only custom-radio">
+              <input type="radio" name="q1a_reason" id="q1a_opt7" value="Bilimsel içerik ile manevi anlam boyutunu dengeli biçimde ele almakta zorlandım." class="sr-only custom-radio">
               <label for="q1a_opt7" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
                 <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
-                <span class="text-xs sm:text-sm text-slate-800">MMR içeriğinin geliştirilmesi gerektiğini düşündüm.</span>
+                <span class="text-xs sm:text-sm text-slate-800">Bilimsel içerik ile manevi anlam boyutunu dengeli biçimde ele almakta zorlandım.</span>
               </label>
             </div>
 
             <div>
-              <input type="radio" name="q1a_reason" id="q1a_opt8" value="Diğer" class="sr-only custom-radio" onchange="document.getElementById('q1a_other_input').focus()">
-              <label for="q1a_opt8" class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
+              <input type="radio" name="q1a_reason" id="q1a_opt8" value="Sınıf ortamı veya dersin işlenişi uygulamayı zorlaştırdı." class="sr-only custom-radio">
+              <label for="q1a_opt8" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">Sınıf ortamı veya dersin işlenişi uygulamayı zorlaştırdı.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1a_reason" id="q1a_opt9" value="Öğrencilerin ilgisi/katılımı beklediğim düzeyde olmadı." class="sr-only custom-radio">
+              <label for="q1a_opt9" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">Öğrencilerin ilgisi/katılımı beklediğim düzeyde olmadı.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1a_reason" id="q1a_opt10" value="MMR içeriğinin mevcut hâlinde uygulamayı zorlaştıran bir unsur vardı." class="sr-only custom-radio">
+              <label for="q1a_opt10" class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">MMR içeriğinin mevcut hâlinde uygulamayı zorlaştıran bir unsur vardı.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1a_reason" id="q1a_opt11" value="Diğer" class="sr-only custom-radio" onchange="document.getElementById('q1a_other_input').focus()">
+              <label for="q1a_opt11" class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 rounded-xl border border-amber-200/80 bg-white hover:border-amber-400 cursor-pointer transition-all">
                 <div class="flex items-center gap-3">
                   <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
                   <span class="text-xs sm:text-sm text-slate-800 font-semibold">Diğer:</span>
                 </div>
-                <input type="text" id="q1a_other_input" placeholder="Lütfen belirtiniz..." onclick="document.getElementById('q1a_opt8').checked=true" class="w-full text-xs sm:text-sm px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500">
+                <input type="text" id="q1a_other_input" placeholder="Lütfen belirtiniz..." onclick="document.getElementById('q1a_opt11').checked=true" class="w-full text-xs sm:text-sm px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500">
               </label>
             </div>
           </div>
 
           <div class="pt-2 text-xs font-bold text-amber-900 flex items-center gap-1.5">
             <i data-lucide="arrow-right-circle" class="w-4 h-4 text-amber-600"></i>
+            → Bu sorudan sonra anket tamamlanır. Dilerseniz en alttaki alana saha notunuzu ekleyip formu kaydedebilirsiniz.
+          </div>
+        </div>
+
+        <!-- SORU 1B: ŞARTLI UYGULAYAMAMA NEDENİ (Uygulayamadım seçildiğinde) -->
+        <div id="containerQuestion1B" class="hidden bg-rose-50/60 rounded-2xl border-2 border-rose-300 p-5 sm:p-6 card-shadow space-y-4 transition-all">
+          <div class="bg-rose-100/80 border border-rose-200 rounded-xl p-3 text-xs text-rose-900 flex items-center gap-2">
+            <i data-lucide="alert-circle" class="w-4 h-4 text-rose-700 shrink-0"></i>
+            <div>
+              <strong>Yönlendirme:</strong> “Uygulayamadım” seçeneğini işaretlediğiniz için lütfen aşağıdaki temel nedeni belirtiniz. <strong>Bu sorudan sonra anket tamamlanır.</strong>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-xl bg-rose-600 text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">1B</span>
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">
+                MMR içeriğini bu hafta dersinizde uygulayamamanızın temel nedeni nedir? <span class="text-rose-500">*</span>
+              </h4>
+              <p class="text-xs text-slate-500 mt-0.5">Lütfen uygulamanın gerçekleşmesini engelleyen en temel nedeni seçiniz.</p>
+            </div>
+          </div>
+
+          <div class="space-y-2.5 pt-1">
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt1" value="Dersin öğrenme çıktısı/kazanımı ile MMR içeriği arasında uygun bağlantı kuramadım." class="sr-only custom-radio">
+              <label for="q1b_opt1" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">Dersin öğrenme çıktısı/kazanımı ile MMR içeriği arasında uygun bağlantı kuramadım.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt2" value="Ders süresi içinde MMR uygulamasına zaman ayıramadım." class="sr-only custom-radio">
+              <label for="q1b_opt2" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">Ders süresi içinde MMR uygulamasına zaman ayıramadım.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt3" value="Dersin planı/işlenişi MMR uygulamasına uygun değildi." class="sr-only custom-radio">
+              <label for="q1b_opt3" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">Dersin planı/işlenişi MMR uygulamasına uygun değildi.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt4" value="MMR içeriğini sınıf seviyesine uygun hâle getiremedim." class="sr-only custom-radio">
+              <label for="q1b_opt4" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">MMR içeriğini sınıf seviyesine uygun hâle getiremedim.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt5" value="Uygulamanın nasıl gerçekleştirileceği konusunda yeterli yöntem/örnek bulamadım." class="sr-only custom-radio">
+              <label for="q1b_opt5" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">Uygulamanın nasıl gerçekleştirileceği konusunda yeterli yöntem/örnek bulamadım.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt6" value="Öğrencilerin hazırbulunuşluğu veya ilgisinin uygun olmadığını düşündüm." class="sr-only custom-radio">
+              <label for="q1b_opt6" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">Öğrencilerin hazırbulunuşluğu veya ilgisinin uygun olmadığını düşündüm.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt7" value="Sınıf ortamı veya mevcut koşullar uygulamaya uygun değildi." class="sr-only custom-radio">
+              <label for="q1b_opt7" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">Sınıf ortamı veya mevcut koşullar uygulamaya uygun değildi.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt8" value="MMR içeriği dersimin konusu/öğrenme çıktısıyla yeterince örtüşmedi." class="sr-only custom-radio">
+              <label for="q1b_opt8" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">MMR içeriği dersimin konusu/öğrenme çıktısıyla yeterince örtüşmedi.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt9" value="MMR uygulamasını o hafta ders planıma dâhil etmedim." class="sr-only custom-radio">
+              <label for="q1b_opt9" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">MMR uygulamasını o hafta ders planıma dâhil etmedim.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt10" value="MMR içeriğini uygulamak için gerekli materyal/etkinlik hazır değildi." class="sr-only custom-radio">
+              <label for="q1b_opt10" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">MMR içeriğini uygulamak için gerekli materyal/etkinlik hazır değildi.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt11" value="MMR içeriğinin geliştirilmesi gerektiğini düşündüm." class="sr-only custom-radio">
+              <label for="q1b_opt11" class="flex items-center gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                <span class="text-xs sm:text-sm text-slate-800">MMR içeriğinin geliştirilmesi gerektiğini düşündüm.</span>
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" name="q1b_reason" id="q1b_opt12" value="Diğer" class="sr-only custom-radio" onchange="document.getElementById('q1b_other_input').focus()">
+              <label for="q1b_opt12" class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 rounded-xl border border-rose-200/80 bg-white hover:border-rose-400 cursor-pointer transition-all">
+                <div class="flex items-center gap-3">
+                  <span class="w-5 h-5 rounded-md border border-slate-300 flex items-center justify-center check-icon shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+                  <span class="text-xs sm:text-sm text-slate-800 font-semibold">Diğer:</span>
+                </div>
+                <input type="text" id="q1b_other_input" placeholder="Lütfen belirtiniz..." onclick="document.getElementById('q1b_opt12').checked=true" class="w-full text-xs sm:text-sm px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-500">
+              </label>
+            </div>
+          </div>
+
+          <div class="pt-2 text-xs font-bold text-rose-900 flex items-center gap-1.5">
+            <i data-lucide="arrow-right-circle" class="w-4 h-4 text-rose-600"></i>
             → Bu sorudan sonra anket tamamlanır. Dilerseniz en alttaki alana saha notunuzu ekleyip formu kaydedebilirsiniz.
           </div>
         </div>
@@ -1490,19 +1641,30 @@
     // Dynamic Routing for Question 1
     function handleQ1Change(val) {
       const container1A = document.getElementById('containerQuestion1A');
+      const container1B = document.getElementById('containerQuestion1B');
       const containerApplied = document.getElementById('containerAppliedQuestions');
       const statusBadge = document.getElementById('teacherSurveyStatus');
 
-      if (val === 'diff_hard' || val === 'diff_none') {
-        container1A.classList.remove('hidden');
-        containerApplied.classList.add('hidden');
+      if (val === 'diff_hard') {
+        container1A?.classList.remove('hidden');
+        container1B?.classList.add('hidden');
+        containerApplied?.classList.add('hidden');
         if (statusBadge) {
-          statusBadge.textContent = (val === 'diff_hard' ? "Zorlanma Bildirimi" : "Uygulanamadı Bildirimi");
+          statusBadge.textContent = "Zorlanma Bildirimi";
           statusBadge.className = "text-sm font-extrabold text-amber-300";
         }
+      } else if (val === 'diff_none') {
+        container1A?.classList.add('hidden');
+        container1B?.classList.remove('hidden');
+        containerApplied?.classList.add('hidden');
+        if (statusBadge) {
+          statusBadge.textContent = "Uygulanamadı Bildirimi";
+          statusBadge.className = "text-sm font-extrabold text-rose-300";
+        }
       } else {
-        container1A.classList.add('hidden');
-        containerApplied.classList.remove('hidden');
+        container1A?.classList.add('hidden');
+        container1B?.classList.add('hidden');
+        containerApplied?.classList.remove('hidden');
         if (statusBadge) {
           statusBadge.textContent = (val === 'applied_full' ? "Uygulandı (Tam)" : "Kısmen Uygulandı");
           statusBadge.className = "text-sm font-extrabold text-emerald-300";
@@ -1532,14 +1694,14 @@
           document.getElementById('metaTeacher')?.focus();
           return;
         }
-        if (!branch) {
-          showToast("Lütfen Branş alanını doldurunuz.", 'warning');
-          document.getElementById('metaBranch')?.focus();
-          return;
-        }
         if (!city) {
           showToast("Lütfen İl (Şehir) seçimini yapınız.", 'warning');
           document.getElementById('metaCity')?.focus();
+          return;
+        }
+        if (!branch) {
+          showToast("Lütfen Branş alanını doldurunuz.", 'warning');
+          document.getElementById('metaBranch')?.focus();
           return;
         }
         if (!grade) {
@@ -1547,14 +1709,14 @@
           document.getElementById('metaGrade')?.focus();
           return;
         }
-        if (!studentCount || studentCount < 1) {
-          showToast("Lütfen geçerli bir Katılan Öğrenci Sayısı giriniz.", 'warning');
-          document.getElementById('metaStudentCount')?.focus();
-          return;
-        }
         if (!week) {
           showToast("Lütfen Uygulanan Hafta seçimini yapınız (1–35 Hafta).", 'warning');
           document.getElementById('metaWeek')?.focus();
+          return;
+        }
+        if (!studentCount || studentCount < 1) {
+          showToast("Lütfen geçerli bir Katılan Öğrenci Sayısı giriniz.", 'warning');
+          document.getElementById('metaStudentCount')?.focus();
           return;
         }
 
@@ -1576,10 +1738,10 @@
         let q3Engagement = "";
         let q4Alignment = "";
 
-        if (q1Val === 'diff_hard' || q1Val === 'diff_none') {
+        if (q1Val === 'diff_hard') {
           const q1aSelected = document.querySelector('input[name="q1a_reason"]:checked');
           if (!q1aSelected) {
-            showToast("Lütfen 1A Sorusunu (Uygulamakta zorlanma / uygulayamama nedeni) cevaplayınız.", 'warning');
+            showToast("Lütfen 1A Sorusunu (Uygulamakta en çok zorlanılan konu) cevaplayınız.", 'warning');
             return;
           }
           if (q1aSelected.value === "Diğer") {
@@ -1587,6 +1749,18 @@
             q1aReason = otherText ? `Diğer: ${otherText}` : "Diğer (Belirtilmedi)";
           } else {
             q1aReason = q1aSelected.value;
+          }
+        } else if (q1Val === 'diff_none') {
+          const q1bSelected = document.querySelector('input[name="q1b_reason"]:checked');
+          if (!q1bSelected) {
+            showToast("Lütfen 1B Sorusunu (Uygulayamama temel nedeni) cevaplayınız.", 'warning');
+            return;
+          }
+          if (q1bSelected.value === "Diğer") {
+            const otherText = (document.getElementById('q1b_other_input')?.value || "").trim();
+            q1aReason = otherText ? `Diğer: ${otherText}` : "Diğer (Belirtilmedi)";
+          } else {
+            q1aReason = q1bSelected.value;
           }
         } else {
           const q2Selected = document.querySelector('input[name="q2_duration"]:checked');
@@ -1655,20 +1829,20 @@
       const metaTeacher = document.getElementById('metaTeacher');
       if (metaTeacher) metaTeacher.value = "";
 
-      const metaBranch = document.getElementById('metaBranch');
-      if (metaBranch) metaBranch.value = "";
-
       const metaCity = document.getElementById('metaCity');
       if (metaCity) metaCity.value = "";
+
+      const metaBranch = document.getElementById('metaBranch');
+      if (metaBranch) metaBranch.value = "";
 
       const metaGrade = document.getElementById('metaGrade');
       if (metaGrade) metaGrade.value = "";
 
-      const metaStudentCount = document.getElementById('metaStudentCount');
-      if (metaStudentCount) metaStudentCount.value = "";
-
       const metaWeek = document.getElementById('metaWeek');
       if (metaWeek) metaWeek.value = "";
+
+      const metaStudentCount = document.getElementById('metaStudentCount');
+      if (metaStudentCount) metaStudentCount.value = "";
 
       const metaFieldNote = document.getElementById('metaFieldNote');
       if (metaFieldNote) metaFieldNote.value = "";
@@ -1676,10 +1850,14 @@
       const metaDate = document.getElementById('metaDate');
       if (metaDate) metaDate.value = new Date().toISOString().split('T')[0];
 
-      const otherInput = document.getElementById('q1a_other_input');
-      if (otherInput) otherInput.value = "";
+      const otherInputA = document.getElementById('q1a_other_input');
+      if (otherInputA) otherInputA.value = "";
+
+      const otherInputB = document.getElementById('q1b_other_input');
+      if (otherInputB) otherInputB.value = "";
 
       document.getElementById('containerQuestion1A')?.classList.add('hidden');
+      document.getElementById('containerQuestion1B')?.classList.add('hidden');
       document.getElementById('containerAppliedQuestions')?.classList.remove('hidden');
 
       const statusBadge = document.getElementById('teacherSurveyStatus');
@@ -2163,13 +2341,14 @@
         }
 
         if (r.q1a_reason) {
-          if (r.q1a_reason.includes('kazanım')) reasonCounts['Kazanım']++;
-          else if (r.q1a_reason.includes('zaman')) reasonCounts['Zaman']++;
-          else if (r.q1a_reason.includes('hazırbulunuşluğu')) reasonCounts['Hazırbulunuşluk']++;
-          else if (r.q1a_reason.includes('seviye')) reasonCounts['Seviye']++;
-          else if (r.q1a_reason.includes('yöntem')) reasonCounts['Yöntem']++;
-          else if (r.q1a_reason.includes('ortamı')) reasonCounts['Ortam']++;
-          else if (r.q1a_reason.includes('geliştirilmesi')) reasonCounts['Geliştirilmeli']++;
+          const lower = r.q1a_reason.toLowerCase();
+          if (lower.includes('kazanım') || lower.includes('bağlantı') || lower.includes('ilişkilendir') || lower.includes('çıktı')) reasonCounts['Kazanım']++;
+          else if (lower.includes('zaman') || lower.includes('süre')) reasonCounts['Zaman']++;
+          else if (lower.includes('hazırbulunuşluk') || lower.includes('hazırbulunuşluğu') || lower.includes('katılım') || lower.includes('ilgi')) reasonCounts['Hazırbulunuşluk']++;
+          else if (lower.includes('seviye') || lower.includes('uyarla')) reasonCounts['Seviye']++;
+          else if (lower.includes('yöntem') || lower.includes('örnek') || lower.includes('süreç')) reasonCounts['Yöntem']++;
+          else if (lower.includes('ortam') || lower.includes('işleniş') || lower.includes('koşul') || lower.includes('plan')) reasonCounts['Ortam']++;
+          else if (lower.includes('geliştiril') || lower.includes('materyal') || lower.includes('etkinlik') || lower.includes('unsur') || lower.includes('anlam')) reasonCounts['Geliştirilmeli']++;
           else reasonCounts['Diğer']++;
         }
       });
