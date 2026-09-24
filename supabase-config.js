@@ -63,9 +63,21 @@
     url: supabaseUrl,
     anonKey: supabaseAnonKey,
     isConfigured: function () {
-      return isConfigured && !!supabaseClientInstance;
+      return !!this.getClient();
     },
     getClient: function () {
+      if (!supabaseClientInstance && window.supabase && typeof window.supabase.createClient === 'function') {
+        if (supabaseUrl && supabaseAnonKey) {
+          try {
+            supabaseClientInstance = window.supabase.createClient(supabaseUrl, supabaseAnonKey, {
+              auth: { persistSession: false }
+            });
+            isConfigured = true;
+          } catch(e) {
+            console.error("getClient init error:", e);
+          }
+        }
+      }
       return supabaseClientInstance;
     },
     setCredentials: function (url, key) {
