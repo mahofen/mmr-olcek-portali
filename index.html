@@ -39,6 +39,9 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Supabase JS Client & Central Cloud DB Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
     body {
@@ -111,6 +114,10 @@
             <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-tight">MMR Saha Çalışması Portalı</h1>
             <span id="roleBadge" class="px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
               Öğretmen Formu
+            </span>
+            <span id="dbSyncBadge" class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span id="dbSyncBadgeText">Merkezi Bulut DB</span>
             </span>
           </div>
           <p class="text-xs text-slate-500">81 İl & 35 Hafta Saha Uygulama & Analiz Sistemi</p>
@@ -875,8 +882,12 @@
               </select>
             </div>
 
-            <!-- Filtrelenmiş Excel İndir Butonu -->
+            <!-- Filtrelenmiş Excel İndir & Canlı Yenile Butonları -->
             <div class="flex items-center gap-2">
+              <button id="btnRefreshDbPool" onclick="fetchSurveyPoolFromSupabase(true)" type="button" title="Merkezi veritabanından en güncel anket verilerini çeker" class="inline-flex items-center px-3.5 py-2.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 active:scale-95 border border-indigo-200 rounded-xl shadow-xs transition-all cursor-pointer whitespace-nowrap">
+                <i data-lucide="refresh-cw" class="w-4 h-4 mr-1.5 text-indigo-600" id="iconRefreshDb"></i>
+                Verileri Yenile
+              </button>
               <button id="btnExportFilteredTableExcel" onclick="exportFilteredTableToExcel()" type="button" class="inline-flex items-center px-4 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-xl shadow-sm shadow-emerald-200 transition-all cursor-pointer whitespace-nowrap">
                 <i data-lucide="file-spreadsheet" class="w-4 h-4 mr-1.5"></i>
                 Excel İndir (.xls)
@@ -937,6 +948,10 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2.5">
+              <button id="btnDbSettings" onclick="openDbSettingsModal()" type="button" title="Supabase veritabanı bağlantı ayarlarını yapılandırır" class="inline-flex items-center px-3.5 py-2.5 text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 active:scale-95 rounded-xl border border-indigo-200 transition-all cursor-pointer">
+                <i data-lucide="database" class="w-3.5 h-3.5 mr-1.5 text-indigo-600"></i>
+                DB Ayarları
+              </button>
               <button id="btnExportPoolJSON" onclick="exportFieldSurveyToJSON()" type="button" title="Tüm anket havuzunu JSON dosyası olarak indirir" class="inline-flex items-center px-3.5 py-2.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-95 rounded-xl border border-slate-200 transition-all cursor-pointer">
                 <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5 text-slate-600"></i>
                 Yedekle (JSON)
@@ -1486,6 +1501,57 @@
         </button>
       </div>
     </div>
+  <!-- ========================================================================= -->
+  <!-- DATABASE SETTINGS MODAL (SUPABASE CONFIG)                                 -->
+  <!-- ========================================================================= -->
+  <div id="dbSettingsModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-5 animate-in fade-in zoom-in duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <i data-lucide="database" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Supabase Veritabanı Ayarları</h3>
+            <p class="text-xs text-slate-500">Merkezi PostgreSQL bağlantı parametreleri</p>
+          </div>
+        </div>
+        <button onclick="closeDbSettingsModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3.5">
+        <div>
+          <label for="dbSettingUrlInput" class="block text-xs font-semibold text-slate-700 mb-1">
+            Supabase Project URL <span class="text-rose-500">*</span>
+          </label>
+          <input type="text" id="dbSettingUrlInput" placeholder="https://your-project.supabase.co" class="w-full px-3.5 py-2.5 text-xs font-mono bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all">
+        </div>
+
+        <div>
+          <label for="dbSettingKeyInput" class="block text-xs font-semibold text-slate-700 mb-1">
+            Supabase Anon (Public) Key <span class="text-rose-500">*</span>
+          </label>
+          <textarea id="dbSettingKeyInput" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsIn..." class="w-full p-3 text-xs font-mono bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all"></textarea>
+          <span class="text-[10px] text-slate-400 block mt-1">Anon key istemci tarafında güvenle kullanılır ve RLS ile korunur.</span>
+        </div>
+
+        <div id="dbSettingsStatusAlert" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600">
+          Durum: Kontrol ediliyor...
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 pt-2">
+        <button onclick="closeDbSettingsModal()" type="button" class="w-1/2 py-2.5 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all">
+          Kapat
+        </button>
+        <button onclick="saveDbSettingsFromModal()" type="button" class="w-1/2 py-2.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-95 rounded-xl shadow-sm transition-all shadow-indigo-200 flex items-center justify-center gap-1.5">
+          <i data-lucide="save" class="w-3.5 h-3.5"></i>
+          Kaydet ve Bağlan
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Footer -->
@@ -1661,8 +1727,129 @@
       }
     }
 
+    // Central Database Connection Status Helper
+    function updateDatabaseStatusBadge(status) {
+      const badge = document.getElementById('dbSyncBadge');
+      const badgeText = document.getElementById('dbSyncBadgeText');
+      if (!badge || !badgeText) return;
+
+      if (status === 'connected') {
+        badge.className = "hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs";
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> <span id="dbSyncBadgeText">Merkezi Bulut DB</span>`;
+      } else if (status === 'loading') {
+        badge.className = "hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-xs";
+        badge.innerHTML = `<i data-lucide="loader-2" class="w-2.5 h-2.5 animate-spin"></i> <span id="dbSyncBadgeText">Senkronize Ediliyor...</span>`;
+      } else if (status === 'offline') {
+        badge.className = "hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold rounded-full bg-amber-50 text-amber-700 border border-amber-200 shadow-xs";
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> <span id="dbSyncBadgeText">Yerel Havuz Modu</span>`;
+      } else if (status === 'error') {
+        badge.className = "hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold rounded-full bg-rose-50 text-rose-700 border border-rose-200 shadow-xs";
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> <span id="dbSyncBadgeText">DB Bağlantı Hatası</span>`;
+      }
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    // Central Data Fetching: Fetch from Supabase PostgreSQL
+    async function fetchSurveyPoolFromSupabase(isManualTrigger = false) {
+      const client = window.MMR_SUPABASE?.getClient();
+      const refreshIcon = document.getElementById('iconRefreshDb');
+      if (refreshIcon) refreshIcon.classList.add('animate-spin');
+
+      if (!client) {
+        updateDatabaseStatusBadge('offline');
+        if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+        if (isManualTrigger) {
+          showToast("Supabase bağlantısı henüz yapılandırılmamış. Yerel veriler gösteriliyor.", 'info');
+        }
+        return;
+      }
+
+      try {
+        updateDatabaseStatusBadge('loading');
+        const { data, error } = await client
+          .from('survey_responses')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error("[Supabase Fetch Error]:", error);
+          updateDatabaseStatusBadge('error');
+          if (isManualTrigger) {
+            showToast("Merkezi veritabanı okuma hatası: " + error.message, 'warning');
+          }
+          return;
+        }
+
+        if (data && Array.isArray(data)) {
+          surveyPool = data.map(r => ({
+            id: r.id,
+            teacher: r.teacher || '',
+            branch: r.branch || '',
+            city: r.city || '',
+            grade: r.grade || '',
+            studentCount: parseInt(r.student_count, 10) || 0,
+            week: r.week || '',
+            date: r.date || '',
+            q1_code: r.q1_code || '',
+            q1_text: r.q1_text || '',
+            q1a_reason: r.q1a_reason || '',
+            q2_duration: r.q2_duration || '',
+            q3_engagement: r.q3_engagement || '',
+            q4_alignment: r.q4_alignment || '',
+            fieldNote: r.field_note || '',
+            createdAt: r.created_at || new Date().toISOString()
+          }));
+
+          // Cache locally as backup read cache
+          try {
+            localStorage.setItem('MMR_FIELD_SURVEY_POOL_V2', JSON.stringify(surveyPool));
+          } catch(e) {}
+
+          updateDatabaseStatusBadge('connected');
+          populateDropdowns();
+          refreshSurveyPoolUI();
+          populateReportTargetSelect();
+          renderFieldPedagogicalReport();
+          renderSurveyTable();
+          renderTurkeySvgMap();
+
+          if (isManualTrigger) {
+            showToast(`🔄 Merkezi veritabanından ${surveyPool.length} adet saha kaydı güncellendi!`, 'success');
+          }
+        }
+      } catch (err) {
+        console.error("[Supabase Fetch Exception]:", err);
+        updateDatabaseStatusBadge('error');
+        if (isManualTrigger) {
+          showToast("Bağlantı hatası: Lütfen internet bağlantınızı kontrol ediniz.", 'warning');
+        }
+      } finally {
+        if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+      }
+    }
+
+    // Realtime Postgres Change Listener
+    function initSupabaseRealtime() {
+      const client = window.MMR_SUPABASE?.getClient();
+      if (!client) return;
+
+      try {
+        client
+          .channel('public:survey_responses')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'survey_responses' }, (payload) => {
+            console.log('[Supabase Realtime Event Received]:', payload);
+            fetchSurveyPoolFromSupabase(false);
+          })
+          .subscribe();
+      } catch (e) {
+        console.warn("[Realtime Setup Warning]:", e);
+      }
+    }
+
     // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       try {
         loadSurveyPoolFromStorage();
         populateDropdowns();
@@ -1691,6 +1878,10 @@
         if (jsonInput) jsonInput.addEventListener('change', importSurveyPoolFromJSON);
 
         refreshSurveyPoolUI();
+
+        // Fetch central data from Supabase asynchronously
+        await fetchSurveyPoolFromSupabase(false);
+        initSupabaseRealtime();
 
         if (window.lucide && typeof window.lucide.createIcons === 'function') {
           window.lucide.createIcons();
@@ -1770,7 +1961,7 @@
       }
     }
 
-    // LocalStorage
+    // LocalStorage Fallback Reader
     function loadSurveyPoolFromStorage() {
       const stored = localStorage.getItem('MMR_FIELD_SURVEY_POOL_V2');
       if (stored) {
@@ -1784,6 +1975,7 @@
       refreshSurveyPoolUI();
       populateReportTargetSelect();
       renderFieldPedagogicalReport();
+      renderTurkeySvgMap();
     }
 
     // Dynamic Routing for Question 1
@@ -1824,8 +2016,11 @@
       }
     }
 
-    // Survey Save and Automatic Reset
-    function saveSurveyResponseAndReset() {
+    // Survey Save and Automatic Reset (Central Supabase Integration)
+    async function saveSurveyResponseAndReset() {
+      const btnSubmit = document.getElementById('btnTeacherSubmit');
+      const originalSubmitHtml = btnSubmit ? btnSubmit.innerHTML : '';
+
       try {
         const teacher = (document.getElementById('metaTeacher')?.value || "").trim();
         const branch = (document.getElementById('metaBranch')?.value || "").trim();
@@ -1933,13 +2128,19 @@
           q4Alignment = q4Selected.value;
         }
 
-        const record = {
-          id: 's_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        // Set Loading State on Submit Button
+        if (btnSubmit) {
+          btnSubmit.disabled = true;
+          btnSubmit.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 mr-2 animate-spin"></i> Kaydediliyor...`;
+          if (window.lucide) window.lucide.createIcons();
+        }
+
+        const dbPayload = {
           teacher,
-          branch,
           city,
+          branch,
           grade,
-          studentCount,
+          student_count: studentCount,
           week,
           date,
           q1_code: q1Val,
@@ -1948,21 +2149,53 @@
           q2_duration: q2Duration,
           q3_engagement: q3Engagement,
           q4_alignment: q4Alignment,
-          fieldNote,
-          createdAt: new Date().toISOString()
+          field_note: fieldNote
         };
 
-        surveyPool.push(record);
-        saveSurveyPoolToStorage();
+        const client = window.MMR_SUPABASE?.getClient();
 
-        showToast(`🎉 "${teacher}" (${city} - ${week}) saha anketi kaydedildi! Sayfa sıfırlandı.`, 'success');
+        if (client) {
+          // Central Supabase Insert
+          const { data, error } = await client
+            .from('survey_responses')
+            .insert([dbPayload])
+            .select();
+
+          if (error) {
+            console.error("[Supabase Insert Error]:", error);
+            showToast("Anketiniz kaydedilemedi. Lütfen internet bağlantınızı kontrol ederek tekrar deneyiniz.", 'warning');
+            return;
+          }
+
+          // Fetch fresh list from Supabase
+          await fetchSurveyPoolFromSupabase(false);
+        } else {
+          // Fallback: Local Array
+          const localRecord = {
+            id: 's_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+            ...dbPayload,
+            studentCount: dbPayload.student_count,
+            fieldNote: dbPayload.field_note,
+            createdAt: new Date().toISOString()
+          };
+          surveyPool.unshift(localRecord);
+          saveSurveyPoolToStorage();
+        }
+
+        showToast(`🎉 "${teacher}" (${city} - ${week}) saha anketi merkezi veritabanına başarıyla kaydedildi! Sayfa sıfırlandı.`, 'success');
 
         resetSurveyForm(false);
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
       } catch (err) {
         console.error("Save error:", err);
-        showToast("Kayıt sırasında bir hata oluştu: " + err.message, 'warning');
+        showToast("Anketiniz kaydedilemedi. Lütfen internet bağlantınızı kontrol ederek tekrar deneyiniz.", 'warning');
+      } finally {
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = originalSubmitHtml || `<i data-lucide="send" class="w-4 h-4 mr-2"></i> Anketi Kaydet ve Gönder`;
+          if (window.lucide) window.lucide.createIcons();
+        }
       }
     }
 
@@ -2782,12 +3015,23 @@
       renderFieldPedagogicalReport();
     }
 
-    function deleteSurveyRecord(id) {
+    async function deleteSurveyRecord(id) {
       const rec = surveyPool.find(r => r.id === id);
       if (!rec) return;
       if (confirm(`"${rec.teacher}" isimli öğretmenin saha anket kaydını silmek istediğinizden emin misiniz?`)) {
-        surveyPool = surveyPool.filter(r => r.id !== id);
-        saveSurveyPoolToStorage();
+        const client = window.MMR_SUPABASE?.getClient();
+        if (client) {
+          const { error } = await client.from('survey_responses').delete().eq('id', id);
+          if (error) {
+            console.error("Delete error:", error);
+            showToast("Kayıt veritabanından silinemedi: " + error.message, 'warning');
+            return;
+          }
+          await fetchSurveyPoolFromSupabase(false);
+        } else {
+          surveyPool = surveyPool.filter(r => r.id !== id);
+          saveSurveyPoolToStorage();
+        }
         showToast("Kayıt başarıyla silindi.", 'info');
       }
     }
@@ -2799,7 +3043,7 @@
       }
       const warningText = document.getElementById('clearPoolModalWarningText');
       if (warningText) {
-        warningText.innerHTML = `Veri havuzundaki <strong>${surveyPool.length} adet</strong> saha anketi kaydı kalıcı olarak silinecektir. Devam etmek için yönetici şifresini giriniz.`;
+        warningText.innerHTML = `Veri havuzundaki <strong>${surveyPool.length} adet</strong> saha anketi kaydı merkezi veritabanından kalıcı olarak silinecektir. Devam etmek için yönetici şifresini giriniz.`;
       }
       const passInp = document.getElementById('clearPoolPassInput');
       if (passInp) passInp.value = '';
@@ -2817,7 +3061,7 @@
       document.getElementById('clearPoolConfirmModal')?.classList.add('hidden');
     }
 
-    function verifyAndClearSurveyPool() {
+    async function verifyAndClearSurveyPool() {
       const password = (document.getElementById('clearPoolPassInput')?.value || "").trim();
       if (!password) {
         showToast("Lütfen yönetici şifresini giriniz.", 'warning');
@@ -2827,8 +3071,19 @@
 
       if (password === 'mmr.2026') {
         const deletedCount = surveyPool.length;
-        surveyPool = [];
-        saveSurveyPoolToStorage();
+        const client = window.MMR_SUPABASE?.getClient();
+        if (client) {
+          const { error } = await client.from('survey_responses').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+          if (error) {
+            console.error("Clear pool error:", error);
+            showToast("Veritabanı temizlenirken hata oluştu: " + error.message, 'warning');
+            return;
+          }
+          await fetchSurveyPoolFromSupabase(false);
+        } else {
+          surveyPool = [];
+          saveSurveyPoolToStorage();
+        }
         closeClearPoolModal();
         showToast(`Havuzdaki ${deletedCount} adet kayıt başarıyla temizlendi!`, 'success');
       } else {
@@ -2843,6 +3098,57 @@
 
     function clearEntireSurveyPool() {
       openClearPoolModal();
+    }
+
+    // Database Configuration Modal Handlers
+    function openDbSettingsModal() {
+      const modal = document.getElementById('dbSettingsModal');
+      if (!modal) return;
+
+      const urlInput = document.getElementById('dbSettingUrlInput');
+      const keyInput = document.getElementById('dbSettingKeyInput');
+      const alertBox = document.getElementById('dbSettingsStatusAlert');
+
+      if (urlInput) urlInput.value = window.MMR_SUPABASE?.url || "";
+      if (keyInput) keyInput.value = window.MMR_SUPABASE?.anonKey || "";
+
+      const isConfigured = window.MMR_SUPABASE?.isConfigured();
+      if (alertBox) {
+        if (isConfigured) {
+          alertBox.className = "p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 font-medium";
+          alertBox.innerHTML = `🟢 <strong>Supabase Bağlantısı Aktif.</strong> Anket yanıtları doğrudan merkezi bulut veritabanına iletilmektedir.`;
+        } else {
+          alertBox.className = "p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 font-medium";
+          alertBox.innerHTML = `🟡 <strong>Yapılandırma Bekleniyor.</strong> Lütfen Supabase URL ve Anon Key giriniz.`;
+        }
+      }
+
+      modal.classList.remove('hidden');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function closeDbSettingsModal() {
+      document.getElementById('dbSettingsModal')?.classList.add('hidden');
+    }
+
+    async function saveDbSettingsFromModal() {
+      const url = (document.getElementById('dbSettingUrlInput')?.value || "").trim();
+      const key = (document.getElementById('dbSettingKeyInput')?.value || "").trim();
+
+      if (!url || !key) {
+        showToast("Lütfen hem Supabase URL hem de Anon Key alanlarını doldurunuz.", 'warning');
+        return;
+      }
+
+      const success = window.MMR_SUPABASE?.setCredentials(url, key);
+      if (success) {
+        showToast("Veritabanı parametreleri kaydedildi. Bağlantı kuruluyor...", 'success');
+        closeDbSettingsModal();
+        await fetchSurveyPoolFromSupabase(true);
+        initSupabaseRealtime();
+      } else {
+        showToast("Parametreler kaydedilirken bir hata oluştu.", 'warning');
+      }
     }
 
     // Helper XML escaper
@@ -3232,22 +3538,71 @@
       showToast("JSON yedek dosyası indirildi.", 'success');
     }
 
-    // Import from JSON
-    function importSurveyPoolFromJSON(e) {
+    // Import from JSON (Central Supabase Integration)
+    async function importSurveyPoolFromJSON(e) {
       const file = e.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function(evt) {
+      reader.onload = async function(evt) {
         try {
           const parsed = JSON.parse(evt.target.result);
-          if (parsed && Array.isArray(parsed.surveys)) surveyPool = parsed.surveys;
-          else if (Array.isArray(parsed)) surveyPool = parsed;
+          let rawList = [];
+          if (parsed && Array.isArray(parsed.surveys)) rawList = parsed.surveys;
+          else if (Array.isArray(parsed)) rawList = parsed;
           else { showToast("Geçersiz JSON formatı.", 'warning'); return; }
-          saveSurveyPoolToStorage();
-          showToast(`${surveyPool.length} adet saha anketi kaydı yüklendi!`, 'success');
+
+          if (rawList.length === 0) {
+            showToast("JSON dosyasında yüklenecek anket kaydı bulunamadı.", 'warning');
+            return;
+          }
+
+          const client = window.MMR_SUPABASE?.getClient();
+
+          if (client) {
+            // Map JSON items to DB Schema
+            const dbRows = rawList.map(r => ({
+              teacher: r.teacher || '',
+              city: r.city || '',
+              branch: r.branch || '',
+              grade: r.grade || '',
+              student_count: parseInt(r.studentCount || r.student_count, 10) || 0,
+              week: r.week || '',
+              date: r.date || new Date().toISOString().split('T')[0],
+              q1_code: r.q1_code || 'applied_full',
+              q1_text: r.q1_text || 'Evet, rahatlıkla uyguladım.',
+              q1a_reason: r.q1a_reason || '',
+              q2_duration: r.q2_duration || '',
+              q3_engagement: r.q3_engagement || '',
+              q4_alignment: r.q4_alignment || '',
+              field_note: r.fieldNote || r.field_note || ''
+            })).filter(r => r.teacher && r.city);
+
+            if (dbRows.length === 0) {
+              showToast("Geçerli öğretmen/il verisi içeren kayıt bulunamadı.", 'warning');
+              return;
+            }
+
+            const { data, error } = await client.from('survey_responses').insert(dbRows);
+            if (error) {
+              console.error("[Supabase Bulk Import Error]:", error);
+              showToast("Veritabanına aktarma hatası: " + error.message, 'warning');
+              return;
+            }
+
+            await fetchSurveyPoolFromSupabase(false);
+            showToast(`🎉 ${dbRows.length} adet saha anketi kaydı merkezi veritabanına aktarıldı!`, 'success');
+          } else {
+            // Fallback to local storage
+            surveyPool = rawList;
+            saveSurveyPoolToStorage();
+            showToast(`${surveyPool.length} adet saha anketi kaydı yerel havuza yüklendi!`, 'success');
+          }
         } catch(err) {
+          console.error("Import error:", err);
           showToast("Dosya okunurken bir hata oluştu: " + err.message, 'warning');
+        } finally {
+          e.target.value = "";
         }
       };
       reader.readAsText(file);
@@ -3909,6 +4264,11 @@
     window.handleMapCityHover = handleMapCityHover;
     window.handleMapCityLeave = handleMapCityLeave;
     window.filterByCityFromMap = filterByCityFromMap;
+    window.openDbSettingsModal = openDbSettingsModal;
+    window.closeDbSettingsModal = closeDbSettingsModal;
+    window.saveDbSettingsFromModal = saveDbSettingsFromModal;
+    window.fetchSurveyPoolFromSupabase = fetchSurveyPoolFromSupabase;
+    window.updateDatabaseStatusBadge = updateDatabaseStatusBadge;
   </script>
 </body>
 </html>

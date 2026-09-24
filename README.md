@@ -90,9 +90,55 @@ Bu proje, **Muallimin Manevî Rehberi (MMR)** içeriklerinin Türkiye genelinde 
 * **📥 Kapsamlı Excel İndirme (.xls):** Raporlama alanından indirilen Excel dosyasına MMR Uygulanabilirlik Profili özet kartları, 10 Branş Dağılım Matrisi, 35 Haftalık Boylamsal Trend Tablosu ve Detaylı Anket Satırları biçimlendirilmiş ve renkli olarak dahil edilir.
 * **🖨️ Yazdır / PDF Çıktısı Alma.**
 
+## 🌐 Çok Kullanıcılı Merkezi Veritabanı Mimarisi (Supabase PostgreSQL)
+
+Uygulama, farklı cihazlardan (telefon, tablet, bilgisayar) ve farklı coğrafi konumlardan girilen anket yanıtlarının anında tek bir merkezi bulut veritabanında toplanması ve yönetici panelinde canlı olarak izlenebilmesi amacıyla **Supabase PostgreSQL** merkezi veritabanı altyapısıyla entegre edilmiştir.
+
+### 🔄 Veri Akış Şeması
+```
+[ÖĞRETMEN / TELEFON / PC]
+         ↓ (Anket Gönderimi)
+[VERCEL / GITHUB PAGES ÖN YÜZ]
+         ↓ (HTTPS / REST & WebSocket)
+[SUPABASE POSTGRESQL (survey_responses)]
+         ↓ (Realtime / Canlı Replikasyon)
+[YÖNETİCİ ANALİZ PANELİ (Anlık 81 İl & Raporlar)]
+```
+
+### 🗄️ Veritabanı Tablosu (`public.survey_responses`)
+* **id:** UUID (Birincil Anahtar, varsayılan `uuid_generate_v4()`)
+* **created_at / updated_at:** Timestamptz
+* **teacher:** Öğretmen Adı Soyadı (Text)
+* **city:** İl Adı (Text)
+* **branch:** Branş (Text)
+* **grade:** Sınıf Düzeyi (Text)
+* **student_count:** Katılan Öğrenci Sayısı (Integer)
+* **week:** Uygulanan Hafta (Text, Örn: "1. Hafta")
+* **date:** Uygulama Tarihi (Text)
+* **q1_code / q1_text:** 1. Soru Uygulama Durumu Kod ve Metni
+* **q1a_reason:** 1A Zorlanma veya 1B Engel Nedeni
+* **q2_duration:** 2. Soru Uygulama Süresi
+* **q3_engagement:** 3. Soru Öğrenci İlgisi ve Katılımı
+* **q4_alignment:** 4. Soru Müfredat ve Kazanım Uyumu (4 Şıklı)
+* **field_note:** 5. Soru İsteğe Bağlı Niteliksel Saha Notu
+
+### 🔒 Güvenlik & RLS (Row Level Security)
+1. **Anonim Kayıt Ekleme (INSERT):** Tüm öğretmenler yetki sınırlaması olmadan yalnızca yeni anket kaydı ekleyebilir (`WITH CHECK (true)`).
+2. **Merkezi Okuma (SELECT):** Yönetici paneli ve analiz motoru için merkezi veri okuma izni.
+3. **Silme & Güncelleme (DELETE / UPDATE):** Şifre korumalı (`mmr.2026`) yönetici onaylı işlemler için yetkilendirilmiştir.
+4. **Realtime Senkronizasyon:** `supabase_realtime` yayını ile yeni bir öğretmen anket gönderdiğinde yönetici paneli otomatik olarak yenilenir.
+
+### 🚀 Kurulum & Supabase Migration
+1. Supabase Dashboard'da yeni bir proje oluşturun.
+2. **SQL Editor** sayfasına gidip projedeki `supabase/schema.sql` dosyasının içeriğini yapıştırın ve **Run** butonuna basarak tabloyu ve RLS politikalarını oluşturun.
+3. **Project Settings > API** bölümünden `Project URL` ve `anon / public` anahtarınızı alın.
+4. `supabase-config.js` dosyasında `DEFAULT_SUPABASE_URL` ve `DEFAULT_SUPABASE_ANON_KEY` alanlarına girin veya Yönetici Panelindeki **"DB Ayarları"** butonundan doğrudan arayüz üzerinden kaydedin.
+
 ---
 
 ## 💻 Canlı Yayın ve Depo
+* 🚀 **Vercel Canlı Uygulama:** [https://mmr-olcek-portali.vercel.app/](https://mmr-olcek-portali.vercel.app/)
 * 🚀 **GitHub Pages:** [https://mahofen.github.io/mmr-olcek-portali/](https://mahofen.github.io/mmr-olcek-portali/)
 * 📂 **GitHub Deposu:** [https://github.com/mahofen/mmr-olcek-portali](https://github.com/mahofen/mmr-olcek-portali)
+
 
