@@ -12,13 +12,20 @@
   // Bu değişkenler Supabase Dashboard > Project Settings > API kısmından temin edilir.
   // Anon Key istemci tarafında (browser) güvenle kullanılabilir; RLS ile korunmaktadır.
   const DEFAULT_SUPABASE_URL = "https://auokvbviqlsxmgnrkubs.supabase.co";
-  const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_h2jSReHLZ3ZD5poc_GyeHA_3HfKU5OA";
+  const DEFAULT_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF1b2t2YnZpcWxzeG1nbnJrdWJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNTM1NjYsImV4cCI6MjEwNTgyOTU2Nn0.1Dv_wjlT7WDal3yLPabs2hrko9fJfzFEYZE5DEkfpWQ";
 
   // Vercel / Window / LocalStorage yapılandırmasını öncelik sırasına göre al
   const storedConfig = (function() {
     try {
       const raw = localStorage.getItem('MMR_SUPABASE_CONFIG_OVERRIDE');
-      return raw ? JSON.parse(raw) : null;
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      // Eski geçersiz anahtarları otomatik temizle
+      if (parsed && parsed.key && !parsed.key.startsWith('eyJ')) {
+        localStorage.removeItem('MMR_SUPABASE_CONFIG_OVERRIDE');
+        return null;
+      }
+      return parsed;
     } catch(e) {
       return null;
     }
