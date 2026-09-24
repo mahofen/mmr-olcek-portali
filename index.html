@@ -115,7 +115,7 @@
             <span id="roleBadge" class="px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
               Öğretmen Formu
             </span>
-            <span id="dbSyncBadge" class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs">
+            <span id="dbSyncBadge" onclick="openDbSettingsModal()" class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs cursor-pointer hover:opacity-80 transition-all" title="Veritabanı bağlantı durumunu incelemek için tıklayınız">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               <span id="dbSyncBadgeText">Merkezi Bulut DB</span>
             </span>
@@ -1775,6 +1775,7 @@
 
         if (error) {
           console.error("[Supabase Fetch Error]:", error);
+          window.lastDbError = error.message || (error.code ? `Kod: ${error.code} - ${error.details || ''}` : JSON.stringify(error));
           updateDatabaseStatusBadge('error');
           if (isManualTrigger) {
             showToast("Merkezi veritabanı okuma hatası: " + error.message, 'warning');
@@ -3114,7 +3115,11 @@
 
       const isConfigured = window.MMR_SUPABASE?.isConfigured();
       if (alertBox) {
-        if (isConfigured) {
+        if (window.lastDbError) {
+          alertBox.className = "p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 font-medium space-y-1";
+          alertBox.innerHTML = `🔴 <strong>Bağlantı Hatası:</strong> <div class="text-[11px] font-mono mt-1 text-rose-950">${escapeXml(window.lastDbError)}</div>
+          <div class="text-[10px] text-slate-600 mt-2">💡 <strong>Çözüm:</strong> Eğer hata <em>"relation public.survey_responses does not exist"</em> ise lütfen Supabase SQL Editor'de şema SQL kodunu çalıştırınız.</div>`;
+        } else if (isConfigured) {
           alertBox.className = "p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 font-medium";
           alertBox.innerHTML = `🟢 <strong>Supabase Bağlantısı Aktif.</strong> Anket yanıtları doğrudan merkezi bulut veritabanına iletilmektedir.`;
         } else {
