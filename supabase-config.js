@@ -11,8 +11,8 @@
   // 1. SUPABASE PROJE BİLGİLERİ (Vercel / Production Yapılandırması)
   // Bu değişkenler Supabase Dashboard > Project Settings > API kısmından temin edilir.
   // Anon Key istemci tarafında (browser) güvenle kullanılabilir; RLS ile korunmaktadır.
-  const DEFAULT_SUPABASE_URL = "https://your-project-id.supabase.co";
-  const DEFAULT_SUPABASE_ANON_KEY = "your-anon-public-key";
+  const DEFAULT_SUPABASE_URL = "https://auokvbviqlsxmgnrkubs.supabase.co";
+  const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_h2jSReHLZ3ZD5poc_GyeHA_3HfKU5OA";
 
   // Vercel / Window / LocalStorage yapılandırmasını öncelik sırasına göre al
   const storedConfig = (function() {
