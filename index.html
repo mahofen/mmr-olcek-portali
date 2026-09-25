@@ -728,6 +728,80 @@
 
     </div>
 
+    <!-- ========================================================================= -->
+    <!-- SECTION: TEACHER THANK YOU & CONFIRMATION SCREEN                           -->
+    <!-- ========================================================================= -->
+    <div id="sectionThankYouView" class="hidden space-y-6 max-w-3xl mx-auto py-6">
+
+      <!-- Success Card -->
+      <div class="bg-white rounded-3xl p-6 sm:p-10 border border-emerald-100 shadow-xl text-center space-y-6 relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-emerald-400 via-teal-500 to-indigo-500"></div>
+
+        <!-- Checkmark Icon -->
+        <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-emerald-50 border-4 border-emerald-100 flex items-center justify-center text-emerald-600 shadow-inner">
+          <i data-lucide="check-circle-2" class="w-12 h-12 sm:w-14 sm:h-14 stroke-[2.2]"></i>
+        </div>
+
+        <!-- Headings -->
+        <div class="space-y-2">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+            Anket Kaydı Başarıyla Tamamlandı
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            Katkılarınız İçin Teşekkür Ederiz!
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
+            <strong>Muallimin Manevî Rehberi (MMR)</strong> saha çalışması araştırmasına sağladığınız kıymetli veri ve geri bildirim için teşekkür ederiz.
+          </p>
+        </div>
+
+        <!-- Summary Receipt Card -->
+        <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 sm:p-6 text-left space-y-3.5">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+              <i data-lucide="file-check" class="w-4 h-4 text-emerald-600"></i>
+              Kayıt Özeti
+            </span>
+            <span id="thankYouStatusBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
+              Kayıt Başarılı
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="space-y-1">
+              <span class="text-slate-400 font-medium">Öğretmen Adı Soyadı:</span>
+              <p id="thankYouTeacherName" class="font-bold text-slate-900 text-sm">--</p>
+            </div>
+            <div class="space-y-1">
+              <span class="text-slate-400 font-medium">İl & Branş:</span>
+              <p id="thankYouCityBranch" class="font-bold text-indigo-900 text-sm">--</p>
+            </div>
+            <div class="space-y-1">
+              <span class="text-slate-400 font-medium">Uygulanan Hafta & Sınıf:</span>
+              <p id="thankYouWeekGrade" class="font-bold text-slate-900">--</p>
+            </div>
+            <div class="space-y-1">
+              <span class="text-slate-400 font-medium">Katılan Öğrenci Sayısı:</span>
+              <p id="thankYouStudentCount" class="font-bold text-slate-900">--</p>
+            </div>
+            <div class="space-y-1 sm:col-span-2 pt-2 border-t border-slate-200/60 flex items-center justify-between">
+              <span class="text-slate-400 font-medium">Kayıt Zamanı:</span>
+              <span id="thankYouTimestamp" class="font-mono font-bold text-slate-700">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Button to Return -->
+        <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button onclick="returnToSurveyForm()" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-95 rounded-2xl shadow-lg transition-all shadow-indigo-200 gap-2 cursor-pointer">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            Yeni Anket Girişi Yap / Sayfaya Dön
+          </button>
+        </div>
+      </div>
+
+    </div>
 
     <!-- ========================================================================= -->
     <!-- SECTION 2: ADMINISTRATOR DASHBOARD VIEW (PASSWORD PROTECTED)              -->
@@ -2839,6 +2913,7 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
           field_note: fieldNote
         };
 
+        let saveStatus = "success";
         const client = window.MMR_SUPABASE?.getClient();
 
         if (client) {
@@ -2853,24 +2928,66 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
               console.error("[Supabase Insert Error]:", error);
               // Save to pending sync outbox so user NEVER loses their data!
               saveToPendingOutbox(dbPayload);
+              saveStatus = "outbox";
               showToast(`⚠️ Sunucu kayıt uyarısı: Anket veriniz cihazınıza kaydedildi. Bağlantı kurulduğunda otomatik merkezi veritabanına aktarılacaktır. (${error.message || 'Bulut DB Hatası'})`, 'warning');
             } else {
               // Fetch fresh list from Supabase
               await fetchSurveyPoolFromSupabase(false);
-              showToast(`🎉 "${teacher}" (${city} - ${week}) saha anketi merkezi veritabanına başarıyla kaydedildi! Sayfa sıfırlandı.`, 'success');
+              showToast(`🎉 "${teacher}" (${city} - ${week}) saha anketi merkezi veritabanına başarıyla kaydedildi!`, 'success');
             }
           } catch (dbEx) {
             console.error("[Supabase Insert Exception]:", dbEx);
             saveToPendingOutbox(dbPayload);
+            saveStatus = "outbox";
             showToast(`⚠️ Ağ kesintisi: Anketiniz cihazınıza kaydedildi, otomatik senkronize edilecek.`, 'warning');
           }
         } else {
           // No client initialized: Save to Outbox Queue & Local storage
           saveToPendingOutbox(dbPayload);
+          saveStatus = "outbox";
           showToast(`⚠️ Veritabanı bağlantısı kurulamadı. Anketiniz yerel belleğe kaydedildi ve bağlantı açıldığında buluta aktarılacak.`, 'warning');
         }
 
+        // Format Date and Time for Thank You Screen
+        const nowObj = new Date();
+        const dateFormattedStr = nowObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+        const timeFormattedStr = nowObj.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const fullTimeStr = `${dateFormattedStr} - ${timeFormattedStr}`;
+
+        // Populate Thank-You screen receipt details
+        const elName = document.getElementById('thankYouTeacherName');
+        const elCityBranch = document.getElementById('thankYouCityBranch');
+        const elWeekGrade = document.getElementById('thankYouWeekGrade');
+        const elStudent = document.getElementById('thankYouStudentCount');
+        const elTime = document.getElementById('thankYouTimestamp');
+        const elBadge = document.getElementById('thankYouStatusBadge');
+
+        if (elName) elName.textContent = teacher || "--";
+        if (elCityBranch) elCityBranch.textContent = `${city || "--"} • ${branch || "--"}`;
+        if (elWeekGrade) elWeekGrade.textContent = `${week || "--"} (${grade || "--"})`;
+        if (elStudent) elStudent.textContent = `${studentCount || 0} Öğrenci`;
+        if (elTime) elTime.textContent = fullTimeStr;
+
+        if (elBadge) {
+          if (saveStatus === "success") {
+            elBadge.textContent = "Merkezi Sunucuya Kaydedildi";
+            elBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200";
+          } else {
+            elBadge.textContent = "Cihaza Kaydedildi (Bulut Kuyruğunda)";
+            elBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200";
+          }
+        }
+
+        // Reset the form fields ready for next input
         resetSurveyForm(false);
+
+        // Transition: Hide Teacher Form, Show Thank-You View
+        const sectionTeacher = document.getElementById('sectionTeacherView');
+        const sectionThankYou = document.getElementById('sectionThankYouView');
+        if (sectionTeacher) sectionTeacher.classList.add('hidden');
+        if (sectionThankYou) sectionThankYou.classList.remove('hidden');
+
+        // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
       } catch (err) {
@@ -2883,6 +3000,17 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
           if (window.lucide) window.lucide.createIcons();
         }
       }
+    }
+
+    // Return from Thank You view back to clean Teacher Survey Form
+    function returnToSurveyForm() {
+      resetSurveyForm(false);
+      const sectionThankYou = document.getElementById('sectionThankYouView');
+      const sectionTeacher = document.getElementById('sectionTeacherView');
+      if (sectionThankYou) sectionThankYou.classList.add('hidden');
+      if (sectionTeacher) sectionTeacher.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.lucide) window.lucide.createIcons();
     }
 
     function resetSurveyForm(confirmPrompt = true) {
@@ -3003,9 +3131,10 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
     }
 
     function switchToAdminMode() {
-      document.getElementById('sectionTeacherView').classList.add('hidden');
-      document.getElementById('sectionAdminView').classList.remove('hidden');
-      document.getElementById('adminNavContainer').classList.remove('hidden');
+      document.getElementById('sectionTeacherView')?.classList.add('hidden');
+      document.getElementById('sectionThankYouView')?.classList.add('hidden');
+      document.getElementById('sectionAdminView')?.classList.remove('hidden');
+      document.getElementById('adminNavContainer')?.classList.remove('hidden');
 
       document.getElementById('roleBadge').className = "px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-indigo-100 text-indigo-800 border border-indigo-200";
       document.getElementById('roleBadge').textContent = "Yönetici Modu";
@@ -3023,9 +3152,10 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
     }
 
     function switchToTeacherMode() {
-      document.getElementById('sectionAdminView').classList.add('hidden');
-      document.getElementById('sectionTeacherView').classList.remove('hidden');
-      document.getElementById('adminNavContainer').classList.add('hidden');
+      document.getElementById('sectionAdminView')?.classList.add('hidden');
+      document.getElementById('sectionThankYouView')?.classList.add('hidden');
+      document.getElementById('sectionTeacherView')?.classList.remove('hidden');
+      document.getElementById('adminNavContainer')?.classList.add('hidden');
 
       document.getElementById('roleBadge').className = "px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200";
       document.getElementById('roleBadge').textContent = "Öğretmen Formu";
@@ -5788,6 +5918,7 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
     window.handleGradeChange = handleGradeChange;
     window.handleQ1Change = handleQ1Change;
     window.saveSurveyResponseAndReset = saveSurveyResponseAndReset;
+    window.returnToSurveyForm = returnToSurveyForm;
     window.resetSurveyForm = resetSurveyForm;
     window.openAdminLoginModal = openAdminLoginModal;
     window.closeAdminLoginModal = closeAdminLoginModal;
