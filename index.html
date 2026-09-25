@@ -42,10 +42,13 @@
   <!-- Supabase JS Client & Central Cloud DB Config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    if (!window.supabase) {
+      document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\/script>');
+    }
     window.SUPABASE_URL = "https://auokvbviqlsxmgnrkubs.supabase.co";
     window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF1b2t2YnZpcWxzeG1nbnJrdWJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNTM1NjYsImV4cCI6MjEwNTgyOTU2Nn0.1Dv_wjlT7WDal3yLPabs2hrko9fJfzFEYZE5DEkfpWQ";
   </script>
-  <script src="supabase-config.js?v=20260924_2"></script>
+  <script src="supabase-config.js?v=20260925_1"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
     body {
@@ -2350,6 +2353,77 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
       }
     }
 
+    // Outbox & Offline Sync Engine for Uninterrupted Data Collection
+    function saveToPendingOutbox(payload) {
+      try {
+        const outbox = JSON.parse(localStorage.getItem('MMR_PENDING_OUTBOX') || '[]');
+        const pendingItem = {
+          id: 'pending_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+          ...payload,
+          studentCount: payload.student_count || 0,
+          fieldNote: payload.field_note || '',
+          createdAt: new Date().toISOString(),
+          isPendingSync: true
+        };
+        outbox.unshift(pendingItem);
+        localStorage.setItem('MMR_PENDING_OUTBOX', JSON.stringify(outbox));
+
+        // Ensure user sees their submission in local pool
+        if (!surveyPool.some(r => r.id === pendingItem.id)) {
+          surveyPool.unshift(pendingItem);
+          saveSurveyPoolToStorage();
+        }
+        updateDatabaseStatusBadge('offline');
+      } catch (e) {
+        console.error("[Outbox Save Error]:", e);
+      }
+    }
+
+    async function syncPendingOutboxToSupabase() {
+      const client = window.MMR_SUPABASE?.getClient();
+      if (!client) return;
+
+      try {
+        const outbox = JSON.parse(localStorage.getItem('MMR_PENDING_OUTBOX') || '[]');
+        if (!outbox || !Array.isArray(outbox) || outbox.length === 0) return;
+
+        console.log(`[Sync Engine] ${outbox.length} adet bekleyen yerel anket buluta aktarılıyor...`);
+
+        const rowsToInsert = outbox.map(item => ({
+          teacher: item.teacher || '',
+          city: item.city || '',
+          branch: item.branch || '',
+          grade: item.grade || '',
+          student_count: parseInt(item.student_count || item.studentCount, 10) || 0,
+          week: item.week || '',
+          date: item.date || new Date().toISOString().split('T')[0],
+          q1_code: item.q1_code || 'applied_full',
+          q1_text: item.q1_text || '',
+          q1a_reason: item.q1a_reason || '',
+          q2_duration: item.q2_duration || '',
+          q3_engagement: item.q3_engagement || '',
+          q4_alignment: item.q4_alignment || '',
+          field_note: item.field_note || item.fieldNote || ''
+        })).filter(r => r.teacher && r.city);
+
+        if (rowsToInsert.length > 0) {
+          const { error } = await client.from('survey_responses').insert(rowsToInsert);
+          if (!error) {
+            localStorage.removeItem('MMR_PENDING_OUTBOX');
+            console.log(`[Sync Engine] ✅ ${rowsToInsert.length} bekleyen kayıt başarıyla buluta aktarıldı.`);
+            await fetchSurveyPoolFromSupabase(false);
+            showToast(`🔄 Cihazınızda bekleyen ${rowsToInsert.length} adet anket kaydı merkezi veritabanına aktarıldı!`, 'success');
+          } else {
+            console.warn("[Sync Engine Insert Warning]:", error);
+          }
+        } else {
+          localStorage.removeItem('MMR_PENDING_OUTBOX');
+        }
+      } catch (err) {
+        console.warn("[Sync Engine Exception]:", err);
+      }
+    }
+
     // Central Data Fetching: Fetch from Supabase PostgreSQL
     async function fetchSurveyPoolFromSupabase(isManualTrigger = false) {
       const client = window.MMR_SUPABASE?.getClient();
@@ -2367,9 +2441,14 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
 
       try {
         updateDatabaseStatusBadge('loading');
+
+        // Check if there are local outbox records to push first
+        await syncPendingOutboxToSupabase();
+
         const { data, error } = await client
           .from('survey_responses')
           .select('*')
+          .range(0, 9999)
           .order('created_at', { ascending: false });
 
         if (error) {
@@ -2415,6 +2494,7 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
           renderSurveyTable();
           renderTurkeySvgMap();
           renderTimelineView();
+          renderSystemSettingsView();
 
           if (isManualTrigger) {
             showToast(`🔄 Merkezi veritabanından ${surveyPool.length} adet saha kaydı güncellendi!`, 'success');
@@ -2479,6 +2559,12 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
         if (jsonInput) jsonInput.addEventListener('change', importSurveyPoolFromJSON);
 
         refreshSurveyPoolUI();
+
+        // Online event listener for automatic retry sync
+        window.addEventListener('online', () => {
+          console.log('[Network Online] İnternet bağlantısı sağlandı, bekleyen anketler senkronize ediliyor...');
+          syncPendingOutboxToSupabase();
+        });
 
         // Fetch central data from Supabase asynchronously
         await fetchSurveyPoolFromSupabase(false);
@@ -2756,34 +2842,33 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
         const client = window.MMR_SUPABASE?.getClient();
 
         if (client) {
-          // Central Supabase Insert
-          const { data, error } = await client
-            .from('survey_responses')
-            .insert([dbPayload])
-            .select();
+          try {
+            // Central Supabase Insert
+            const { data, error } = await client
+              .from('survey_responses')
+              .insert([dbPayload])
+              .select();
 
-          if (error) {
-            console.error("[Supabase Insert Error]:", error);
-            showToast("Anketiniz kaydedilemedi. Lütfen internet bağlantınızı kontrol ederek tekrar deneyiniz.", 'warning');
-            return;
+            if (error) {
+              console.error("[Supabase Insert Error]:", error);
+              // Save to pending sync outbox so user NEVER loses their data!
+              saveToPendingOutbox(dbPayload);
+              showToast(`⚠️ Sunucu kayıt uyarısı: Anket veriniz cihazınıza kaydedildi. Bağlantı kurulduğunda otomatik merkezi veritabanına aktarılacaktır. (${error.message || 'Bulut DB Hatası'})`, 'warning');
+            } else {
+              // Fetch fresh list from Supabase
+              await fetchSurveyPoolFromSupabase(false);
+              showToast(`🎉 "${teacher}" (${city} - ${week}) saha anketi merkezi veritabanına başarıyla kaydedildi! Sayfa sıfırlandı.`, 'success');
+            }
+          } catch (dbEx) {
+            console.error("[Supabase Insert Exception]:", dbEx);
+            saveToPendingOutbox(dbPayload);
+            showToast(`⚠️ Ağ kesintisi: Anketiniz cihazınıza kaydedildi, otomatik senkronize edilecek.`, 'warning');
           }
-
-          // Fetch fresh list from Supabase
-          await fetchSurveyPoolFromSupabase(false);
         } else {
-          // Fallback: Local Array
-          const localRecord = {
-            id: 's_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-            ...dbPayload,
-            studentCount: dbPayload.student_count,
-            fieldNote: dbPayload.field_note,
-            createdAt: new Date().toISOString()
-          };
-          surveyPool.unshift(localRecord);
-          saveSurveyPoolToStorage();
+          // No client initialized: Save to Outbox Queue & Local storage
+          saveToPendingOutbox(dbPayload);
+          showToast(`⚠️ Veritabanı bağlantısı kurulamadı. Anketiniz yerel belleğe kaydedildi ve bağlantı açıldığında buluta aktarılacak.`, 'warning');
         }
-
-        showToast(`🎉 "${teacher}" (${city} - ${week}) saha anketi merkezi veritabanına başarıyla kaydedildi! Sayfa sıfırlandı.`, 'success');
 
         resetSurveyForm(false);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -5746,6 +5831,7 @@ CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING 
     window.saveSystemAdminPassword = saveSystemAdminPassword;
     window.resetSystemAdminPasswordToDefault = resetSystemAdminPasswordToDefault;
     window.copySqlSchemaToClipboard = copySqlSchemaToClipboard;
+    window.syncPendingOutboxToSupabase = syncPendingOutboxToSupabase;
   </script>
 </body>
 </html>
