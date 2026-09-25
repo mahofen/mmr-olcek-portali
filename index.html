@@ -1966,7 +1966,7 @@
                         <i data-lucide="copy" class="w-3 h-3"></i> Kopyala
                       </button>
                     </div>
-                    <pre id="sysSqlSchemaCode" class="text-[10px] leading-relaxed text-cyan-300">-- MMR Saha Calismasi Tablo Semasi
+                    <pre id="sysSqlSchemaCode" class="text-[10px] leading-relaxed text-cyan-300">-- MMR Saha Calismasi Tablo Semasi (Tekrar Calistirilabilir / Idempotent)
 CREATE TABLE IF NOT EXISTS public.survey_responses (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   teacher TEXT NOT NULL,
@@ -1988,9 +1988,28 @@ CREATE TABLE IF NOT EXISTS public.survey_responses (
 
 -- RLS & Anon Yetkileri
 ALTER TABLE public.survey_responses ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Anon Select" ON public.survey_responses;
 CREATE POLICY "Anon Select" ON public.survey_responses FOR SELECT TO anon USING (true);
+
+DROP POLICY IF EXISTS "Anon Insert" ON public.survey_responses FOR INSERT TO anon WITH CHECK (true);
 CREATE POLICY "Anon Insert" ON public.survey_responses FOR INSERT TO anon WITH CHECK (true);
-CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING (true);</pre>
+
+DROP POLICY IF EXISTS "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING (true);
+CREATE POLICY "Anon Delete" ON public.survey_responses FOR DELETE TO anon USING (true);
+
+-- Realtime Yayini (Zaten ekliyse hata vermez)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' 
+    AND schemaname = 'public' 
+    AND tablename = 'survey_responses'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.survey_responses;
+  END IF;
+END $$;</pre>
                   </div>
                 </details>
               </div>
