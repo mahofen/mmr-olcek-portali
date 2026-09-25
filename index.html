@@ -218,6 +218,27 @@
         </div>
       </div>
 
+      <!-- Pending Sync Offline Banner (Visible when user has unsynced entries in local storage) -->
+      <div id="pendingSyncTeacherAlert" class="hidden bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 sm:p-5 text-amber-950 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md no-print">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-200/80 text-amber-800 flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="cloud-off" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="text-sm font-black text-amber-900 block" id="pendingSyncAlertTitle">
+              ⚠️ Dikkat: Cihazınızda Henüz Merkezi Buluta Aktarılmamış Anketler Var!
+            </span>
+            <span class="text-xs text-amber-800 leading-relaxed block mt-0.5" id="pendingSyncAlertSub">
+              Bu anketler cihazınızın hafızasında güvendedir. Yöneticilerin verilerinizi görebilmesi için internet bağlantısı olduğunda aşağıdaki butona tıklayarak buluta aktarabilirsiniz.
+            </span>
+          </div>
+        </div>
+        <button id="btnSyncPendingAlert" onclick="syncPendingOutboxToSupabase(true)" type="button" class="w-full md:w-auto inline-flex items-center justify-center px-5 py-2.5 text-xs font-black text-white bg-amber-600 hover:bg-amber-700 active:scale-95 rounded-xl shadow-lg transition-all shadow-amber-200 gap-2 cursor-pointer shrink-0 whitespace-nowrap">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          Şimdi Buluta Aktar
+        </button>
+      </div>
+
       <!-- Teacher Metadata Form Card -->
       <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm card-shadow">
         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
@@ -733,27 +754,54 @@
     <!-- ========================================================================= -->
     <div id="sectionThankYouView" class="hidden space-y-6 max-w-3xl mx-auto py-6">
 
-      <!-- Success Card -->
-      <div class="bg-white rounded-3xl p-6 sm:p-10 border border-emerald-100 shadow-xl text-center space-y-6 relative overflow-hidden">
-        <div class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-emerald-400 via-teal-500 to-indigo-500"></div>
+      <!-- Confirmation Card -->
+      <div id="thankYouCardContainer" class="bg-white rounded-3xl p-6 sm:p-10 border border-emerald-100 shadow-xl text-center space-y-6 relative overflow-hidden">
+        <div id="thankYouTopGradient" class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-emerald-400 via-teal-500 to-indigo-500"></div>
 
-        <!-- Checkmark Icon -->
-        <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-emerald-50 border-4 border-emerald-100 flex items-center justify-center text-emerald-600 shadow-inner">
-          <i data-lucide="check-circle-2" class="w-12 h-12 sm:w-14 sm:h-14 stroke-[2.2]"></i>
+        <!-- Checkmark / Alert Icon -->
+        <div id="thankYouIconWrapper" class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-emerald-50 border-4 border-emerald-100 flex items-center justify-center text-emerald-600 shadow-inner">
+          <i id="thankYouIcon" data-lucide="check-circle-2" class="w-12 h-12 sm:w-14 sm:h-14 stroke-[2.2]"></i>
         </div>
 
         <!-- Headings -->
         <div class="space-y-2">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
-            Anket Kaydı Başarıyla Tamamlandı
+          <div id="thankYouPillBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            <i id="thankYouPillIcon" data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span id="thankYouPillText">Anket Kaydı Başarıyla Tamamlandı</span>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h2 id="thankYouMainHeading" class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             Katkılarınız İçin Teşekkür Ederiz!
           </h2>
-          <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
+          <p id="thankYouSubMessage" class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
             <strong>Muallimin Manevî Rehberi (MMR)</strong> saha çalışması araştırmasına sağladığınız kıymetli veri ve geri bildirim için teşekkür ederiz.
           </p>
+        </div>
+
+        <!-- WARNING ALERT BOX (Displayed when survey fails to reach cloud) -->
+        <div id="thankYouCloudWarningBox" class="hidden text-left bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 sm:p-5 space-y-3 shadow-sm">
+          <div class="flex items-start gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-amber-200 text-amber-900 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="cloud-off" class="w-5 h-5"></i>
+            </div>
+            <div class="space-y-1.5">
+              <h4 class="text-sm font-black text-amber-950 flex items-center gap-1.5">
+                <span>⚠️ Önemli Uyarı: Anket Verisi Merkezi Buluta Yüklenemedi!</span>
+              </h4>
+              <p class="text-xs text-amber-900 leading-relaxed font-medium">
+                İnternet kesintisi veya sunucu erişim problemi nedeniyle anketiniz doğrudan merkezi bulut veritabanına aktarılamadı. 
+                <strong>Veriniz kesinlikle kaybolmadı;</strong> tarayıcınızın ve cihazınızın güvenli hafızasına kaydedildi.
+              </p>
+              <p class="text-[11px] text-amber-800">
+                Merkezi yönetici panelinde anketinizin görünmesi için lütfen internet bağlantınızı kontrol edip aşağıdaki butona basınız.
+              </p>
+              <div class="pt-1.5">
+                <button id="btnThankYouRetrySync" onclick="retrySyncFromThankYou()" type="button" class="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 active:scale-95 text-white text-xs font-black rounded-xl shadow-md transition-all cursor-pointer">
+                  <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                  <span>Buluta Göndermeyi Şimdi Tekrar Dene</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Summary Receipt Card -->
@@ -2447,6 +2495,31 @@ END $$;</pre>
     }
 
     // Outbox & Offline Sync Engine for Uninterrupted Data Collection
+    function updatePendingSyncAlertUI() {
+      try {
+        const outbox = JSON.parse(localStorage.getItem('MMR_PENDING_OUTBOX') || '[]');
+        const alertBox = document.getElementById('pendingSyncTeacherAlert');
+        const alertTitle = document.getElementById('pendingSyncAlertTitle');
+        const alertSub = document.getElementById('pendingSyncAlertSub');
+
+        if (alertBox) {
+          if (outbox && Array.isArray(outbox) && outbox.length > 0) {
+            alertBox.classList.remove('hidden');
+            if (alertTitle) {
+              alertTitle.textContent = `⚠️ Dikkat: Cihazınızda Henüz Merkezi Buluta Aktarılmamış ${outbox.length} Adet Anket Var!`;
+            }
+            if (alertSub) {
+              alertSub.textContent = `Bu anketler cihazınızın hafızasında güvendedir. Yöneticilerin verilerinizi görebilmesi için internet bağlantısı olduğunda aşağıdaki butona tıklayarak buluta aktarabilirsiniz.`;
+            }
+          } else {
+            alertBox.classList.add('hidden');
+          }
+        }
+      } catch (e) {
+        console.error("[updatePendingSyncAlertUI Error]:", e);
+      }
+    }
+
     function saveToPendingOutbox(payload) {
       try {
         const outbox = JSON.parse(localStorage.getItem('MMR_PENDING_OUTBOX') || '[]');
@@ -2467,19 +2540,32 @@ END $$;</pre>
           saveSurveyPoolToStorage();
         }
         updateDatabaseStatusBadge('offline');
+        updatePendingSyncAlertUI();
       } catch (e) {
         console.error("[Outbox Save Error]:", e);
       }
     }
 
-    async function syncPendingOutboxToSupabase() {
+    async function syncPendingOutboxToSupabase(isManualTrigger = false) {
       const client = window.MMR_SUPABASE?.getClient();
-      if (!client) return;
+      const outbox = JSON.parse(localStorage.getItem('MMR_PENDING_OUTBOX') || '[]');
+
+      if (!outbox || !Array.isArray(outbox) || outbox.length === 0) {
+        updatePendingSyncAlertUI();
+        if (isManualTrigger) {
+          showToast("Buluta aktarılmayı bekleyen anket kaydı bulunmamaktadır.", 'info');
+        }
+        return true;
+      }
+
+      if (!client) {
+        if (isManualTrigger) {
+          showToast("⚠️ Bulut veritabanı bağlantısı kurulamadı. İnternet bağlantınızı veya Supabase ayarlarını kontrol ediniz.", 'warning');
+        }
+        return false;
+      }
 
       try {
-        const outbox = JSON.parse(localStorage.getItem('MMR_PENDING_OUTBOX') || '[]');
-        if (!outbox || !Array.isArray(outbox) || outbox.length === 0) return;
-
         console.log(`[Sync Engine] ${outbox.length} adet bekleyen yerel anket buluta aktarılıyor...`);
 
         const rowsToInsert = outbox.map(item => ({
@@ -2504,16 +2590,79 @@ END $$;</pre>
           if (!error) {
             localStorage.removeItem('MMR_PENDING_OUTBOX');
             console.log(`[Sync Engine] ✅ ${rowsToInsert.length} bekleyen kayıt başarıyla buluta aktarıldı.`);
+            updatePendingSyncAlertUI();
             await fetchSurveyPoolFromSupabase(false);
-            showToast(`🔄 Cihazınızda bekleyen ${rowsToInsert.length} adet anket kaydı merkezi veritabanına aktarıldı!`, 'success');
+            showToast(`🎉 Cihazınızda bekleyen ${rowsToInsert.length} adet anket merkezi buluta başarıyla aktarıldı!`, 'success');
+            return true;
           } else {
             console.warn("[Sync Engine Insert Warning]:", error);
+            if (isManualTrigger) {
+              showToast(`⚠️ Buluta aktarım başarısız oldu: ${error.message || 'Yetki veya bağlantı hatası'}`, 'warning');
+            }
+            return false;
           }
         } else {
           localStorage.removeItem('MMR_PENDING_OUTBOX');
+          updatePendingSyncAlertUI();
+          return true;
         }
       } catch (err) {
         console.warn("[Sync Engine Exception]:", err);
+        if (isManualTrigger) {
+          showToast(`⚠️ Ağ hatası: Bulut sunucusuna ulaşılamadı. (${err.message || 'Bağlantı hatası'})`, 'warning');
+        }
+        return false;
+      }
+    }
+
+    async function retrySyncFromThankYou() {
+      const btn = document.getElementById('btnThankYouRetrySync');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> <span>Buluta Gönderiliyor...</span>`;
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      const success = await syncPendingOutboxToSupabase(true);
+
+      if (success) {
+        // Switch Thank You card from warning mode to success mode
+        const elBadge = document.getElementById('thankYouStatusBadge');
+        const warnBox = document.getElementById('thankYouCloudWarningBox');
+        const topGradient = document.getElementById('thankYouTopGradient');
+        const iconWrapper = document.getElementById('thankYouIconWrapper');
+        const iconEl = document.getElementById('thankYouIcon');
+        const pillBadge = document.getElementById('thankYouPillBadge');
+        const pillText = document.getElementById('thankYouPillText');
+        const mainHeading = document.getElementById('thankYouMainHeading');
+
+        if (warnBox) warnBox.classList.add('hidden');
+        if (elBadge) {
+          elBadge.textContent = "Merkezi Sunucuya Aktarıldı";
+          elBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200";
+        }
+        if (topGradient) {
+          topGradient.className = "absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-emerald-400 via-teal-500 to-indigo-500";
+        }
+        if (iconWrapper) {
+          iconWrapper.className = "w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-emerald-50 border-4 border-emerald-100 flex items-center justify-center text-emerald-600 shadow-inner";
+        }
+        if (iconEl) {
+          iconEl.setAttribute('data-lucide', 'check-circle-2');
+        }
+        if (pillBadge) {
+          pillBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200";
+        }
+        if (pillText) pillText.textContent = "Merkezi Sunucuya Başarıyla Aktarıldı";
+        if (mainHeading) mainHeading.textContent = "Katkılarınız İçin Teşekkür Ederiz!";
+
+        if (window.lucide) window.lucide.createIcons();
+      } else {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> <span>Buluta Göndermeyi Şimdi Tekrar Dene</span>`;
+          if (window.lucide) window.lucide.createIcons();
+        }
       }
     }
 
@@ -2626,6 +2775,7 @@ END $$;</pre>
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         loadSurveyPoolFromStorage();
+        updatePendingSyncAlertUI();
         populateDropdowns();
         renderTurkeySvgMap();
 
@@ -2993,12 +3143,60 @@ END $$;</pre>
             elBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200";
           } else {
             elBadge.textContent = "Cihaza Kaydedildi (Bulut Kuyruğunda)";
-            elBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200";
+            elBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300";
           }
+        }
+
+        // Configure dynamic warning/success state on Thank You Card
+        const warnBox = document.getElementById('thankYouCloudWarningBox');
+        const topGradient = document.getElementById('thankYouTopGradient');
+        const iconWrapper = document.getElementById('thankYouIconWrapper');
+        const iconEl = document.getElementById('thankYouIcon');
+        const pillBadge = document.getElementById('thankYouPillBadge');
+        const pillText = document.getElementById('thankYouPillText');
+        const mainHeading = document.getElementById('thankYouMainHeading');
+
+        if (saveStatus === "outbox") {
+          // Warning & Offline State
+          if (warnBox) warnBox.classList.remove('hidden');
+          if (topGradient) {
+            topGradient.className = "absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500";
+          }
+          if (iconWrapper) {
+            iconWrapper.className = "w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-amber-50 border-4 border-amber-200 flex items-center justify-center text-amber-600 shadow-inner";
+          }
+          if (iconEl) {
+            iconEl.setAttribute('data-lucide', 'alert-triangle');
+          }
+          if (pillBadge) {
+            pillBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-300";
+          }
+          if (pillText) pillText.textContent = "⚠️ Anket Cihazınıza Kaydedildi (Bulut Aktarımı Bekliyor)";
+          if (mainHeading) mainHeading.textContent = "Anket Cihazınıza Kaydedildi";
+
+          showToast("⚠️ DİKKAT: Anket veriniz merkezi buluta yüklenemedi! Cihazınıza güvenle kaydedildi. İnternet bağlantısı olduğunda buluta aktarılacaktır.", "warning");
+        } else {
+          // Success State
+          if (warnBox) warnBox.classList.add('hidden');
+          if (topGradient) {
+            topGradient.className = "absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-emerald-400 via-teal-500 to-indigo-500";
+          }
+          if (iconWrapper) {
+            iconWrapper.className = "w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-emerald-50 border-4 border-emerald-100 flex items-center justify-center text-emerald-600 shadow-inner";
+          }
+          if (iconEl) {
+            iconEl.setAttribute('data-lucide', 'check-circle-2');
+          }
+          if (pillBadge) {
+            pillBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200";
+          }
+          if (pillText) pillText.textContent = "Anket Kaydı Başarıyla Tamamlandı";
+          if (mainHeading) mainHeading.textContent = "Katkılarınız İçin Teşekkür Ederiz!";
         }
 
         // Reset the form fields ready for next input
         resetSurveyForm(false);
+        updatePendingSyncAlertUI();
 
         // Transition: Hide Teacher Form, Show Thank-You View
         const sectionTeacher = document.getElementById('sectionTeacherView');
@@ -3008,6 +3206,8 @@ END $$;</pre>
 
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (window.lucide) window.lucide.createIcons();
 
       } catch (err) {
         console.error("Save error:", err);
@@ -3024,6 +3224,7 @@ END $$;</pre>
     // Return from Thank You view back to clean Teacher Survey Form
     function returnToSurveyForm() {
       resetSurveyForm(false);
+      updatePendingSyncAlertUI();
       const sectionThankYou = document.getElementById('sectionThankYouView');
       const sectionTeacher = document.getElementById('sectionTeacherView');
       if (sectionThankYou) sectionThankYou.classList.add('hidden');
@@ -5982,6 +6183,8 @@ END $$;</pre>
     window.resetSystemAdminPasswordToDefault = resetSystemAdminPasswordToDefault;
     window.copySqlSchemaToClipboard = copySqlSchemaToClipboard;
     window.syncPendingOutboxToSupabase = syncPendingOutboxToSupabase;
+    window.retrySyncFromThankYou = retrySyncFromThankYou;
+    window.updatePendingSyncAlertUI = updatePendingSyncAlertUI;
   </script>
 </body>
 </html>
