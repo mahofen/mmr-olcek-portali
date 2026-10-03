@@ -39,6 +39,13 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- SheetJS for Native Genuine Excel (.xlsx) Export -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script>
+    if (!window.XLSX) {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"><\\/script>');
+    }
+  </script>
   <!-- Supabase JS Client & Central Cloud DB Config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -268,6 +275,7 @@
               <option value="">Sınıf Seçiniz...</option>
               <option value="1. Sınıf">1. Sınıf</option>
               <option value="5. Sınıf">5. Sınıf</option>
+              <option value="6. Sınıf">6. Sınıf</option>
               <option value="9. Sınıf">9. Sınıf</option>
             </select>
           </div>
@@ -1011,6 +1019,7 @@
                 <option value="all">Tüm Sınıflar</option>
                 <option value="1. Sınıf">1. Sınıf</option>
                 <option value="5. Sınıf">5. Sınıf</option>
+                <option value="6. Sınıf">6. Sınıf</option>
                 <option value="9. Sınıf">9. Sınıf</option>
               </select>
 
@@ -1029,7 +1038,7 @@
               </button>
               <button id="btnExportFilteredTableExcel" onclick="exportFilteredTableToExcel()" type="button" class="inline-flex items-center px-4 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-xl shadow-sm shadow-emerald-200 transition-all cursor-pointer whitespace-nowrap">
                 <i data-lucide="file-spreadsheet" class="w-4 h-4 mr-1.5"></i>
-                Excel İndir (.xls)
+                Excel İndir (.xlsx)
               </button>
             </div>
           </div>
@@ -1130,7 +1139,7 @@
           <div class="flex items-center gap-2">
             <button id="btnExportReportExcel" onclick="exportReportToExcel()" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition-all shadow-emerald-200">
               <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 mr-1.5"></i>
-              Excel İndir (.xls)
+              Excel İndir (.xlsx)
             </button>
             <button id="btnPrintPedagogicalReport" onclick="window.print()" type="button" class="inline-flex items-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition-all shadow-indigo-200">
               <i data-lucide="printer" class="w-3.5 h-3.5 mr-1.5"></i>
@@ -1868,15 +1877,15 @@
               <!-- Excel Backup -->
               <div class="p-4 rounded-2xl border border-slate-200 hover:border-emerald-300 bg-slate-50/60 transition-all flex items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
-                  <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-black text-xs shrink-0">XLS</span>
+                  <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-black text-xs shrink-0">XLSX</span>
                   <div>
                     <h4 class="text-xs font-bold text-slate-900">Excel Pedagojik Saha Analiz Raporu</h4>
-                    <p class="text-[11px] text-slate-500">16 Sütun, 4 Analiz Matrisi ve Zaman Damgalı Excel (.xls) Tablosu</p>
+                    <p class="text-[11px] text-slate-500">16 Sütun, 4 Analiz Matrisi ve Zaman Damgalı Excel (.xlsx) Çalışma Kitabı</p>
                   </div>
                 </div>
                 <button onclick="exportReportToExcel()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1 shrink-0">
                   <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
-                  Excel İndir
+                  Excel İndir (.xlsx)
                 </button>
               </div>
 
@@ -2432,10 +2441,11 @@ END $$;</pre>
       "Coğrafya"
     ];
 
-    // Sınıf Düzeyine Göre Branş Eşleşmesi (1. Sınıf, 5. Sınıf, 9. Sınıf)
+    // Sınıf Düzeyine Göre Branş Eşleşmesi (1. Sınıf, 5. Sınıf, 6. Sınıf, 9. Sınıf)
     const GRADE_BRANCH_MAP = {
       "1. Sınıf": ["Hayat Bilgisi", "Türkçe"],
       "5. Sınıf": ["Fen Bilimleri", "Sosyal Bilgiler"],
+      "6. Sınıf": ["Fen Bilimleri", "Sosyal Bilgiler"],
       "9. Sınıf": ["Matematik", "Fizik", "Kimya", "Biyoloji", "Tarih", "Coğrafya"]
     };
 
@@ -3670,10 +3680,10 @@ END $$;</pre>
         groupGradeChart = new Chart(cg.getContext('2d'), {
           type: 'bar',
           data: {
-            labels: ['1. Sınıf', '5. Sınıf', '9. Sınıf'],
+            labels: ['1. Sınıf', '5. Sınıf', '6. Sınıf', '9. Sınıf'],
             datasets: [{
               label: 'Öğrenci Sayısı',
-              data: [0, 0, 0],
+              data: [0, 0, 0, 0],
               backgroundColor: '#8b5cf6',
               borderRadius: 6
             }]
@@ -4157,7 +4167,7 @@ END $$;</pre>
       let appliedFull = 0, appliedPart = 0, diffHard = 0, diffNone = 0;
       let totalStudents = 0;
       const cityMap = {};
-      const gradeStudents = { '1. Sınıf': 0, '5. Sınıf': 0, '9. Sınıf': 0 };
+      const gradeStudents = { '1. Sınıf': 0, '5. Sınıf': 0, '6. Sınıf': 0, '9. Sınıf': 0 };
       const alignmentCounts = { 'Çok uyumlu': 0, 'Uyumlu': 0, 'Kısmen uyumlu': 0, 'Uyumsuz': 0 };
       const reasonCounts = {
         'Kazanım': 0, 'Zaman': 0, 'Hazırbulunuşluk': 0, 'Seviye': 0,
@@ -4247,6 +4257,7 @@ END $$;</pre>
         groupGradeChart.data.datasets[0].data = [
           gradeStudents['1. Sınıf'] || 0,
           gradeStudents['5. Sınıf'] || 0,
+          gradeStudents['6. Sınıf'] || 0,
           gradeStudents['9. Sınıf'] || 0
         ];
         groupGradeChart.update();
@@ -4341,7 +4352,7 @@ END $$;</pre>
       if (window.lucide) window.lucide.createIcons();
     }
 
-    // Export Filtered Table Records to Excel (.xls)
+    // Export Filtered Table Records to Native Excel (.xlsx)
     function exportFilteredTableToExcel() {
       const filtered = getFilteredSurveyPool();
       if (!filtered || filtered.length === 0) {
@@ -4363,122 +4374,117 @@ END $$;</pre>
       if (searchQuery) filterDesc.push(`Arama: "${searchQuery}"`);
       const filterSummaryText = filterDesc.length > 0 ? filterDesc.join(' | ') : 'Tüm Kayıtlar (Filtresiz)';
 
-      let totalStudents = filtered.reduce((acc, curr) => acc + (parseInt(curr.studentCount, 10) || 0), 0);
-      let distinctCities = new Set(filtered.map(r => r.city).filter(Boolean));
+      const totalStudents = filtered.reduce((acc, curr) => acc + (parseInt(curr.studentCount, 10) || 0), 0);
+      const distinctCities = new Set(filtered.map(r => r.city).filter(Boolean));
+      const fileName = `MMR_Filtreli_Saha_Verileri_${new Date().toISOString().split('T')[0]}.xlsx`;
 
-      let rowsHtml = '';
+      if (window.XLSX) {
+        try {
+          const wb = XLSX.utils.book_new();
+
+          // Construct Header Rows (Title & Metadata Info)
+          const aoaData = [
+            ["MUALLİMİN MANEVÎ REHBERİ (MMR) - FİLTRELENMİŞ SAHA ANKETİ VERİLERİ"],
+            [
+              `Uygulanan Filtreler: ${filterSummaryText}`,
+              "",
+              `Kayıt Sayısı: ${filtered.length}`,
+              "",
+              `Ulaşılan Öğrenci: ${totalStudents}`,
+              "",
+              `Farklı İl Sayısı: ${distinctCities.size}`,
+              "",
+              `İndirilme Zamanı: ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}`
+            ],
+            [], // Blank line
+            [
+              "#",
+              "Öğretmen Adı Soyadı",
+              "Branş",
+              "İl",
+              "Sınıf Düzeyi",
+              "Katılan Öğrenci",
+              "Uygulanan Hafta",
+              "1. Soru: Uygulama Durumu",
+              "1A/1B. Soru: Zorlanma / Engel Nedeni",
+              "2. Soru: Uygulama Süresi",
+              "3. Soru: Öğrenci İlgisi ve Katılımı",
+              "4. Soru: Ders Öğrenme Çıktısı Uyumu",
+              "5. Soru: Saha Notu / Görüşler",
+              "Uygulama Tarihi",
+              "Giriş Saati (TR)",
+              "Giriş Günü"
+            ]
+          ];
+
+          filtered.forEach((r, idx) => {
+            const dt = formatDateTimeDetails(r.createdAt || r.date);
+            aoaData.push([
+              idx + 1,
+              r.teacher || "",
+              r.branch || "",
+              r.city || "",
+              r.grade || "",
+              parseInt(r.studentCount, 10) || 0,
+              r.week || "",
+              r.q1_text || "",
+              r.q1a_reason || "",
+              r.q2_duration || "",
+              r.q3_engagement || "",
+              r.q4_alignment || "",
+              r.fieldNote || "",
+              r.date || "",
+              dt.timeText !== "Belirtilmedi" ? dt.timeText : (dt.timeFormatted || "-"),
+              dt.dayOfWeek || dt.dayName || "-"
+            ]);
+          });
+
+          const ws = XLSX.utils.aoa_to_sheet(aoaData);
+
+          // Column Widths
+          ws['!cols'] = [
+            { wch: 6 },  // #
+            { wch: 24 }, // Öğretmen
+            { wch: 18 }, // Branş
+            { wch: 14 }, // İl
+            { wch: 14 }, // Sınıf
+            { wch: 16 }, // Öğrenci
+            { wch: 16 }, // Hafta
+            { wch: 28 }, // 1. Soru
+            { wch: 35 }, // 1A Soru
+            { wch: 20 }, // 2. Soru
+            { wch: 24 }, // 3. Soru
+            { wch: 25 }, // 4. Soru
+            { wch: 35 }, // 5. Soru
+            { wch: 16 }, // Tarih
+            { wch: 15 }, // Saat
+            { wch: 14 }  // Gün
+          ];
+
+          XLSX.utils.book_append_sheet(wb, ws, "Filtreli_Saha_Verileri");
+          XLSX.writeFile(wb, fileName);
+          showToast(`✅ ${filtered.length} adet kayıt orijinal Excel (.xlsx) formatında başarıyla indirildi!`, 'success');
+          return;
+        } catch (xlsxErr) {
+          console.error("SheetJS export error:", xlsxErr);
+        }
+      }
+
+      // Fallback: UTF-8 with BOM CSV Download
+      let csv = "\uFEFF";
+      csv += "Sıra,Öğretmen,Branş,İl,Sınıf,Öğrenci Sayısı,Hafta,1. Soru,1A/1B Nedeni,2. Soru Süre,3. Soru İlgi,4. Soru Uyum,Saha Notu,Uygulama Tarihi,Giriş Saati,Giriş Günü\n";
       filtered.forEach((r, idx) => {
-        const isEven = idx % 2 === 1;
-        const rowBg = isEven ? 'background-color: #f8fafc;' : 'background-color: #ffffff;';
-        
-        let q1Color = '#1e293b';
-        let q1Bg = '#f1f5f9';
-        if (r.q1_code === 'applied_full') { q1Bg = '#dcfce7'; q1Color = '#166534'; }
-        else if (r.q1_code === 'applied_part') { q1Bg = '#e0e7ff'; q1Color = '#3730a3'; }
-        else if (r.q1_code === 'diff_hard') { q1Bg = '#fef3c7'; q1Color = '#92400e'; }
-        else if (r.q1_code === 'diff_none') { q1Bg = '#fee2e2'; q1Color = '#991b1b'; }
-
-        rowsHtml += `
-          <tr style="${rowBg}">
-            <td style="text-align: center; border: 1px solid #cbd5e1; padding: 6px 8px; font-weight: bold;">${idx + 1}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; font-weight: bold; color: #1e1b4b;">${escapeXml(r.teacher)}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.branch)}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.city || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.grade || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-weight: bold;">${r.studentCount || 0}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-weight: bold; color: #4338ca;">${escapeXml(r.week || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; background-color: ${q1Bg}; color: ${q1Color}; font-weight: bold;">${escapeXml(r.q1_text || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; color: #9a3412;">${escapeXml(r.q1a_reason || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.q2_duration || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.q3_engagement || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.q4_alignment || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; font-style: italic;">${escapeXml(r.fieldNote || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.date || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-weight: bold; color: #b45309;">${escapeXml(formatDateTimeDetails(r.createdAt || r.date).timeText !== "Belirtilmedi" ? formatDateTimeDetails(r.createdAt || r.date).timeText : "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(formatDateTimeDetails(r.createdAt || r.date).dayOfWeek || "-")}</td>
-          </tr>
-        `;
+        const dt = formatDateTimeDetails(r.createdAt || r.date);
+        csv += `"${idx + 1}","${(r.teacher || '').replace(/"/g, '""')}","${(r.branch || '').replace(/"/g, '""')}","${(r.city || '').replace(/"/g, '""')}","${(r.grade || '').replace(/"/g, '""')}","${r.studentCount || 0}","${(r.week || '').replace(/"/g, '""')}","${(r.q1_text || '').replace(/"/g, '""')}","${(r.q1a_reason || '').replace(/"/g, '""')}","${(r.q2_duration || '').replace(/"/g, '""')}","${(r.q3_engagement || '').replace(/"/g, '""')}","${(r.q4_alignment || '').replace(/"/g, '""')}","${(r.fieldNote || '').replace(/"/g, '""')}","${r.date || ''}","${dt.timeFormatted || ''}","${dt.dayName || ''}"\n`;
       });
-
-      const excelTemplate = `
-        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
-        <head>
-          <!--[if gte mso 9]>
-          <xml>
-            <x:ExcelWorkbook>
-              <x:ExcelWorksheets>
-                <x:ExcelWorksheet>
-                  <x:Name>Filtreli Saha Verileri</x:Name>
-                  <x:WorksheetOptions>
-                    <x:DisplayGridlines/>
-                  </x:WorksheetOptions>
-                </x:ExcelWorksheet>
-              </x:ExcelWorksheets>
-            </x:ExcelWorkbook>
-          </xml>
-          <![endif]-->
-          <meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"/>
-          <style>
-            table { border-collapse: collapse; width: 100%; }
-            th { background-color: #059669; color: #ffffff; font-weight: bold; border: 1px solid #047857; padding: 8px; text-align: center; font-size: 11pt; }
-            td { font-size: 10pt; font-family: Calibri, Arial, sans-serif; vertical-align: middle; }
-            .header-title { font-size: 14pt; font-weight: bold; color: #1e1b4b; text-align: left; padding: 10px 0 4px 0; }
-            .header-meta { font-size: 10pt; color: #475569; padding-bottom: 12px; }
-          </style>
-        </head>
-        <body>
-          <table>
-            <tr>
-              <td colspan="16" class="header-title">MUALLİMİN MANEVÎ REHBERİ (MMR) - FİLTRELENMİŞ SAHA ANKETİ VERİLERİ</td>
-            </tr>
-            <tr>
-              <td colspan="16" class="header-meta">
-                <strong>Uygulanan Filtreler:</strong> ${escapeXml(filterSummaryText)} &nbsp;|&nbsp; 
-                <strong>Listelenen Kayıt Sayısı:</strong> ${filtered.length} &nbsp;|&nbsp; 
-                <strong>Ulaşılan Öğrenci:</strong> ${totalStudents.toLocaleString('tr-TR')} &nbsp;|&nbsp; 
-                <strong>Farklı İl Sayısı:</strong> ${distinctCities.size} &nbsp;|&nbsp; 
-                <strong>İndirilme Tarihi:</strong> ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'})}
-              </td>
-            </tr>
-            <tr><td colspan="16"></td></tr>
-            <thead>
-              <tr>
-                <th style="width: 45px;">#</th>
-                <th style="width: 170px;">Öğretmen Adı Soyadı</th>
-                <th style="width: 140px;">Branş</th>
-                <th style="width: 100px;">İl</th>
-                <th style="width: 110px;">Sınıf Düzeyi</th>
-                <th style="width: 90px;">Katılan Öğrenci</th>
-                <th style="width: 95px;">Uygulanan Hafta</th>
-                <th style="width: 170px;">1. Soru: Uygulama Durumu</th>
-                <th style="width: 240px;">1A. Soru: Zorlanma / Uygulayamama Gerekçesi</th>
-                <th style="width: 130px;">2. Soru: Uygulama Süresi</th>
-                <th style="width: 150px;">3. Soru: Öğrenci İlgisi ve Katılımı</th>
-                <th style="width: 180px;">4. Soru: Ders Öğrenme Çıktısı Uyumu</th>
-                <th style="width: 250px;">5. Soru: Saha Notu / Görüşler</th>
-                <th style="width: 100px;">Uygulama Tarihi</th>
-                <th style="width: 100px;">Giriş Saati (TR)</th>
-                <th style="width: 90px;">Giriş Günü</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rowsHtml}
-            </tbody>
-          </table>
-        </body>
-        </html>
-      `;
-
-      const blob = new Blob([excelTemplate], { type: 'application/vnd.ms-excel;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
-      link.setAttribute("href", url);
-      const fileName = `MMR_Filtreli_Saha_Verileri_${new Date().toISOString().split('T')[0]}.xls`;
-      link.setAttribute("download", fileName);
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName.replace('.xlsx', '.csv');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      showToast(`${filtered.length} adet filtrelenmiş saha kaydı Excel formatında indirildi!`, 'success');
+      showToast(`${filtered.length} adet kayıt CSV formatında indirildi.`, 'success');
     }
 
     function viewTeacherPedagogicalReport(id) {
@@ -5049,7 +5055,7 @@ END $$;</pre>
         .replace(/'/g, '&apos;');
     }
 
-    // Export Field Report to Excel (.xls) with Analytics Summary & Matrices
+    // Export Field Report to Genuine Multi-Sheet Excel (.xlsx) with Analytics & Matrices
     function exportReportToExcel() {
       const selectElem = document.getElementById('reportTargetSelect');
       const targetVal = selectElem ? selectElem.value : 'group_all';
@@ -5108,279 +5114,274 @@ END $$;</pre>
 
       const topHard = Object.entries(hardReasonsMap).sort((a,b) => b[1] - a[1])[0];
       const topNone = Object.entries(noneReasonsMap).sort((a,b) => b[1] - a[1])[0];
+      const fileName = `MMR_Saha_Raporu_${fileSuffix}_${new Date().toISOString().split('T')[0]}.xlsx`;
 
-      // Build Branch Matrix for Excel
-      const branchSet = new Set(STANDARD_BRANCHES);
-      dataset.forEach(r => { if (r.branch && r.branch.trim()) branchSet.add(r.branch.trim()); });
-      let branchMatrixRows = '';
-      branchSet.forEach(bName => {
-        const bData = dataset.filter(r => (r.branch || '').trim() === bName);
-        const bCount = bData.length;
-        const bStuds = bData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
-        const bFull = bData.filter(r => r.q1_code === 'applied_full').length;
-        const bPart = bData.filter(r => r.q1_code === 'applied_part').length;
-        const bHard = bData.filter(r => r.q1_code === 'diff_hard').length;
-        const bNone = bData.filter(r => r.q1_code === 'diff_none').length;
+      if (window.XLSX) {
+        try {
+          const wb = XLSX.utils.book_new();
 
-        const bFullPct = bCount ? Math.round((bFull / bCount) * 100) : 0;
-        const bPartPct = bCount ? Math.round((bPart / bCount) * 100) : 0;
-        const bHardPct = bCount ? Math.round((bHard / bCount) * 100) : 0;
-        const bNonePct = bCount ? Math.round((bNone / bCount) * 100) : 0;
+          // -------------------------------------------------------------
+          // SHEET 1: GENEL SAHA ÖZETİ (KPI & Analytics Summary)
+          // -------------------------------------------------------------
+          const summaryAoa = [
+            ["MUALLİMİN MANEVÎ REHBERİ (MMR) - PEDAGOJİK SAHA ANALİZ RAPORU"],
+            [`Rapor Kapsamı: ${scopeTitle}`],
+            [`Oluşturulma Tarihi: ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}`],
+            [],
+            ["TEMEL SAHA GÖSTERGELERİ", "DEĞER / ORAN", "AÇIKLAMA"],
+            ["Toplam Anket Sayısı", count, "Geri bildirim veren öğretmen sayısı"],
+            ["Ulaşılan Toplam Öğrenci", totalStudents, "Saha çalışmasına dahil olan toplam öğrenci"],
+            ["Katılımcı İl Sayısı", distinctCities.size, "Veri girişi yapılan farklı şehirler"],
+            ["Genel Uygulanabilirlik Oranı", `%${overallAppRate}`, "İçeriği uygulayabilen öğretmen oranı"],
+            ["Sorunsuz Tam Uygulama Oranı", `%${fullRate}`, "Evet, rahatlıkla uyguladım diyenler"],
+            ["Kısmi Uygulama (Uyarlama) Oranı", `%${partRate}`, "Kısmen uyguladım diyenler"],
+            ["Uygulama Güçlüğü Oranı", `%${hardRate}`, "Uygulamakta zorlandım diyenler"],
+            ["Uygulayamama Oranı", `%${noneRate}`, "Uygulayamadım diyenler"],
+            ["En Sık Karşılaşılan Güçlük", topHard ? `${topHard[0]} (${topHard[1]} Öğretmen)` : "Veri Yok", "1A Sorusundaki baskın zorlanma nedeni"],
+            ["En Sık Karşılaşılan Engel", topNone ? `${topNone[0]} (${topNone[1]} Öğretmen)` : "Veri Yok", "1B Sorusundaki temel engel"]
+          ];
+          const wsSummary = XLSX.utils.aoa_to_sheet(summaryAoa);
+          wsSummary['!cols'] = [{ wch: 32 }, { wch: 22 }, { wch: 45 }];
+          XLSX.utils.book_append_sheet(wb, wsSummary, "Saha_Ozeti");
 
-        const bReasons = {};
-        bData.forEach(r => { if (r.q1a_reason) bReasons[r.q1a_reason] = (bReasons[r.q1a_reason] || 0) + 1; });
-        const bTopR = Object.entries(bReasons).sort((a,b) => b[1] - a[1])[0];
-        const bDominantReason = bTopR ? `${bTopR[0]} (${bTopR[1]})` : (bCount > 0 ? "Sorunsuz / Belirtilmedi" : "-");
+          // -------------------------------------------------------------
+          // SHEET 2: BRANŞ ANALİZ MATRİSİ
+          // -------------------------------------------------------------
+          const branchAoa = [
+            ["BRANŞLARA GÖRE UYGULANABİLİRLİK & GÜÇLÜK DAĞILIM MATRİSİ"],
+            [`Rapor Kapsamı: ${scopeTitle}`],
+            [],
+            [
+              "Branş Adı",
+              "Anket Sayısı",
+              "Öğrenci Sayısı",
+              "Sorunsuz Uygulama (%)",
+              "Kısmen Uygulama (%)",
+              "Zorlandı (%)",
+              "Uygulayamadı (%)",
+              "Hakim Zorlanma / Engel Nedeni"
+            ]
+          ];
+          const branchSet = new Set(STANDARD_BRANCHES);
+          dataset.forEach(r => { if (r.branch && r.branch.trim()) branchSet.add(r.branch.trim()); });
+          branchSet.forEach(bName => {
+            const bData = dataset.filter(r => (r.branch || '').trim() === bName);
+            const bCount = bData.length;
+            const bStuds = bData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
+            const bFull = bData.filter(r => r.q1_code === 'applied_full').length;
+            const bPart = bData.filter(r => r.q1_code === 'applied_part').length;
+            const bHard = bData.filter(r => r.q1_code === 'diff_hard').length;
+            const bNone = bData.filter(r => r.q1_code === 'diff_none').length;
 
-        branchMatrixRows += `
-          <tr>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; font-weight: bold;">${escapeXml(bName)}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center;">${bCount}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center;">${bStuds}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #166534; font-weight: bold;">%${bFullPct}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #4338ca;">%${bPartPct}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #b45309;">%${bHardPct}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #b91c1c; font-weight: bold;">%${bNonePct}</td>
-            <td colspan="7" style="border: 1px solid #cbd5e1; padding: 6px; font-size: 9pt;">${escapeXml(bDominantReason)}</td>
-          </tr>
-        `;
-      });
+            const bFullPct = bCount ? Math.round((bFull / bCount) * 100) : 0;
+            const bPartPct = bCount ? Math.round((bPart / bCount) * 100) : 0;
+            const bHardPct = bCount ? Math.round((bHard / bCount) * 100) : 0;
+            const bNonePct = bCount ? Math.round((bNone / bCount) * 100) : 0;
 
-      // Build Weekly Trend Matrix for Excel
-      let weekTrendRows = '';
-      for (let w = 1; w <= TOTAL_WEEKS; w++) {
-        const wStr = `${w}. Hafta`;
-        const wData = dataset.filter(r => r.week === wStr);
-        const wCount = wData.length;
-        if (wCount === 0) continue;
+            const bReasons = {};
+            bData.forEach(r => { if (r.q1a_reason) bReasons[r.q1a_reason] = (bReasons[r.q1a_reason] || 0) + 1; });
+            const bTopR = Object.entries(bReasons).sort((a,b) => b[1] - a[1])[0];
+            const bDominantReason = bTopR ? `${bTopR[0]} (${bTopR[1]})` : (bCount > 0 ? "Sorunsuz / Belirtilmedi" : "-");
 
-        const wStuds = wData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
-        const wFull = wData.filter(r => r.q1_code === 'applied_full').length;
-        const wPart = wData.filter(r => r.q1_code === 'applied_part').length;
-        const wHard = wData.filter(r => r.q1_code === 'diff_hard').length;
-        const wNone = wData.filter(r => r.q1_code === 'diff_none').length;
+            branchAoa.push([
+              bName,
+              bCount,
+              bStuds,
+              `%${bFullPct}`,
+              `%${bPartPct}`,
+              `%${bHardPct}`,
+              `%${bNonePct}`,
+              bDominantReason
+            ]);
+          });
+          const wsBranch = XLSX.utils.aoa_to_sheet(branchAoa);
+          wsBranch['!cols'] = [
+            { wch: 22 }, { wch: 14 }, { wch: 16 }, { wch: 22 },
+            { wch: 20 }, { wch: 15 }, { wch: 18 }, { wch: 40 }
+          ];
+          XLSX.utils.book_append_sheet(wb, wsBranch, "Brans_Matrisi");
 
-        const wApp = Math.round(((wFull + wPart + wHard) / wCount) * 100);
-        const wFullPct = Math.round((wFull / wCount) * 100);
-        const wPartPct = Math.round((wPart / wCount) * 100);
-        const wHardPct = Math.round((wHard / wCount) * 100);
-        const wNonePct = Math.round((wNone / wCount) * 100);
+          // -------------------------------------------------------------
+          // SHEET 3: HAFTALIK TREND MATRİSİ (1-35. Haftalar)
+          // -------------------------------------------------------------
+          const weekAoa = [
+            ["ZAMAN İÇERİSİNDEKİ DEĞİŞİM & BOYLAMSAL TREND ANALİZİ (1–35. HAFTALAR)"],
+            [`Rapor Kapsamı: ${scopeTitle}`],
+            [],
+            [
+              "Hafta",
+              "Anket Sayısı",
+              "Öğrenci Sayısı",
+              "Genel Uygulama (%)",
+              "Sorunsuz (%)",
+              "Kısmi (%)",
+              "Güçlük (%)",
+              "Engel (%)",
+              "Haftalık Pedagojik Yansıma ve Trend"
+            ]
+          ];
+          for (let w = 1; w <= TOTAL_WEEKS; w++) {
+            const wStr = `${w}. Hafta`;
+            const wData = dataset.filter(r => r.week === wStr);
+            const wCount = wData.length;
+            if (wCount === 0) continue;
 
-        let wTrendDesc = wApp >= 90 ? "Yüksek saha kabulü; tefekkür ve kazanım bağı güçlü."
-          : (wApp >= 75 ? "İstikrarlı uygulama; kısmi uyarlama ihtiyacı."
-          : (wApp >= 50 ? "Orta düzey uygulama; yöntem rehberliği önerilir."
-          : "Uygulama bariyerleri baskın; zümre desteği elzem."));
+            const wStuds = wData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
+            const wFull = wData.filter(r => r.q1_code === 'applied_full').length;
+            const wPart = wData.filter(r => r.q1_code === 'applied_part').length;
+            const wHard = wData.filter(r => r.q1_code === 'diff_hard').length;
+            const wNone = wData.filter(r => r.q1_code === 'diff_none').length;
 
-        weekTrendRows += `
-          <tr>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; font-weight: bold; color: #4338ca;">${wStr}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center;">${wCount}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center;">${wStuds}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-weight: bold; background-color: #f0fdf4;">%${wApp}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #166534;">%${wFullPct}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #4338ca;">%${wPartPct}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #b45309;">%${wHardPct}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #b91c1c;">%${wNonePct}</td>
-            <td colspan="6" style="border: 1px solid #cbd5e1; padding: 6px; font-size: 9pt;">${escapeXml(wTrendDesc)}</td>
-          </tr>
-        `;
+            const wApp = Math.round(((wFull + wPart + wHard) / wCount) * 100);
+            const wFullPct = Math.round((wFull / wCount) * 100);
+            const wPartPct = Math.round((wPart / wCount) * 100);
+            const wHardPct = Math.round((wHard / wCount) * 100);
+            const wNonePct = Math.round((wNone / wCount) * 100);
+
+            let wTrendDesc = wApp >= 90 ? "Yüksek saha kabulü; tefekkür ve kazanım bağı güçlü."
+              : (wApp >= 75 ? "İstikrarlı uygulama; kısmi uyarlama ihtiyacı."
+              : (wApp >= 50 ? "Orta düzey uygulama; yöntem rehberliği önerilir."
+              : "Uygulama bariyerleri baskın; zümre desteği elzem."));
+
+            weekAoa.push([
+              wStr,
+              wCount,
+              wStuds,
+              `%${wApp}`,
+              `%${wFullPct}`,
+              `%${wPartPct}`,
+              `%${wHardPct}`,
+              `%${wNonePct}`,
+              wTrendDesc
+            ]);
+          }
+          const wsWeek = XLSX.utils.aoa_to_sheet(weekAoa);
+          wsWeek['!cols'] = [
+            { wch: 14 }, { wch: 14 }, { wch: 16 }, { wch: 20 },
+            { wch: 15 }, { wch: 14 }, { wch: 14 }, { wch: 14 },
+            { wch: 50 }
+          ];
+          XLSX.utils.book_append_sheet(wb, wsWeek, "Haftalik_Trend");
+
+          // -------------------------------------------------------------
+          // SHEET 4: SINIF DÜZEYİ MATRİSİ (1., 5., 6., 9. Sınıf)
+          // -------------------------------------------------------------
+          const gradeAoa = [
+            ["SINIF DÜZEYLERİNE GÖRE UYGULANABİLİRLİK MATRİSİ"],
+            [`Rapor Kapsamı: ${scopeTitle}`],
+            [],
+            [
+              "Sınıf Düzeyi",
+              "Anket Sayısı",
+              "Öğrenci Sayısı",
+              "Genel Uygulama (%)",
+              "Sorunsuz (%)",
+              "Kısmen (%)",
+              "Zorlandı (%)",
+              "Uygulayamadı (%)"
+            ]
+          ];
+          const allGrades = ['1. Sınıf', '5. Sınıf', '6. Sınıf', '9. Sınıf'];
+          allGrades.forEach(gName => {
+            const gData = dataset.filter(r => r.grade === gName);
+            const gCount = gData.length;
+            const gStuds = gData.reduce((acc, c) => acc + (c.studentCount || 0), 0);
+            const gFull = gData.filter(r => r.q1_code === 'applied_full').length;
+            const gPart = gData.filter(r => r.q1_code === 'applied_part').length;
+            const gHard = gData.filter(r => r.q1_code === 'diff_hard').length;
+            const gNone = gData.filter(r => r.q1_code === 'diff_none').length;
+
+            const gApp = gCount ? Math.round(((gFull + gPart + gHard) / gCount) * 100) : 0;
+            const gFullPct = gCount ? Math.round((gFull / gCount) * 100) : 0;
+            const gPartPct = gCount ? Math.round((gPart / gCount) * 100) : 0;
+            const gHardPct = gCount ? Math.round((gHard / gCount) * 100) : 0;
+            const gNonePct = gCount ? Math.round((gNone / gCount) * 100) : 0;
+
+            gradeAoa.push([
+              gName,
+              gCount,
+              gStuds,
+              `%${gApp}`,
+              `%${gFullPct}`,
+              `%${gPartPct}`,
+              `%${gHardPct}`,
+              `%${gNonePct}`
+            ]);
+          });
+          const wsGrade = XLSX.utils.aoa_to_sheet(gradeAoa);
+          wsGrade['!cols'] = [
+            { wch: 18 }, { wch: 14 }, { wch: 16 }, { wch: 20 },
+            { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 18 }
+          ];
+          XLSX.utils.book_append_sheet(wb, wsGrade, "Sinif_Duzeyi_Matrisi");
+
+          // -------------------------------------------------------------
+          // SHEET 5: DETAYLI ANKET KAYITLARI
+          // -------------------------------------------------------------
+          const detailsAoa = [
+            ["DETAYLI SAHA ANKETİ KAYITLARI (16 SÜTUN & ZAMAN DAMGASI)"],
+            [`Rapor Kapsamı: ${scopeTitle}`],
+            [],
+            [
+              "#",
+              "Öğretmen Adı Soyadı",
+              "Branş",
+              "İl",
+              "Sınıf Düzeyi",
+              "Katılan Öğrenci",
+              "Uygulanan Hafta",
+              "1. Soru: Uygulama Durumu",
+              "1A/1B. Soru: Zorlanma / Engel Nedeni",
+              "2. Soru: Uygulama Süresi",
+              "3. Soru: Öğrenci İlgisi ve Katılımı",
+              "4. Soru: Ders Öğrenme Çıktısı Uyumu",
+              "5. Soru: Saha Notu / Görüşler",
+              "Uygulama Tarihi",
+              "Giriş Saati (TR)",
+              "Giriş Günü"
+            ]
+          ];
+          dataset.forEach((r, idx) => {
+            const dt = formatDateTimeDetails(r.createdAt || r.date);
+            detailsAoa.push([
+              idx + 1,
+              r.teacher || "",
+              r.branch || "",
+              r.city || "",
+              r.grade || "",
+              parseInt(r.studentCount, 10) || 0,
+              r.week || "",
+              r.q1_text || "",
+              r.q1a_reason || "",
+              r.q2_duration || "",
+              r.q3_engagement || "",
+              r.q4_alignment || "",
+              r.fieldNote || "",
+              r.date || "",
+              dt.timeText !== "Belirtilmedi" ? dt.timeText : (dt.timeFormatted || "-"),
+              dt.dayOfWeek || dt.dayName || "-"
+            ]);
+          });
+          const wsDetails = XLSX.utils.aoa_to_sheet(detailsAoa);
+          wsDetails['!cols'] = [
+            { wch: 6 }, { wch: 24 }, { wch: 18 }, { wch: 14 }, { wch: 14 },
+            { wch: 16 }, { wch: 16 }, { wch: 28 }, { wch: 35 }, { wch: 20 },
+            { wch: 24 }, { wch: 25 }, { wch: 35 }, { wch: 16 }, { wch: 15 },
+            { wch: 14 }
+          ];
+          XLSX.utils.book_append_sheet(wb, wsDetails, "Detayli_Anket_Kayitlari");
+
+          // Save Multi-Sheet Excel Workbook
+          XLSX.writeFile(wb, fileName);
+          showToast(`🎉 "${scopeTitle}" 5 Sekmeli Orijinal Excel (.xlsx) çalışma kitabı olarak başarıyla indirildi!`, 'success');
+          return;
+        } catch (xlsxErr) {
+          console.error("SheetJS report export error:", xlsxErr);
+        }
       }
 
-      // Build Detail Survey Rows
-      let rowsHtml = '';
-      dataset.forEach((r, idx) => {
-        const isEven = idx % 2 === 1;
-        const rowBg = isEven ? 'background-color: #f8fafc;' : 'background-color: #ffffff;';
-        
-        let q1Color = '#1e293b';
-        let q1Bg = '#f1f5f9';
-        if (r.q1_code === 'applied_full') { q1Bg = '#dcfce7'; q1Color = '#166534'; }
-        else if (r.q1_code === 'applied_part') { q1Bg = '#e0e7ff'; q1Color = '#3730a3'; }
-        else if (r.q1_code === 'diff_hard') { q1Bg = '#fef3c7'; q1Color = '#92400e'; }
-        else if (r.q1_code === 'diff_none') { q1Bg = '#fee2e2'; q1Color = '#991b1b'; }
-
-        const dt = formatDateTimeDetails(r.createdAt || r.date);
-
-        rowsHtml += `
-          <tr style="${rowBg}">
-            <td style="text-align: center; border: 1px solid #cbd5e1; padding: 6px 8px; font-weight: bold;">${idx + 1}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; font-weight: bold; color: #1e1b4b;">${escapeXml(r.teacher)}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.branch)}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.city || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.grade || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-weight: bold;">${r.studentCount || 0}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-weight: bold; color: #4338ca;">${escapeXml(r.week || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; background-color: ${q1Bg}; color: ${q1Color}; font-weight: bold;">${escapeXml(r.q1_text || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; color: #9a3412;">${escapeXml(r.q1a_reason || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.q2_duration || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.q3_engagement || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px;">${escapeXml(r.q4_alignment || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; font-style: italic;">${escapeXml(r.fieldNote || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(r.date || "-")}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; font-family: monospace; font-weight: bold;">${escapeXml(dt.timeFormatted)}</td>
-            <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center;">${escapeXml(dt.dayName)}</td>
-          </tr>
-        `;
-      });
-
-      const excelTemplate = `
-        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
-        <head>
-          <!--[if gte mso 9]>
-          <xml>
-            <x:ExcelWorkbook>
-              <x:ExcelWorksheets>
-                <x:ExcelWorksheet>
-                  <x:Name>MMR Saha Analiz Raporu</x:Name>
-                  <x:WorksheetOptions>
-                    <x:DisplayGridlines/>
-                  </x:WorksheetOptions>
-                </x:ExcelWorksheet>
-              </x:ExcelWorksheets>
-            </x:ExcelWorkbook>
-          </xml>
-          <![endif]-->
-          <meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"/>
-          <style>
-            table { border-collapse: collapse; width: 100%; font-family: Calibri, Arial, sans-serif; }
-            th { background-color: #1e1b4b; color: #ffffff; font-weight: bold; border: 1px solid #312e81; padding: 8px; text-align: center; font-size: 10pt; }
-            td { font-size: 10pt; vertical-align: middle; }
-            .header-title { font-size: 15pt; font-weight: bold; color: #1e1b4b; text-align: left; padding: 10px 0 4px 0; }
-            .header-meta { font-size: 10pt; color: #475569; padding-bottom: 8px; }
-            .section-header { font-size: 12pt; font-weight: bold; background-color: #e0e7ff; color: #1e1b4b; padding: 8px; border: 1px solid #c7d2fe; }
-            .kpi-title { font-size: 9pt; font-weight: bold; color: #475569; text-align: center; background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 6px; }
-            .kpi-val { font-size: 14pt; font-weight: bold; text-align: center; border: 1px solid #cbd5e1; padding: 8px; }
-          </style>
-        </head>
-        <body>
-          <table>
-            <tr>
-              <td colspan="16" class="header-title">MUALLİMİN MANEVÎ REHBERİ (MMR) - PEDAGOJİK SAHA ANALİZ VE BULGULAR RAPORU</td>
-            </tr>
-            <tr>
-              <td colspan="16" class="header-meta">
-                <strong>Rapor Kapsamı:</strong> ${escapeXml(scopeTitle)} &nbsp;|&nbsp; 
-                <strong>Toplam Anket Kaydı:</strong> ${count} &nbsp;|&nbsp; 
-                <strong>Ulaşılan Öğrenci:</strong> ${totalStudents.toLocaleString('tr-TR')} &nbsp;|&nbsp; 
-                <strong>Farklı İl Sayısı:</strong> ${distinctCities.size} &nbsp;|&nbsp; 
-                <strong>Oluşturulma Tarihi:</strong> ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'})}
-              </td>
-            </tr>
-            <tr><td colspan="16"></td></tr>
-
-            <!-- BÖLÜM 1: MMR UYGULANABİLİRLİK PROFİLİ -->
-            <tr>
-              <td colspan="16" class="section-header">1. MMR UYGULANABİLİRLİK PROFİLİ (TEMEL GÖSTERGELER)</td>
-            </tr>
-            <tr>
-              <td colspan="2" class="kpi-title">1. Genel Uygulama Oranı</td>
-              <td colspan="3" class="kpi-title">2. Sorunsuz Uygulama</td>
-              <td colspan="3" class="kpi-title">3. Kısmi Uygulama (Uyarlama)</td>
-              <td colspan="4" class="kpi-title">4. Uygulama Güçlüğü</td>
-              <td colspan="4" class="kpi-title">5. Uygulama Engeli</td>
-            </tr>
-            <tr>
-              <td colspan="2" class="kpi-val" style="color: #1e1b4b; background-color: #e0e7ff;">%${overallAppRate}</td>
-              <td colspan="3" class="kpi-val" style="color: #166534; background-color: #dcfce7;">%${fullRate}</td>
-              <td colspan="3" class="kpi-val" style="color: #4338ca; background-color: #ede9fe;">%${partRate}</td>
-              <td colspan="4" class="kpi-val" style="color: #b45309; background-color: #fef3c7;">%${hardRate}</td>
-              <td colspan="4" class="kpi-val" style="color: #b91c1c; background-color: #fee2e2;">%${noneRate}</td>
-            </tr>
-            <tr>
-              <td colspan="8" style="border: 1px solid #cbd5e1; padding: 6px; background-color: #fffbeb;">
-                <strong>1A. En Sık Karşılaşılan Güçlük:</strong> ${escapeXml(topHard ? `${topHard[0]} (${topHard[1]} Öğretmen)` : "Veri Yok")}
-              </td>
-              <td colspan="8" style="border: 1px solid #cbd5e1; padding: 6px; background-color: #fef2f2;">
-                <strong>1B. En Sık Karşılaşılan Engel:</strong> ${escapeXml(topNone ? `${topNone[0]} (${topNone[1]} Öğretmen)` : "Veri Yok")}
-              </td>
-            </tr>
-            <tr><td colspan="16"></td></tr>
-
-            <!-- BÖLÜM 2: BRANŞLARA GÖRE UYGULANABİLİRLİK MATRİSİ -->
-            <tr>
-              <td colspan="16" class="section-header">2. BRANŞLARA GÖRE UYGULANABİLİRLİK & GÜÇLÜK DAĞILIM MATRİSİ</td>
-            </tr>
-            <thead>
-              <tr>
-                <th style="width: 140px;">Branş</th>
-                <th style="width: 60px;">Kayıt</th>
-                <th style="width: 70px;">Öğrenci</th>
-                <th style="width: 80px;">Rahat (%)</th>
-                <th style="width: 80px;">Kısmen (%)</th>
-                <th style="width: 80px;">Zorlandı (%)</th>
-                <th style="width: 90px;">Uygulayamadı (%)</th>
-                <th colspan="9">Hakim Zorlanma / Engel Nedeni</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${branchMatrixRows}
-            </tbody>
-            <tr><td colspan="16"></td></tr>
-
-            <!-- BÖLÜM 3: BOYLAMSAL HAFTALIK TREND MATRİSİ -->
-            <tr>
-              <td colspan="16" class="section-header">3. ZAMAN İÇERİSİNDEKİ DEĞİŞİM & BOYLAMSAL TREND ANALİZİ (1–35. HAFTALAR)</td>
-            </tr>
-            <thead>
-              <tr>
-                <th style="width: 90px;">Hafta</th>
-                <th style="width: 60px;">Kayıt</th>
-                <th style="width: 70px;">Öğrenci</th>
-                <th style="width: 90px;">Uygulama (%)</th>
-                <th style="width: 80px;">Sorunsuz (%)</th>
-                <th style="width: 80px;">Kısmi (%)</th>
-                <th style="width: 80px;">Güçlük (%)</th>
-                <th style="width: 80px;">Engel (%)</th>
-                <th colspan="8">Haftalık Pedagojik Yansıma ve Trend</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${weekTrendRows}
-            </tbody>
-            <tr><td colspan="16"></td></tr>
-
-            <!-- BÖLÜM 4: DETAYLI ANKET LİSTESİ -->
-            <tr>
-              <td colspan="16" class="section-header">4. DETAYLI SAHA ANKETİ KAYITLARI</td>
-            </tr>
-            <thead>
-              <tr>
-                <th style="width: 45px;">#</th>
-                <th style="width: 160px;">Öğretmen Adı Soyadı</th>
-                <th style="width: 130px;">Branş</th>
-                <th style="width: 90px;">İl</th>
-                <th style="width: 100px;">Sınıf Düzeyi</th>
-                <th style="width: 80px;">Öğrenci</th>
-                <th style="width: 85px;">Hafta</th>
-                <th style="width: 160px;">1. Soru: Uygulama Durumu</th>
-                <th style="width: 230px;">1A/1B. Zorlanma / Engel Nedeni</th>
-                <th style="width: 120px;">2. Soru: Süre</th>
-                <th style="width: 140px;">3. Soru: İlgi/Katılım</th>
-                <th style="width: 160px;">4. Soru: Kazanım Uyumu</th>
-                <th style="width: 230px;">5. Soru: Saha Notu</th>
-                <th style="width: 95px;">Uygulama Tarihi</th>
-                <th style="width: 85px;">Giriş Saati</th>
-                <th style="width: 85px;">Giriş Günü</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rowsHtml}
-            </tbody>
-          </table>
-        </body>
-        </html>
-      `;
-
-      const blob = new Blob([excelTemplate], { type: 'application/vnd.ms-excel;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      const fileName = `MMR_Saha_Raporu_${fileSuffix}_${new Date().toISOString().split('T')[0]}.xls`;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showToast(`"${scopeTitle}" Excel (.xls) formatında başarıyla indirildi!`, 'success');
+      // Fallback: UTF-8 CSV
+      exportFieldSurveyToCSV();
     }
 
     // Export to CSV
@@ -5912,7 +5913,7 @@ END $$;</pre>
       const tbody = document.getElementById('reportGradeMatrixTableBody');
       if (!tbody) return;
 
-      const grades = ['1. Sınıf', '5. Sınıf', '9. Sınıf'];
+      const grades = ['1. Sınıf', '5. Sınıf', '6. Sınıf', '9. Sınıf'];
 
       let html = '';
       let activeGradeCount = 0;
